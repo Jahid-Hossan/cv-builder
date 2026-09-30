@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Live preview",
+    "detail": [
+      4.7999999998137355
+    ]
+  },
+  {
+    "name": "Experience add/edit/current"
+  },
+  {
+    "name": "All sections add/edit"
+  },
+  {
+    "name": "Template and theme switching"
+  },
+  {
+    "name": "Keyboard section ordering",
+    "detail": "experience,summary,education,skills,projects,certifications"
+  },
+  {
+    "name": "Refresh persistence"
+  },
+  {
+    "name": "JSON export"
+  },
+  {
+    "name": "Invalid import preserves data"
+  },
+  {
+    "name": "JSON import"
+  },
+  {
+    "name": "Multi-page PDF download"
+  },
+  {
+    "name": "WCAG automated scan"
+  },
+  {
+    "name": "Responsive layout",
+    "detail": 375
+  },
+  {
+    "name": "Responsive layout",
+    "detail": 430
+  },
+  {
+    "name": "Responsive layout",
+    "detail": 768
+  },
+  {
+    "name": "Responsive layout",
+    "detail": 1024
+  },
+  {
+    "name": "Responsive layout",
+    "detail": 1440
+  },
+  {
+    "name": "Template PDF",
+    "detail": "ats"
+  },
+  {
+    "name": "Template PDF",
+    "detail": "modern"
+  },
+  {
+    "name": "Template PDF",
+    "detail": "executive"
+  },
+  {
+    "name": "Template PDF",
+    "detail": "creative"
+  },
+  {
+    "name": "Delete and autosave"
+  },
+  {
+    "name": "No browser runtime errors"
+  },
+  {
+    "name": "Storage failure leaves editor usable"
+  },
+  {
+    "name": "Corrupt saved record preserved"
+  },
+  {
+    "name": "All repeating sections delete and persist"
+  },
+  {
+    "name": "Template gallery selection"
+  },
+  {
+    "name": "Pointer section drag",
+    "detail": "certifications moved to first position"
+  },
+  {
+    "name": "PDF from mobile Edit tab"
+  },
+  {
+    "name": "PDF from mobile Preview tab"
+  }
+]
