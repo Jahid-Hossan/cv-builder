@@ -1,34 +1,17 @@
 "use client";
 import { useRef, useState } from "react";
 import { useResume } from "../context/ResumeContext";
-import {
-  downloadBackup,
-  parseBackup,
-  INVALID_BACKUP,
-  validatePersonal,
-} from "../utils/resume";
+import { validatePersonal } from "../utils/resume";
 import { exportPdf } from "../utils/pdf";
 import Editor from "./Editor";
 import ThemeControls from "./ThemeControls";
 import PreviewViewport from "./PreviewViewport";
 export default function Builder() {
-  const { data, ready, error, saved, importData } = useResume();
+  const { data, ready, error, saved } = useResume();
   const [tab, setTab] = useState("edit"),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false);
-  const paperRef = useRef(null),
-    fileRef = useRef(null);
-  async function importFile(e) {
-    const file = e.target.files?.[0];
-    e.target.value = "";
-    if (!file) return;
-    try {
-      importData(parseBackup(await file.text()));
-      setMessage("Backup imported successfully.");
-    } catch {
-      setMessage(INVALID_BACKUP);
-    }
-  }
+  const paperRef = useRef(null);
   async function pdf() {
     if (Object.keys(validatePersonal(data.personalInfo)).length) {
       setMessage(
@@ -62,30 +45,6 @@ export default function Builder() {
           </p>
         </div>
         <div className="export-actions">
-          <button disabled={!ready} onClick={() => fileRef.current.click()}>
-            Import JSON
-          </button>
-          <input
-            ref={fileRef}
-            className="sr-only"
-            type="file"
-            accept="application/json,.json"
-            aria-label="Import JSON backup"
-            onChange={importFile}
-          />
-          <button
-            disabled={!ready}
-            onClick={() => {
-              try {
-                downloadBackup(data);
-                setMessage("JSON backup downloaded.");
-              } catch {
-                setMessage(INVALID_BACKUP);
-              }
-            }}
-          >
-            Export JSON
-          </button>
           <button className="primary" disabled={busy || !ready} onClick={pdf}>
             {busy ? "Generating…" : "Download PDF"}{" "}
             <span aria-hidden="true">↗</span>
@@ -152,7 +111,8 @@ export default function Builder() {
             </>
           )}
           <p className="preview-caption">
-            Your resume stays in your browser. Download a backup to keep a copy.
+            Your resume stays in your browser. Download your PDF when you’re
+            ready.
           </p>
         </aside>
       </div>

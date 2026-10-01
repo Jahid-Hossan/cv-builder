@@ -27,14 +27,14 @@ function dates(item) {
 function Section({ name, data }) {
   if (name === "summary")
     return data.personalInfo.summary ? (
-      <section className="resume-section">
+      <section className="resume-section" data-section={name}>
         <h2>{labels[name]}</h2>
         <p>{data.personalInfo.summary}</p>
       </section>
     ) : null;
   if (!data[name].length) return null;
   return (
-    <section className="resume-section">
+    <section className="resume-section" data-section={name}>
       <h2>{labels[name]}</h2>
       {data[name].map((item) => (
         <div className="resume-entry" key={item.id}>
@@ -101,6 +101,10 @@ const ResumePreview = memo(
           "--resume-color": data.settings.primaryColor,
           "--sidebar-color": sidebarColor,
           fontFamily: FONTS[data.settings.fontFamily],
+          fontStyle: data.settings.fontStyle?.includes("italic")
+            ? "italic"
+            : "normal",
+          fontWeight: data.settings.fontStyle?.includes("bold") ? 700 : 400,
         }}
         aria-label="Resume preview"
       >

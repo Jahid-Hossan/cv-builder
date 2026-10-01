@@ -1,5 +1,5 @@
 "use client";
-import { TEMPLATES, FONTS } from "../data/resume";
+import { TEMPLATES, FONTS, FONT_STYLES, COLORS } from "../data/resume";
 import { useResume } from "../context/ResumeContext";
 export default function ThemeControls() {
   const { data, setData } = useResume();
@@ -34,14 +34,47 @@ export default function ThemeControls() {
         </select>
       </div>
       <div>
-        <label htmlFor="color">Primary color</label>
-        <input
-          id="color"
-          type="color"
-          value={data.settings.primaryColor}
-          onChange={(e) => change("primaryColor", e.target.value)}
-        />
+        <label htmlFor="font-style">Font style</label>
+        <select
+          id="font-style"
+          value={data.settings.fontStyle || "normal"}
+          onChange={(e) => change("fontStyle", e.target.value)}
+        >
+          {Object.entries(FONT_STYLES).map(([id, name]) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
+        </select>
       </div>
+      <fieldset className="color-options">
+        <legend>Primary color</legend>
+        <div className="color-swatches">
+          {COLORS.map((color) => (
+            <button
+              key={color.value}
+              type="button"
+              className="color-swatch"
+              style={{ backgroundColor: color.value }}
+              aria-label={`Use ${color.name} color`}
+              aria-pressed={
+                data.settings.primaryColor.toLowerCase() === color.value
+              }
+              title={color.name}
+              onClick={() => change("primaryColor", color.value)}
+            />
+          ))}
+          <label className="custom-color" htmlFor="color">
+            Custom color
+            <input
+              id="color"
+              type="color"
+              value={data.settings.primaryColor}
+              onChange={(e) => change("primaryColor", e.target.value)}
+            />
+          </label>
+        </div>
+      </fieldset>
       {data.settings.template === "ats" && (
         <p className="help">
           ATS Professional uses a black and gray palette. Your color is retained

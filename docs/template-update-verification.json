@@ -1,0 +1,126 @@
+[
+  {
+    "name": "15 previews with name then button below"
+  },
+  {
+    "name": "Gallery selection preserves legacy resume; JSON UI removed"
+  },
+  {
+    "name": "Color, font family and four-style persistence"
+  },
+  {
+    "name": "10 font families selectable"
+  },
+  {
+    "name": "PDF export",
+    "detail": "ATS Professional"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Modern"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Executive"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Creative"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Minimal"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Classic"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Elegant"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Compact"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Academic"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Technical"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Timeline"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Bold"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Nordic"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Portfolio"
+  },
+  {
+    "name": "PDF export",
+    "detail": "Editorial"
+  },
+  {
+    "name": "15 distinct layout signatures"
+  },
+  {
+    "name": "Builder accessibility"
+  },
+  {
+    "name": "Builder responsive",
+    "detail": 375
+  },
+  {
+    "name": "Builder responsive",
+    "detail": 430
+  },
+  {
+    "name": "Builder responsive",
+    "detail": 768
+  },
+  {
+    "name": "Builder responsive",
+    "detail": 1024
+  },
+  {
+    "name": "Builder responsive",
+    "detail": 1440
+  },
+  {
+    "name": "Gallery responsive",
+    "detail": 375
+  },
+  {
+    "name": "Gallery responsive",
+    "detail": 430
+  },
+  {
+    "name": "Gallery responsive",
+    "detail": 768
+  },
+  {
+    "name": "Gallery responsive",
+    "detail": 1024
+  },
+  {
+    "name": "Gallery responsive",
+    "detail": 1440
+  },
+  {
+    "name": "Gallery accessibility"
+  },
+  {
+    "name": "No browser runtime errors"
+  }
+]

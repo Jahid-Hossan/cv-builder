@@ -95,3 +95,26 @@ test("array validation rejects duplicates, wrong skills and long descriptions", 
   d.skills.push(d.skills[0]);
   assert.equal(validateBackup(d), false);
 });
+
+test("all 15 templates retain version-1 persistence compatibility", async () => {
+  const { TEMPLATES } = await import("../src/data/resume.js");
+  assert.equal(TEMPLATES.length, 15);
+  assert.equal(new Set(TEMPLATES.map((t) => t.id)).size, 15);
+  for (const t of TEMPLATES) {
+    const d = emptyResume();
+    d.settings.template = t.id;
+    assert.deepEqual(parseBackup(serializeBackup(d)), d);
+  }
+});
+test("new font styles are optional for legacy resumes and validated when present", async () => {
+  const { FONTS, FONT_STYLES } = await import("../src/data/resume.js");
+  const d = emptyResume();
+  assert.ok(validateBackup(d));
+  for (const fontFamily of Object.keys(FONTS))
+    for (const fontStyle of Object.keys(FONT_STYLES)) {
+      d.settings = { ...d.settings, fontFamily, fontStyle };
+      assert.deepEqual(parseBackup(serializeBackup(d)), d);
+    }
+  d.settings.fontStyle = "invalid-style";
+  assert.equal(validateBackup(d), false);
+});

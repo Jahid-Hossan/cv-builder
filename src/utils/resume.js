@@ -3,10 +3,12 @@ import {
   ITEM_FIELDS,
   TEMPLATES,
   FONTS,
+  FONT_STYLES,
 } from "../data/resume.js";
 export const STORAGE_KEY = "resume-builder-data";
 export const INVALID_BACKUP = "Selected file is not a valid resume backup.";
-export const STORAGE_ERROR = "Unable to save locally. Download a JSON backup.";
+export const STORAGE_ERROR =
+  "Unable to save locally. Keep this page open and download your PDF.";
 export const isUrl = (value) => {
   try {
     return ["http:", "https:"].includes(new URL(value).protocol);
@@ -48,7 +50,9 @@ export function validateBackup(data) {
     !data.settings ||
     !TEMPLATES.some((t) => t.id === data.settings.template) ||
     !/^#[0-9a-f]{6}$/i.test(data.settings.primaryColor) ||
-    !Object.hasOwn(FONTS, data.settings.fontFamily)
+    !Object.hasOwn(FONTS, data.settings.fontFamily) ||
+    (data.settings.fontStyle !== undefined &&
+      !Object.hasOwn(FONT_STYLES, data.settings.fontStyle))
   )
     return false;
   if (
@@ -106,13 +110,4 @@ export function reorderSections(order, active, over) {
   const result = [...order];
   result.splice(to, 0, result.splice(from, 1)[0]);
   return result;
-}
-export function downloadBackup(data) {
-  const blob = new Blob([serializeBackup(data)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "resume-backup.json";
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

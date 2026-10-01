@@ -67,7 +67,7 @@ export default function Home() {
         <div>
           <span>01</span>
           <h2>Find your format</h2>
-          <p>Four distinct templates. One that fits your story.</p>
+          <p>15 distinct templates. Find one that fits your story.</p>
         </div>
         <div>
           <span>02</span>
@@ -77,7 +77,7 @@ export default function Home() {
         <div>
           <span>03</span>
           <h2>Take the next step</h2>
-          <p>Download your PDF and keep a JSON backup.</p>
+          <p>Download your PDF and take your next step.</p>
         </div>
       </section>
     </main>

@@ -36,10 +36,10 @@ const empty = {
   certifications: "Add your first certification",
 };
 export default function Editor() {
-  const { data, setData, revision } = useResume();
+  const { data, setData } = useResume();
   return (
     <div className="editor-stack">
-      <Personal key={revision} />
+      <Personal />
       {Object.keys(ITEM_FIELDS).map((section, index) => (
         <details
           className="editor-card"
@@ -58,12 +58,7 @@ export default function Editor() {
               <p className="empty-state">{empty[section]}</p>
             )}
             {data[section].map((item, i) => (
-              <Item
-                key={`${revision}-${item.id}`}
-                section={section}
-                item={item}
-                index={i}
-              />
+              <Item key={item.id} section={section} item={item} index={i} />
             ))}
             <button
               type="button"

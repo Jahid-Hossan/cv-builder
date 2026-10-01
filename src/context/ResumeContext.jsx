@@ -13,8 +13,8 @@ export function ResumeProvider({ children }) {
     [ready, setReady] = useState(false),
     [error, setError] = useState(""),
     [blocked, setBlocked] = useState(false),
-    [saved, setSaved] = useState(false),
-    [revision, setRevision] = useState(0);
+    [saved, setSaved] = useState(false);
+
   useEffect(() => {
     try {
       const stored = loadResume(localStorage);
@@ -22,7 +22,7 @@ export function ResumeProvider({ children }) {
     } catch (e) {
       setError(
         e.message === INVALID_BACKUP
-          ? "Saved data could not be restored. Import a valid JSON backup to replace it."
+          ? "Saved data could not be restored. Your existing saved data has been kept. You can edit here and download a PDF."
           : STORAGE_ERROR,
       );
       setBlocked(true);
@@ -56,16 +56,8 @@ export function ResumeProvider({ children }) {
     window.addEventListener("pagehide", flush);
     return () => window.removeEventListener("pagehide", flush);
   }, [data, ready, blocked]);
-  const importData = (value) => {
-    setData(value);
-    setRevision((v) => v + 1);
-    setBlocked(false);
-    setError("");
-  };
   return (
-    <ResumeContext.Provider
-      value={{ data, setData, ready, error, saved, revision, importData }}
-    >
+    <ResumeContext.Provider value={{ data, setData, ready, error, saved }}>
       {children}
     </ResumeContext.Provider>
   );

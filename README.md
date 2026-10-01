@@ -23,26 +23,26 @@ Publish the generated `out/` folder using any static host. Configure the host to
 ## Features
 
 - Routes: `/`, `/builder`, `/templates`.
-- Four layouts: ATS Professional, Modern, Executive and Creative.
+- 15 distinct layouts: ATS Professional, Modern, Executive, Creative, Minimal, Classic, Elegant, Compact, Academic, Technical, Timeline, Bold, Nordic, Portfolio and Editorial.
 - Personal information, experience, education, skill categories, projects and certifications.
 - Live preview, persistent template/color/font customization and responsive editing.
 - Section reordering with dnd-kit: drag a handle or focus it, press Space, use arrows and press Space again. Escape cancels.
-- Version-1 JSON import/export and local autosave under `resume-builder-data`.
+- Local autosave under `resume-builder-data`; JSON import/export controls have been removed at the user’s request.
 - Client-side A4 PDF capture with html2canvas and jsPDF, 10mm outer margins and automatic page splitting.
 
 ## Data and privacy
 
-The schema matches the requested version-1 data model. Template identifiers are `ats`, `modern`, `executive` and `creative`. Font choices are Inter (bundled locally), Arial, Georgia and Helvetica. No resume content is sent to a server. JSON backups support incomplete drafts; PDF export checks personal information first.
+The existing version-1 data model remains compatible. Existing resumes keep their content, original template choices and font settings. New font style choices use an optional `settings.fontStyle` field, defaulting to normal when absent. There are 12 color presets plus a custom picker, 10 font families, and Normal/Bold/Italic/Bold italic styles. Inter, Lato, Roboto, Montserrat, Merriweather, Source Sans 3 and Nunito are bundled locally; Arial, Georgia and Helvetica use system fonts. PDF export checks personal information first.
 
-Autosave debounces writes by 200ms and flushes on page exit. A corrupted saved record is retained rather than silently overwritten; import a valid backup to replace it. If storage is unavailable, editing and backup exports remain available in memory. LocalStorage belongs to the current browser and origin: a different browser, host or cleared browser data will not contain the same resume. Keep JSON backups.
+Autosave debounces writes by 200ms and flushes on page exit. A corrupted saved record is retained rather than silently overwritten; the editor remains usable in memory and PDF export remains available. If storage is unavailable, keep the page open until you download the PDF. LocalStorage belongs to the current browser and origin: a different browser, host or cleared browser data will not contain the same resume. Download your PDF before clearing browser data.
 
 ## Architecture
 
 - `src/app/`: static route shells, layout and styles.
-- `src/components/`: editor, four-template preview, theme controls, ordering, gallery and error boundary.
+- `src/components/`: editor, 15-template preview, theme controls, ordering, gallery and error boundary.
 - `src/context/ResumeContext.jsx`: client state and guarded persistence.
 - `src/data/resume.js`: version-1 defaults, fields, template/font catalogs.
-- `src/utils/`: validation, backups, ordering and PDF capture.
+- `src/utils/`: validation, internal storage serialization, ordering and PDF capture.
 - `tests/resume.test.js`: lightweight Node built-in tests; no large test framework.
 
 ## PDF considerations

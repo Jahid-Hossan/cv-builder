@@ -5,7 +5,7 @@ import ErrorBoundary from "../components/ErrorBoundary";
 export const metadata = {
   title: "Resume Builder — Your next chapter",
   description:
-    "Create a thoughtful resume, privately in your browser. Four templates, live preview and local PDF and JSON exports.",
+    "Create a thoughtful resume, privately in your browser. 15 templates, live preview, color and font customization, and local PDF export.",
 };
 export default function RootLayout({ children }) {
   return (
