@@ -1,12 +1,23 @@
-import Link from "next/link";
+import Link from "../components/SiteLink";
 import "./globals.css";
 import { ResumeProvider } from "../context/ResumeContext";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { siteConfig, pageMetadata, validAdsenseId } from "../config/site";
+import SiteFooter from "../components/SiteFooter";
+import OptionalAdvertising from "../components/OptionalAdvertising";
 export const metadata = {
-  title: "Resume Builder — Your next chapter",
-  description:
-    "Create a thoughtful resume, privately in your browser. 15 templates, live preview, color and font customization, and local PDF export.",
+  metadataBase: new URL(siteConfig.url),
+  ...pageMetadata(
+    "Free CV Builder | Create a Resume in Your Browser",
+    siteConfig.description,
+    "/",
+  ),
+  icons: { icon: "/icon.svg" },
+  ...(validAdsenseId(siteConfig.adsenseClientId)
+    ? { other: { "google-adsense-account": siteConfig.adsenseClientId } }
+    : {}),
 };
+export const viewport = { themeColor: "#205c4c" };
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -23,6 +34,7 @@ export default function RootLayout({ children }) {
           </Link>
           <nav aria-label="Main navigation">
             <Link href="/templates">Templates</Link>
+            <Link href="/blog">Resources</Link>
             <Link className="nav-builder" href="/builder">
               Open builder <span aria-hidden="true">↗</span>
             </Link>
@@ -33,6 +45,8 @@ export default function RootLayout({ children }) {
             <div id="main-content">{children}</div>
           </ResumeProvider>
         </ErrorBoundary>
+        <SiteFooter />
+        <OptionalAdvertising />
       </body>
     </html>
   );
