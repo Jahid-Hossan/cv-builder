@@ -39,26 +39,32 @@ This example is documentation only. Verify https://cvbuilder.appshub.app/ads.txt
 | 2 | ads.txt Publisher ID Placeholder | `src/app/ads.txt/route.js` | L4-9 | Placeholder comment: `# AdSense is not configured. Replace pub-XXXXXXXXXXXXXXXX with your real publisher ID via NEXT_PUBLIC_ADSENSE_CLIENT_ID and rebuild.\n` | Generated as static plain text with `Content-Type: text/plain; charset=utf-8`. When `NEXT_PUBLIC_ADSENSE_CLIENT_ID` is set to a valid ID, generates `google.com, pub-YOUR_ID, DIRECT, f08c47fec0942fa0`. |
 | 3 | Contact Email Configuration | `src/config/site.js`<br>`.env.example`<br>`src/app/contact/page.jsx` | `site.js`: L6<br>`.env.example`: L3<br>`page.jsx`: L16-28 | `contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL \|\| ""` | Current value is **NOT** a fake placeholder email; it defaults to empty string `""`. When unset, `/contact` honestly displays: *"A direct contact address has not yet been published. This page does not collect messages."* (no fake form or sample address). The owner must supply a real valid RFC 5322 email. |
 | 4 | Affiliate Config File | `src/config/site.js`<br>`.env.example`<br>`src/components/AffiliateOffer.jsx`<br>`src/components/Builder.jsx` | `site.js`: L8-14<br>`.env.example`: L4-6<br>`AffiliateOffer.jsx`: L1-18<br>`Builder.jsx`: L64 | `affiliate: { enabled, name, url, disclosure }` | Currently `enabled: false`. Outbound link uses `target="_blank"` and `rel="noopener noreferrer sponsored"`. Mandates visible disclosure: *"Some links may be affiliate links. We may earn a commission at no additional cost to you."* Rendered only after PDF export succeeds, completely outside `paperRef` (does not appear in generated PDF) and in document flow (does not cover form controls or resume preview). |
-| 5 | Search Console DNS TXT Record | Vercel DNS Dashboard | Vercel DNS Records settings | `google-site-verification=...` (TXT record at host `@`) | See step-by-step Vercel DNS instructions below. |
+| 5 | Search Console DNS TXT Record | Name.com DNS Dashboard (or active DNS provider) | DNS Records settings for appshub.app | `google-site-verification=...` (TXT record at host `@`) | See step-by-step Name.com DNS instructions below. |
 | 6 | Analytics Measurement ID | `.env.example` | L8 | `NEXT_PUBLIC_GA_MEASUREMENT_ID=` | **NOT SUPPORTED / NO RUNTIME ACTIVE**. Documented as a reserved build variable placeholder only. No runtime code loads Google Analytics or gtag. |
 
-## Search Console DNS TXT record instructions for appshub.app on Vercel
+## Search Console DNS TXT record instructions for appshub.app (Managed at Name.com)
 
-If authoritative DNS for `appshub.app` is managed via Vercel:
+The authoritative nameservers for `appshub.app` are Name.com (`ns1bcp.name.com`, `ns2kqz.name.com`, `ns3ghw.name.com`, `ns4sxy.name.com`).
+
+To add the TXT verification record at Name.com:
 1. Open [Google Search Console](https://search.google.com/search-console).
-2. Click **Add property**, select the **Domain** property type, and enter `appshub.app` (covers root and all subdomains including `cvbuilder.appshub.app`).
-3. Google will present a DNS TXT verification token formatted as: `google-site-verification=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`. Copy this entire string.
-4. Log in to the [Vercel Dashboard](https://vercel.com) and navigate to the project/team that manages the `appshub.app` domain.
-5. Go to **Settings** > **Domains**, locate `appshub.app`, and click **Manage** > **DNS Records**.
-6. Click **Add Record**:
-   - **Type**: `TXT`
-   - **Name**: `@` (or leave blank for root domain)
-   - **Value**: `google-site-verification=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-   - **TTL**: `60` seconds (default)
-7. Click **Add** / **Save**.
-8. Verify DNS propagation using `nslookup -type=TXT appshub.app` or `dig TXT appshub.app` until the verification record is returned by public resolvers.
-9. Return to Google Search Console and click **Verify**.
-10. Once verified, submit the sitemap URL: `https://cvbuilder.appshub.app/sitemap.xml`.
+2. Click **Add property**, choose **Domain** (not URL prefix), and enter `appshub.app` (this verifies both `appshub.app` and subdomains like `cvbuilder.appshub.app`).
+3. Copy the TXT verification token provided by Google (e.g. `google-site-verification=...`).
+4. Log in to your [Name.com Account](https://www.name.com/account).
+5. In **My Domains**, select **appshub.app**.
+6. Click **Manage DNS Records** (or **DNS Records** under Domain Details).
+7. In the **Add DNS Record** form:
+   - **Type**: Select `TXT`.
+   - **Host** (or Host Name): Leave blank or enter `@` (representing the root domain `appshub.app`).
+   - **Answer** (or Record Content): Paste the entire `google-site-verification=...` string from Google.
+   - **TTL**: Select `300` (5 minutes) or default.
+8. Click **Add Record** / **Save Changes**.
+9. Verify propagation using PowerShell or terminal:
+   ```powershell
+   Resolve-DnsName appshub.app -Type TXT
+   ```
+10. Return to Google Search Console and click **Verify**.
+11. Once verified, submit the sitemap URL: `https://cvbuilder.appshub.app/sitemap.xml`.
 
 ## Published blog articles (15 total)
 
