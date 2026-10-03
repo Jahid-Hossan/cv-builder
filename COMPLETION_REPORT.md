@@ -1,5 +1,7 @@
 # Resume Builder — Completion Report
 
+For the subsequent SEO and monetization update, see [docs/seo-completion-report.md](docs/seo-completion-report.md). The report below describes the original builder/template implementation.
+
 ## 1. Summary
 
 Built a browser-only Resume Builder in the public `Jahid-Hossan/cv-builder` repository using Next.js 15, React 19, JavaScript, Tailwind CSS and the requested libraries. This update expands the application to 15 templates, 12 color presets plus a custom picker, 10 font families and four font styles. JSON import/export has been removed as requested. Gallery cards place the template name below the preview and “Use this template” directly below the name.

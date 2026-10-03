@@ -1,0 +1,45 @@
+{
+  "environment": "Local static export, Chromium mobile Lighthouse; optional services disabled",
+  "results": [
+    {
+      "route": "/",
+      "performance": 92,
+      "accessibility": 100,
+      "measuredAt": "2026-10-03T10:51:14.355Z",
+      "largestContentfulPaintMs": 3413.607,
+      "cumulativeLayoutShift": 0
+    },
+    {
+      "route": "/builder",
+      "performance": 93,
+      "accessibility": 100,
+      "measuredAt": "2026-10-03T10:51:20.448Z",
+      "largestContentfulPaintMs": 1068.7688,
+      "cumulativeLayoutShift": 0.16281895504252733
+    },
+    {
+      "route": "/templates",
+      "performance": 86,
+      "accessibility": 100,
+      "measuredAt": "2026-10-03T10:51:26.485Z",
+      "largestContentfulPaintMs": 4036.1161,
+      "cumulativeLayoutShift": 0
+    },
+    {
+      "route": "/blog",
+      "performance": 93,
+      "accessibility": 100,
+      "measuredAt": "2026-10-03T10:51:32.852Z",
+      "largestContentfulPaintMs": 3256.8497,
+      "cumulativeLayoutShift": 0
+    },
+    {
+      "route": "/blog/resume-format-guide",
+      "performance": 97,
+      "accessibility": 100,
+      "measuredAt": "2026-10-03T10:51:38.663Z",
+      "largestContentfulPaintMs": 2555.3316,
+      "cumulativeLayoutShift": 0
+    }
+  ]
+}

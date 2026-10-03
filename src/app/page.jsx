@@ -1,7 +1,28 @@
-import Link from "next/link";
+import Link from "../components/SiteLink";
+import StructuredData from "../components/StructuredData";
+import { siteConfig } from "../config/site";
 export default function Home() {
   return (
     <main className="home">
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: siteConfig.name,
+          url: siteConfig.url,
+        }}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: siteConfig.name,
+          url: siteConfig.url,
+          description: siteConfig.description,
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web browser",
+        }}
+      />
       <div className="hero-copy">
         <p className="eyebrow">A LITTLE CLARITY. A BIG NEXT STEP.</p>
         <h1>
@@ -79,6 +100,18 @@ export default function Home() {
           <h2>Take the next step</h2>
           <p>Download your PDF and take your next step.</p>
         </div>
+      </section>
+      <section className="home-resources" aria-labelledby="resources-title">
+        <h2 id="resources-title">Before you apply</h2>
+        <p>
+          Choose a format that fits your evidence, write accurate experience
+          descriptions and review your downloaded PDF.
+        </p>
+        <Link href="/blog">Read the resume guides →</Link>
+        <p className="help">
+          PDFs are image-based. Follow your employer’s file requirements; ATS
+          parsing is not guaranteed.
+        </p>
       </section>
     </main>
   );

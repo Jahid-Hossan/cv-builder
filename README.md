@@ -54,3 +54,7 @@ The required html2canvas pipeline produces **image-based PDFs**. ATS Professiona
 Next.js stays on the required 15.x release. The npm `postcss` override uses the project's patched direct PostCSS version for transitive dependencies too. The production build and dependency audit were rerun after this change.
 
 See `COMPLETION_REPORT.md` for actual verification results and remaining risks.
+
+## SEO and monetization setup
+
+See [docs/monetization-and-seo.md](docs/monetization-and-seo.md) for production configuration, consent prerequisites, articles and deployment steps. Optional advertising and affiliate features remain disabled without owner configuration.

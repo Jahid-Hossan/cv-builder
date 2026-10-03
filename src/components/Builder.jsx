@@ -4,13 +4,15 @@ import { useResume } from "../context/ResumeContext";
 import { validatePersonal } from "../utils/resume";
 import { exportPdf } from "../utils/pdf";
 import Editor from "./Editor";
+import AffiliateOffer from "./AffiliateOffer";
 import ThemeControls from "./ThemeControls";
 import PreviewViewport from "./PreviewViewport";
 export default function Builder() {
   const { data, ready, error, saved } = useResume();
   const [tab, setTab] = useState("edit"),
     [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
+    [busy, setBusy] = useState(false),
+    [exported, setExported] = useState(false);
   const paperRef = useRef(null);
   async function pdf() {
     if (Object.keys(validatePersonal(data.personalInfo)).length) {
@@ -21,9 +23,11 @@ export default function Builder() {
       return;
     }
     setBusy(true);
+    setExported(false);
     setMessage("");
     try {
       await exportPdf(paperRef.current);
+      setExported(true);
     } catch {
       setMessage("PDF generation failed. Please try again.");
     } finally {
@@ -57,6 +61,7 @@ export default function Builder() {
           {message && <p>{message}</p>}
         </div>
       )}
+      {exported && <AffiliateOffer />}
       <div className="mobile-tabs" role="tablist" aria-label="Builder view">
         {["edit", "preview"].map((t) => (
           <button
