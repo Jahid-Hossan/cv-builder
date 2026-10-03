@@ -8,7 +8,12 @@ export default function PreviewViewport({ data, paperRef }) {
     const observer = new ResizeObserver(() => {
       if (!host.current || !paperRef.current) return;
       const scale = Math.min(1, host.current.clientWidth / 794);
-      setSize({ scale, height: paperRef.current.offsetHeight * scale });
+      const height = paperRef.current.offsetHeight * scale;
+      setSize((prev) =>
+        Math.abs(prev.scale - scale) < 0.005 && Math.abs(prev.height - height) < 2
+          ? prev
+          : { scale, height }
+      );
     });
     observer.observe(host.current);
     if (paperRef.current) observer.observe(paperRef.current);

@@ -5,3 +5,4 @@ out/
 test-results/
 
 !.env.example
+*-lh.json

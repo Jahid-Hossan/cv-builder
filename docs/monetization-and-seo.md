@@ -31,57 +31,60 @@ google.com, pub-YOUR_REAL_16_DIGIT_ID, DIRECT, f08c47fec0942fa0
 
 This example is documentation only. Verify https://cvbuilder.appshub.app/ads.txt after redeployment. AdSense setup remains incomplete without the real account and required approval/consent configuration.
 
-## Search Console
+## Owner handoff insertion points quick reference
 
-1. In Google Search Console add a Domain property for `appshub.app` (covers subdomains), or choose the appropriate verification method for a URL-prefix property at the exact CV Builder origin.
-2. Copy the real `google-site-verification=...` TXT value Google provides.
-3. Add it to the authoritative DNS provider for `appshub.app`, at the host Google specifies; do not guess a token or replace unrelated TXT records.
-4. Check the authoritative DNS response or `nslookup -type=TXT appshub.app`, wait for propagation, then click Verify in Search Console.
-5. Submit https://cvbuilder.appshub.app/sitemap.xml for the relevant property. DNS verification and indexing have not been performed by this code change.
+| # | Item | Exact File Path | Line Number(s) | Variable / Placeholder Name | Verification & Operational Behavior |
+|---|------|-----------------|----------------|-----------------------------|---------------------------------------|
+| 1 | AdSense Publisher ID | `src/config/site.js`<br>`.env.example`<br>`src/components/OptionalAdvertising.jsx`<br>`src/app/layout.jsx` | `site.js`: L7<br>`.env.example`: L2<br>`OptionalAdvertising.jsx`: L24-35<br>`layout.jsx`: L16-18 | `adsenseClientId: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID \|\| ""` | Validated strictly against `/^ca-pub-\d{16}$/` (all-zeros rejected). Only loads if matching valid ID format, canonical origin `https://cvbuilder.appshub.app`, and consent signal `window.cvBuilderConsent?.advertising === true`. Excluded from `/builder` and `/templates`. Injected once via Next.js `<Script id="cv-builder-adsense" ...>` which guarantees it does not load twice across client navigations. |
+| 2 | ads.txt Publisher ID Placeholder | `src/app/ads.txt/route.js` | L4-9 | Placeholder comment: `# AdSense is not configured. Replace pub-XXXXXXXXXXXXXXXX with your real publisher ID via NEXT_PUBLIC_ADSENSE_CLIENT_ID and rebuild.\n` | Generated as static plain text with `Content-Type: text/plain; charset=utf-8`. When `NEXT_PUBLIC_ADSENSE_CLIENT_ID` is set to a valid ID, generates `google.com, pub-YOUR_ID, DIRECT, f08c47fec0942fa0`. |
+| 3 | Contact Email Configuration | `src/config/site.js`<br>`.env.example`<br>`src/app/contact/page.jsx` | `site.js`: L6<br>`.env.example`: L3<br>`page.jsx`: L16-28 | `contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL \|\| ""` | Current value is **NOT** a fake placeholder email; it defaults to empty string `""`. When unset, `/contact` honestly displays: *"A direct contact address has not yet been published. This page does not collect messages."* (no fake form or sample address). The owner must supply a real valid RFC 5322 email. |
+| 4 | Affiliate Config File | `src/config/site.js`<br>`.env.example`<br>`src/components/AffiliateOffer.jsx`<br>`src/components/Builder.jsx` | `site.js`: L8-14<br>`.env.example`: L4-6<br>`AffiliateOffer.jsx`: L1-18<br>`Builder.jsx`: L64 | `affiliate: { enabled, name, url, disclosure }` | Currently `enabled: false`. Outbound link uses `target="_blank"` and `rel="noopener noreferrer sponsored"`. Mandates visible disclosure: *"Some links may be affiliate links. We may earn a commission at no additional cost to you."* Rendered only after PDF export succeeds, completely outside `paperRef` (does not appear in generated PDF) and in document flow (does not cover form controls or resume preview). |
+| 5 | Search Console DNS TXT Record | Vercel DNS Dashboard | Vercel DNS Records settings | `google-site-verification=...` (TXT record at host `@`) | See step-by-step Vercel DNS instructions below. |
+| 6 | Analytics Measurement ID | `.env.example` | L8 | `NEXT_PUBLIC_GA_MEASUREMENT_ID=` | **NOT SUPPORTED / NO RUNTIME ACTIVE**. Documented as a reserved build variable placeholder only. No runtime code loads Google Analytics or gtag. |
 
-## Sitemap and robots
+## Search Console DNS TXT record instructions for appshub.app on Vercel
 
-Native static metadata routes expose `/sitemap.xml` and `/robots.txt`. The sitemap contains the eight public page routes and three published articles. Fixed article dates reflect this publication change; generic pages have no fabricated modification date. Robots allows crawling and references the production sitemap. Canonical URLs use HTTPS with no trailing slash. Configure the existing reverse proxy to redirect HTTP to HTTPS; if alternative hostnames exist, redirect them to the canonical origin without chains. Do not globally redirect unknown paths to the homepage.
+If authoritative DNS for `appshub.app` is managed via Vercel:
+1. Open [Google Search Console](https://search.google.com/search-console).
+2. Click **Add property**, select the **Domain** property type, and enter `appshub.app` (covers root and all subdomains including `cvbuilder.appshub.app`).
+3. Google will present a DNS TXT verification token formatted as: `google-site-verification=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`. Copy this entire string.
+4. Log in to the [Vercel Dashboard](https://vercel.com) and navigate to the project/team that manages the `appshub.app` domain.
+5. Go to **Settings** > **Domains**, locate `appshub.app`, and click **Manage** > **DNS Records**.
+6. Click **Add Record**:
+   - **Type**: `TXT`
+   - **Name**: `@` (or leave blank for root domain)
+   - **Value**: `google-site-verification=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+   - **TTL**: `60` seconds (default)
+7. Click **Add** / **Save**.
+8. Verify DNS propagation using `nslookup -type=TXT appshub.app` or `dig TXT appshub.app` until the verification record is returned by public resolvers.
+9. Return to Google Search Console and click **Verify**.
+10. Once verified, submit the sitemap URL: `https://cvbuilder.appshub.app/sitemap.xml`.
 
-## Blog and remaining topics
+## Published blog articles (15 total)
 
-`src/data/articles.js` stores plain strings and structured sections, with no CMS or unsafe HTML rendering. `/blog/[slug]` uses `generateStaticParams` and server/static rendering. Add a unique slug, title, description, actual publication date, introduction, sections and valid related article IDs. Rebuild to publish. Update dates only after meaningful revisions. `formatDate` displays each stored date. No fabricated authors, reviews or credentials are used.
+All 15 articles are published, included in `src/data/articles.js`, indexed in `/sitemap.xml`, and statically rendered to `out/blog/[slug].html` with initial server-rendered HTML, unique metadata, and semantic H1 -> H2 -> H3 hierarchy:
 
-Published cornerstone drafts: achievement-based resume bullets (961 words), 2026 format guide (1050), application checklist (985). Review them editorially before production publication. They explicitly describe the raster PDF limitation rather than guaranteeing ATS success.
+1. `achievement-based-resume-bullets` — *How to Write Achievement-Based Resume Bullet Points* (1,170 words)
+2. `resume-format-guide` — *2026 Resume Format Guide: Choose a Layout for Your Evidence* (1,284 words)
+3. `resume-checklist` — *Resume Checklist Before Applying for a Job* (1,214 words)
+4. `ats-resume-guide` — *How to Write a Resume That Gets Past ATS Systems* (1,044 words)
+5. `resume-formats-by-industry` — *Best Resume Formats for Different Industries* (913 words)
+6. `common-resume-mistakes` — *Common Resume Mistakes to Avoid Before Applying* (880 words)
+7. `how-long-should-a-resume-be` — *How Long Should a Resume Be? A Practical Length Guide* (866 words)
+8. `resume-vs-cv-difference` — *Resume vs CV: What's the Difference?* (901 words)
+9. `how-to-write-resume-summary` — *How to Write a Strong Resume Summary* (903 words)
+10. `work-experience-on-resume` — *How to Write Work Experience on a Resume* (878 words)
+11. `how-to-list-skills-on-resume` — *How to List Skills on a Resume* (863 words)
+12. `resume-with-no-experience` — *How to Write a Resume With No Experience* (865 words)
+13. `student-resume-guide` — *How to Make a Student Resume* (846 words)
+14. `tailor-resume-job-description` — *How to Tailor Your Resume to a Job Description* (869 words)
+15. `best-fonts-for-resume` — *Best Fonts for a Professional Resume* (862 words)
 
-Remaining content backlog (not published or included in sitemap):
-
-- How to Write a Resume That Gets Past ATS Systems (careful framing, no guarantee)
-- Best Resume Formats for Different Industries
-- Common Resume Mistakes to Avoid
-- How Long Should a Resume Be?
-- Resume vs CV: What's the Difference?
-- How to Write a Strong Resume Summary
-- How to Write Work Experience on a Resume
-- How to List Skills on a Resume
-- How to Write a Resume With No Experience
-- How to Make a Student Resume
-- How to Tailor Your Resume to a Job Description
-- Best Fonts for a Professional Resume
+Remaining content backlog topics for future editorial expansion:
 - How to Use Keywords in Your Resume
 - How to Write Education on a Resume
 - How to Explain Employment Gaps on a Resume
-- How to Make an ATS-Friendly Resume (include the actual export limitation)
 - Resume Formatting Mistakes That Hurt Readability
-
-Avoid overlapping articles merely to reach 20. Useful standalone examples and distinct intent should determine whether a topic warrants another article.
-
-## Affiliate
-
-Disabled by default. Set public build-time variables `NEXT_PUBLIC_AFFILIATE_ENABLED=true`, `NEXT_PUBLIC_AFFILIATE_NAME` (legitimate provider/service name), and `NEXT_PUBLIC_AFFILIATE_URL` (real HTTPS affiliate destination). Empty names, missing disclosures and unsafe URLs suppress the offer. `siteConfig.affiliate.disclosure` supplies the visible disclosure. `AffiliateOffer` appears only after PDF export returns successfully, outside the preview. It does not claim the user has saved the download or upload their resume. External links use `sponsored noopener noreferrer`.
-
-## Analytics
-
-There is no analytics runtime. `NEXT_PUBLIC_GA_MEASUREMENT_ID` is reserved/documented only; setting it does not load Google Analytics. Before implementing GA, connect real consent, disable automatic form measurement and URL/query capture, and allow only non-sensitive events. Never send resume contents. Do not make AdSense readiness depend on analytics.
-
-## Contact
-
-Set the real `NEXT_PUBLIC_CONTACT_EMAIL` at build time. With no valid address, Contact honestly states that no direct address is published and does not show a fake form. Publishing a working contact channel is an outstanding owner action.
 
 ## Deployment
 

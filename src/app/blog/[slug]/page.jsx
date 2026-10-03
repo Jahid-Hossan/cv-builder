@@ -47,8 +47,16 @@ export default async function Article({ params }) {
             aria-labelledby={`article-section-${index}`}
           >
             <h2 id={`article-section-${index}`}>{section.heading}</h2>
-            {section.paragraphs.map((paragraph, i) => (
+            {section.paragraphs?.map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
+            ))}
+            {section.subsections?.map((sub, subIdx) => (
+              <div key={subIdx} className="article-subsection">
+                <h3 id={`article-sub-${index}-${subIdx}`}>{sub.heading}</h3>
+                {sub.paragraphs?.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             ))}
           </section>
         ))}

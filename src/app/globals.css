@@ -171,6 +171,13 @@ textarea:focus-visible {
   max-width: 1440px;
   margin: auto;
   padding: 38px 48px 64px;
+  min-height: calc(100vh - 82px);
+}
+.edit-panel {
+  min-height: 700px;
+}
+.builder-loading-skeleton {
+  min-height: 700px;
 }
 .builder-top {
   display: flex;
@@ -343,6 +350,7 @@ summary h2 {
   border-radius: 10px;
   padding: 20px;
   min-width: 0;
+  min-height: 700px;
 }
 .preview-toolbar {
   display: flex;
@@ -836,6 +844,8 @@ summary h2 {
   border-radius: 10px;
   overflow: hidden;
   background: white;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 450px;
 }
 .template-mini {
   margin: 20px;
@@ -995,6 +1005,7 @@ summary h2 {
   }
   .builder-shell {
     padding: 25px 16px;
+    min-height: calc(100vh - 68px);
   }
   .builder-top {
     display: block;
@@ -1034,6 +1045,10 @@ summary h2 {
   .edit-panel,
   .preview-panel {
     display: none;
+    min-height: 600px;
+  }
+  .builder-loading-skeleton {
+    min-height: 600px;
   }
   .mobile-active {
     display: block;
@@ -1183,6 +1198,9 @@ summary h2 {
 }
 .template-thumbnail .resume-paper {
   box-shadow: 0 3px 14px #172d2b14;
+}
+.template-thumbnail .preview-viewport {
+  height: 100% !important;
 }
 .template-info {
   padding: 18px 20px 22px;
@@ -1553,6 +1571,8 @@ summary h2 {
 .content-page { max-width:850px; margin:0 auto; padding:64px 32px; overflow-wrap:anywhere; line-height:1.8; }
 .content-page h1 { font-family:Georgia,serif; font-size:clamp(32px,5vw,48px); line-height:1.15; margin:0 0 24px; }
 .content-page h2 { font-size:24px; line-height:1.3; margin:36px 0 16px; }
+.content-page h3 { font-size:18px; line-height:1.35; margin:24px 0 10px; font-weight:600; color:var(--ink); }
+.article-subsection { margin:18px 0; }
 .content-page p { margin:0 0 20px; }
 .content-page ul { padding-left:24px; list-style:disc; }
 .content-page li { margin:10px 0; }
