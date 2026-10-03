@@ -23,13 +23,7 @@ function TemplateThumbnail({ template }) {
 export default function TemplateGallery() {
   const { data, setData, ready } = useResume();
   return (
-    <main className="gallery">
-      <p className="eyebrow">15 WAYS TO TELL YOUR STORY</p>
-      <h1>Find your fit.</h1>
-      <p className="gallery-intro">
-        Choose a starting point. Switch any time—your experience comes with you.
-      </p>
-      <div className="template-grid">
+    <div className="template-grid">
         {TEMPLATES.map((t) => (
           <article className="template-card" key={t.id}>
             <TemplateThumbnail template={t.id} />
@@ -38,6 +32,7 @@ export default function TemplateGallery() {
               <Link
                 className="template-select"
                 href="/builder"
+                prefetch={false}
                 aria-label={`Use this template: ${t.name}`}
                 aria-disabled={!ready}
                 onClick={(e) => {
@@ -61,6 +56,5 @@ export default function TemplateGallery() {
           </article>
         ))}
       </div>
-    </main>
   );
 }

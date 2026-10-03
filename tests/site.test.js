@@ -50,7 +50,10 @@ test("published resources have substantial distinct content, fixed dates and val
   for (const post of articles) {
     const body = [
       post.intro,
-      ...post.sections.flatMap((s) => s.paragraphs),
+      ...post.sections.flatMap((s) => [
+        ...(s.paragraphs || []),
+        ...((s.subsections || []).flatMap((sub) => sub.paragraphs || [])),
+      ]),
     ].join(" ");
     assert.ok(body.split(/\s+/).length >= 800);
     assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(post.publishedAt));

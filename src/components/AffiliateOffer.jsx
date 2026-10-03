@@ -7,7 +7,7 @@ export default function AffiliateOffer() {
     <aside className="affiliate-offer" aria-label="Optional resume service">
       <h2>Need additional resume help?</h2>
       <p>
-        <a href={offer.url} target="_blank" rel="sponsored noopener noreferrer">
+        <a href={offer.url} target="_blank" rel="noopener noreferrer sponsored">
           Explore {offer.name}
         </a>
       </p>

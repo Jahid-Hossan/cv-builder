@@ -92,9 +92,11 @@ export default function Builder() {
           {ready ? (
             <Editor />
           ) : (
-            <p className="loading" role="status">
-              Restoring your resume…
-            </p>
+            <div className="builder-loading-skeleton" aria-busy="true">
+              <p className="loading" role="status">
+                Restoring your resume…
+              </p>
+            </div>
           )}
         </div>
         <aside
