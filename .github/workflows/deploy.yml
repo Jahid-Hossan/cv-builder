@@ -1,0 +1,41 @@
+name: Deploy CV Builder
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            set -e
+
+            cd ~/docker/cv-builder
+
+            git fetch origin
+            git reset --hard origin/main
+
+            docker build -t cv-builder:latest .
+
+            docker stop cv-builder || true
+            docker rm cv-builder || true
+
+            docker run -d \
+              --name cv-builder \
+              --restart unless-stopped \
+              --network proxy \
+              cv-builder:latest
+
+            docker image prune -f
+
+            docker ps --filter name=cv-builder
