@@ -1,3 +1,4 @@
+import PrivacySettings from "./PrivacySettings";
 import Link from "./SiteLink";
 export default function SiteFooter() {
   return (
@@ -15,6 +16,7 @@ export default function SiteFooter() {
             {label}
           </Link>
         ))}
+      <PrivacySettings />
       </nav>
     </footer>
   );

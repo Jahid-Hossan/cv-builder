@@ -1596,3 +1596,5 @@ summary h2 {
   .resource-grid { grid-template-columns:1fr; }
   .site-footer { padding:24px 20px; }
 }
+
+.privacy-settings { background:none; border:0; padding:0; color:inherit; text-decoration:underline; cursor:pointer; font:inherit; }

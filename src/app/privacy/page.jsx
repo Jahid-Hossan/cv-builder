@@ -10,7 +10,7 @@ export default function Privacy() {
     <main className="content-page">
       <h1>Privacy Policy</h1>
       <p>
-        Policy updated: <time dateTime="2026-10-03">3 October 2026</time>
+        Policy updated: <time dateTime="2026-10-04">4 October 2026</time>
       </p>
       <h2>Resume information</h2>
       <p>
@@ -30,28 +30,33 @@ export default function Privacy() {
         is not a promise of encrypted storage. Other people who use your browser
         profile may access the draft.
       </p>
-      <h2>Cookies and optional services</h2>
+      <h2>Cookies and Google consent management</h2>
       <p>
-        The resume editor uses LocalStorage rather than an account cookie.
-        Optional advertising is disabled without a valid publisher configuration
-        and an explicit advertising consent signal from a connected consent
-        platform. Advertising scripts are not loaded directly on Builder or
-        Templates pages. There is no analytics runtime in this release.
+        We use Google's certified Consent Management Platform, Google Privacy
+        &amp; messaging (formerly Funding Choices), integrated with the IAB
+        Transparency and Consent Framework. It collects advertising choices
+        for visitors in the EEA, UK and Switzerland. Ad requests start paused
+        and remain paused until the required consent is confirmed. Refusing
+        advertising consent keeps ads disabled. Visitors whom the CMP identifies
+        as outside this region may receive ads subject to Google's applicable controls.
       </p>
       <p>
-        If Google AdSense is configured and consent permits it, Google may
-        process device identifiers, cookies and network information on
-        informational pages. Consult{" "}
-        <a
-          href="https://policies.google.com/technologies/ads"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Google’s advertising privacy information
-        </a>
-        . The site owner must configure an appropriate consent platform before
-        activation. This page does not certify compliance with every
-        jurisdiction.
+        Use “Privacy and cookie settings” in the footer, where the CMP is
+        available, to reopen the message and withdraw consent. Requests pause
+        when you open settings. After withdrawal, the page reloads to unload
+        existing ad scripts. Requests already sent cannot be recalled.
+        This control is on informational pages; Builder and Templates do not
+        load advertising scripts. Return to the home page to manage your choice.
+      </p>
+      <p>
+        Google scripts load to deliver the consent message even before your
+        decision. Google may receive network information, and the CMP stores
+        your choices. With advertising permitted, Google may use cookies and
+        device identifiers. We do not pass resume fields or the local draft to
+        these APIs. There is no analytics runtime. Read{' '}
+        <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
+          Google's advertising privacy information
+        </a>.
       </p>
       <h2>Hosting and external links</h2>
       <p>

@@ -1,0 +1,16 @@
+{
+  "mode": "Mock Google/TCF API and synthetic ad request endpoint; NOT a live CMP test",
+  "report": [
+    "1: Mock EU undecided: paused before tag, zero synthetic ad requests. Real banner NOT VERIFIED.",
+    "3: Mock reject all: zero synthetic ad requests.",
+    "2: Mock accept all: request gate opened. Real ad fill NOT VERIFIED.",
+    "4: Mock withdrawal: paused, settings reopened, document reloaded, no new requests.",
+    "6: Mock explicit non-EU signal: request gate opened.",
+    "5: Editor/gallery: no AdSense scripts and no additional synthetic ad requests.",
+    "Builder editing/preview/settings/persistence/PDF download succeeded; no page errors."
+  ],
+  "requests": [
+    "https://ads-test.invalid/request",
+    "https://ads-test.invalid/request"
+  ]
+}

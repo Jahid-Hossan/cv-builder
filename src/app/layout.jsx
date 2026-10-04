@@ -22,6 +22,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        {/* Pause before hydration or any AdSense insertion. This loads no remote code. */}
+        <script dangerouslySetInnerHTML={{ __html: "(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;" }} />
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
