@@ -26,7 +26,11 @@ jobs:
             git reset --hard origin/main
 
             export NEXT_PUBLIC_CONTACT_EMAIL=contact@cvbuilder.appshub.app
-            docker build --build-arg NEXT_PUBLIC_CONTACT_EMAIL="$NEXT_PUBLIC_CONTACT_EMAIL" -t cv-builder:latest .
+            export NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-4472223260681931
+            docker build \
+              --build-arg NEXT_PUBLIC_CONTACT_EMAIL="$NEXT_PUBLIC_CONTACT_EMAIL" \
+              --build-arg NEXT_PUBLIC_ADSENSE_CLIENT_ID="$NEXT_PUBLIC_ADSENSE_CLIENT_ID" \
+              -t cv-builder:latest .
 
             docker stop cv-builder || true
             docker rm cv-builder || true
@@ -41,3 +45,9 @@ jobs:
             docker image prune -f
 
             docker ps --filter name=cv-builder
+
+            # Read-only production verification; consent-gated scripts are absent before consent.
+            echo 'Production ads.txt:'
+            curl --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ads.txt
+            echo 'Production homepage AdSense tags:'
+            curl --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ | sed 's/></>\n</g' | grep -i 'adsbygoogle\|google-adsense' || true
