@@ -1,0 +1,35 @@
+name: Read-only VPS polling audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/infrastructure-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect polling sources without changing services
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            set -e
+            echo 'Container names, images and ports (no environment variables):'
+            docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
+            echo 'Omni-related timers:'
+            systemctl list-timers --all --no-pager | grep -i omni || true
+            echo 'Polling source filenames only (bounded scan):'
+            timeout 45s grep -rIlE 'provider-metrics|usage/call-logs|health/ping' \
+              --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next \
+              --exclude-dir=.cache --exclude='*.log' --exclude='*.sqlite*' \
+              /etc/cron.d /etc/cron.daily /etc/cron.hourly /home /opt /var/spool/cron 2>/dev/null \
+              | head -100 || true
+            echo 'User cron schedules with matching polling endpoints (commands withheld):'
+            crontab -l 2>/dev/null | awk '/provider-metrics|usage\/call-logs|health\/ping|omni/ {print $1,$2,$3,$4,$5,"[matching command withheld]"}' || true
+            echo 'Current resource snapshot, not historical metrics:'
+            docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'
