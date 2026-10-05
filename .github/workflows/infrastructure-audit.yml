@@ -19,6 +19,9 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -eu
+            echo 'Read-only resource snapshot during bounded retry:'
+            date -u
+            free -m
             echo 'Current service and isolated build resource snapshot:'
             docker stats --no-stream --format '{{.Name}} CPU={{.CPUPerc}} RAM={{.MemUsage}}' cv-builder omniroute omniroute-polling-build-bc084e0d
             echo 'Isolated build process names and runtime:'
