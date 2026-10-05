@@ -19,40 +19,27 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -e
-            echo 'Container names, images and ports (no environment variables):'
-            docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
-            echo 'Omni-related timers:'
-            systemctl list-timers --all --no-pager | grep -i omni || true
-            echo 'Polling source filenames only (bounded scan):'
-            timeout 45s grep -rIlE 'provider-metrics|usage/call-logs|health/ping' \
-              --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next \
-              --exclude-dir=.cache --exclude='*.log' --exclude='*.sqlite*' \
-              /etc/cron.d /etc/cron.daily /etc/cron.hourly /home /opt /var/spool/cron 2>/dev/null \
-              | head -100 || true
-            echo 'User cron schedules with matching polling endpoints (commands withheld):'
-            crontab -l 2>/dev/null | awk '/provider-metrics|usage\/call-logs|health\/ping|omni/ {print $1,$2,$3,$4,$5,"[matching command withheld]"}' || true
-            echo 'Current resource snapshot, not historical metrics:'
-            docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'
-
-            echo 'OmniRoute endpoint code locations and timer literals (no environment or data files):'
-            timeout 60s docker exec omniroute node -e '
-              const fs=require("fs"),path=require("path");let scanned=0,hits=0;
-              function walk(p){if(scanned>12000||hits>45)return;let entries;try{entries=fs.readdirSync(p,{withFileTypes:true})}catch{return}
-                for(const e of entries){if(scanned>12000||hits>45)return;const f=path.join(p,e.name);
-                  if(e.isDirectory()){if(!["node_modules","data",".git","cache"].includes(e.name))walk(f)}
-                  else if(/\.(js|jsx|ts|tsx)$/.test(e.name)){scanned++;let s;try{if(fs.statSync(f).size>8000000)continue;s=fs.readFileSync(f,"utf8")}catch{continue}
-                    const re=/(provider-metrics|usage\/call-logs|health\/ping)/g;let m;let count=0;
-                    while((m=re.exec(s))&&count++<3){hits++;const nearby=s.slice(Math.max(0,m.index-1500),m.index+1500);
-                      const timers=nearby.match(/(?:setInterval|refetchInterval|refreshInterval|pollInterval)[^;{}]{0,140}/g)||[];
-                      console.log(JSON.stringify({file:f,line:s.slice(0,m.index).split("\n").length,endpoint:m[0],timerLiterals:timers.map(x=>x.replace(/https?:[^\s"]+/g,"[URL withheld]"))}));}
-                  }
-                }
-              }walk("/app/src");walk("/app/.build/next/static");console.log(JSON.stringify({scanned,hits}));
-            ' || true
-            echo 'Origin proxy counts for monitored endpoints (queries and client details withheld):'
-            timeout 30s docker exec nginx-proxy-manager-nginx-proxy-manager-1 sh -c 'for f in /data/logs/proxy-host-*_access.log; do [ -f "$f" ] || continue; counts=$(tail -n 3000 "$f" | grep -oE "/api/(provider-metrics|usage/call-logs|health/ping)" | sort | uniq -c); [ -z "$counts" ] || { echo "$f"; echo "$counts"; }; done' || true
-            echo 'Fresh public cache headers:'
-            for host in cvbuilder.appshub.app omni.appshub.app; do
-              echo "$host"
-              curl -sSI --max-time 20 "https://$host/" | grep -iE '^HTTP/|^cf-cache-status:|^age:'
-            done
+            echo 'OmniRoute deployment identity (no env values):'
+            docker inspect omniroute --format '{{json .Config.Image}} {{json .Config.WorkingDir}} {{json .Config.User}}'
+            docker inspect omniroute --format '{{json (index .Config.Labels "com.docker.compose.project.working_dir")}} {{json (index .Config.Labels "com.docker.compose.project.config_files")}} {{json (index .Config.Labels "org.opencontainers.image.source")}}'
+            docker inspect omniroute --format '{{range .Mounts}}{{println .Type .Source .Destination}}{{end}}'
+            docker exec omniroute node -e '
+             const fs=require("fs");
+             const files=[
+             "/app/src/shared/components/ProviderTestSlideOver.tsx",
+             "/app/src/shared/components/MaintenanceBanner.tsx",
+             "/app/src/app/(dashboard)/dashboard/HomePageClient.tsx",
+             "/app/src/shared/components/RequestLoggerV2.tsx"
+             ];
+             for(const f of files){const lines=fs.readFileSync(f,"utf8").split("\n");const selected=new Set();
+             for(let i=0;i<lines.length;i++){if(/setInterval|setTimeout|refreshInterval|refetchInterval|provider-metrics|usage\/call-logs|checkHealth|visibilitychange/.test(lines[i])){for(let j=Math.max(0,i-8);j<=Math.min(lines.length-1,i+16);j++)selected.add(j)}}
+             console.log("FILE "+f);for(const i of [...selected].sort((a,b)=>a-b))console.log((i+1)+": "+lines[i]);
+             }
+             for(const f of ["/app/package.json","/app/Dockerfile","/app/docker-entrypoint.sh"]){try{let s=fs.readFileSync(f,"utf8");if(f.endsWith("package.json")){let p=JSON.parse(s);console.log(JSON.stringify({file:f,name:p.name,version:p.version,scripts:p.scripts}))}else console.log("FILE "+f+"\n"+s.slice(0,16000))}catch{console.log("MISSING "+f)}}
+            '
+            echo 'Host OmniRoute project locations (filenames only):'
+            find /home /opt -maxdepth 5 -type f \( -name Dockerfile -o -name compose.yml -o -name docker-compose.yml \) 2>/dev/null | grep -i omni || true
+            echo 'Host capacity:'
+            df -h /
+            free -m
+            
