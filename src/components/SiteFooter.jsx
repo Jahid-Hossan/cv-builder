@@ -3,7 +3,7 @@ import Link from "./SiteLink";
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
-      <p>CV Builder · Your resume, on your device.</p>
+      <p>Resume Builder · Your resume, on your device.</p>
       <nav aria-label="Footer navigation">
         {[
           ["/about", "About"],

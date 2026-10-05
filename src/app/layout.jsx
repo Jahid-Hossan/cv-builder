@@ -8,7 +8,7 @@ import OptionalAdvertising from "../components/OptionalAdvertising";
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
   ...pageMetadata(
-    "Free CV Builder | Create a Resume in Your Browser",
+    "Free Resume Builder | Create a Professional CV Online",
     siteConfig.description,
     "/",
   ),

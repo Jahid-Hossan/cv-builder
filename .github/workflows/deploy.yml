@@ -51,3 +51,13 @@ jobs:
             curl --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ads.txt
             echo 'Production homepage AdSense tags:'
             curl --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ | sed 's/></>\n</g' | grep -i 'adsbygoogle\|google-adsense' || true
+
+            # Verify the deployed SEO metadata through the public production URL.
+            seo_html=$(mktemp)
+            trap 'rm -f "$seo_html"' EXIT
+            curl --fail --silent --show-error --retry 3 --max-time 30 https://cvbuilder.appshub.app/ | sed 's/></>\n</g' > "$seo_html"
+            echo 'Production homepage SEO:'
+            grep -Fx '<title>Free Resume Builder | Create a Professional CV Online</title>' "$seo_html"
+            grep -Fx '<meta name="description" content="Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required."/>' "$seo_html"
+            grep -Fx '<link rel="canonical" href="https://cvbuilder.appshub.app"/>' "$seo_html"
+            grep -i 'resume builder' "$seo_html" | grep -v 'self.__next_f' | head -c 6000

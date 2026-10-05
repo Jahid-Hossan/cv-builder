@@ -1,8 +1,8 @@
 import Link from "../../components/SiteLink";
 import { pageMetadata } from "../../config/site";
 export const metadata = pageMetadata(
-  "About CV Builder",
-  "Learn how CV Builder helps you edit, customize and download a resume privately in your browser.",
+  "About Resume Builder by Appshub",
+  "Learn how our free resume builder helps you edit, customize and download a resume privately in your browser.",
   "/about",
 );
 export default function About() {
@@ -11,9 +11,9 @@ export default function About() {
       <p className="eyebrow">ABOUT THE TOOL</p>
       <h1>A clearer way to present your experience.</h1>
       <p>
-        CV Builder is a guest-only resume editor for students, career changers
-        and experienced professionals who want control over their document
-        without creating an account.
+        Our free, privacy-first resume builder helps students, career changers
+        and experienced professionals create a professional resume or CV, with
+        control over their document and no account required.
       </p>
       <h2>What you can make</h2>
       <p>

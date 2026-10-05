@@ -8,7 +8,8 @@ export default function Home() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: siteConfig.name,
+          name: "Resume Builder by Appshub",
+          alternateName: ["CV Builder", "Appshub CV Builder"],
           url: siteConfig.url,
         }}
       />
@@ -16,7 +17,8 @@ export default function Home() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          name: siteConfig.name,
+          name: "Resume Builder by Appshub",
+          alternateName: ["CV Builder", "Appshub CV Builder"],
           url: siteConfig.url,
           description: siteConfig.description,
           applicationCategory: "BusinessApplication",
@@ -31,9 +33,8 @@ export default function Home() {
           Beautifully <em>presented.</em>
         </h1>
         <p className="hero-description">
-          Turn your experience into a resume that feels like you. Thoughtful
-          templates, instant previews, and complete control over your personal
-          information.
+          Turn your experience into a resume that feels like you. A free,
+          privacy-first resume builder with no sign-up.
         </p>
         <div className="hero-actions">
           <Link className="primary button-link" href="/builder">

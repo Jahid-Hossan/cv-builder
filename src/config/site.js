@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "CV Builder",
   url: "https://cvbuilder.appshub.app",
   description:
-    "Build a resume privately in your browser with 15 templates, live preview, custom fonts and colors, and PDF download.",
+    "Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required.",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   adsenseClientId: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "",
   affiliate: {
