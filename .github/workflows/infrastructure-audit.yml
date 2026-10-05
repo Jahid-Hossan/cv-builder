@@ -47,7 +47,7 @@ jobs:
                       console.log(JSON.stringify({file:f,line:s.slice(0,m.index).split("\n").length,endpoint:m[0],timerLiterals:timers.map(x=>x.replace(/https?:[^\s"]+/g,"[URL withheld]"))}));}
                   }
                 }
-              }walk("/app");console.log(JSON.stringify({scanned,hits}));
+              }walk("/app/src");walk("/app/.build/next/static");console.log(JSON.stringify({scanned,hits}));
             ' || true
             echo 'Origin proxy counts for monitored endpoints (queries and client details withheld):'
             timeout 30s docker exec nginx-proxy-manager-nginx-proxy-manager-1 sh -c 'for f in /data/logs/proxy-host-*_access.log; do [ -f "$f" ] || continue; counts=$(tail -n 3000 "$f" | grep -oE "/api/(provider-metrics|usage/call-logs|health/ping)" | sort | uniq -c); [ -z "$counts" ] || { echo "$f"; echo "$counts"; }; done' || true
