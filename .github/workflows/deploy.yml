@@ -61,3 +61,12 @@ jobs:
             grep -Fx '<meta name="description" content="Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required."/>' "$seo_html"
             grep -Fx '<link rel="canonical" href="https://cvbuilder.appshub.app"/>' "$seo_html"
             grep -i 'resume builder' "$seo_html" | grep -v 'self.__next_f' | head -c 6000
+            echo 'Production og:site_name:'
+            grep -Fx '<meta property="og:site_name" content="Resume Builder by Appshub"/>' "$seo_html"
+            echo 'Production nonexistent route:'
+            missing_html=$(mktemp)
+            trap 'rm -f "$seo_html" "$missing_html"' EXIT
+            missing_status=$(curl --silent --show-error --max-time 30 -o "$missing_html" -w '%{http_code}' https://cvbuilder.appshub.app/nonexistent)
+            echo "HTTP $missing_status"
+            test "$missing_status" = 404
+            sed 's/></>\n</g' "$missing_html" | grep -Fx '<p>This address does not match a page on Resume Builder.</p>'

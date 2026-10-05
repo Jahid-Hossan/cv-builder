@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "CV Builder",
+  name: "Resume Builder by Appshub",
   url: "https://cvbuilder.appshub.app",
   description:
     "Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required.",
