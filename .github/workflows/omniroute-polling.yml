@@ -47,11 +47,14 @@ jobs:
             chmod 600 "$task_root/original-container.json"
             task_original=$(docker inspect omniroute --format '{{.Image}}')
             printf '%s\n' "$task_original" > "$task_root/original-image.txt"
+            docker stop omniroute-polling-build-b9ed00e5 >/dev/null 2>&1 || true
+            trap 'docker stop "$task_build" >/dev/null 2>&1 || true' EXIT
             docker run -d --name "$task_build" --cpus=1.5 --memory=8g --pids-limit=1024 --entrypoint sleep "$task_original" infinity
             docker cp "$task_root/patch-omniroute-polling.mjs" "$task_build:/tmp/patch-omniroute-polling.mjs"
             docker cp "$task_root/omniroute-visible-polling.mjs" "$task_build:/tmp/omniroute-visible-polling.mjs"
             docker exec "$task_build" node /tmp/patch-omniroute-polling.mjs /app
             docker exec "$task_build" node -e 'const fs=require("fs");console.log(fs.readFileSync("/app/dev/run-standalone.mjs","utf8").slice(0,8000))'
+            docker exec "$task_build" sh -lc 'cp -a /app/node_modules /tmp/omniroute-runtime-modules && npm ci --include=dev --include=optional --ignore-scripts --no-audit --no-fund --legacy-peer-deps && cp -an /tmp/omniroute-runtime-modules/. /app/node_modules/'
             docker exec -e NEXT_TELEMETRY_DISABLED=1 -e NODE_OPTIONS=--max-old-space-size=4096 -e CIRCLE_NODE_TOTAL=2 -e OMNIROUTE_USE_TURBOPACK=0 "$task_build" npm run build
             docker exec "$task_build" sh -lc 'test -f /app/.build/next/standalone/server.js && cp -a /app/.build/next/standalone/. /app/'
             docker commit --change 'ENTRYPOINT ["/app/check-permissions.sh"]' --change 'CMD ["node","dev/run-standalone.mjs"]' "$task_build" "$task_image"
