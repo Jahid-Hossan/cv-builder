@@ -10,7 +10,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Compare runtime native artifacts and inspect rollout
+      - name: Diagnose isolated candidate startup
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -20,17 +20,21 @@ jobs:
           script: |
             set -eu
             task_root="$HOME/docker/omniroute-polling"
-            echo 'Rollout marker, if present:'
-            if test -f "$task_root/deployed.json"; then cat "$task_root/deployed.json"; fi
+            task_image=$(cat "$task_root/patched-image.txt")
+            echo 'Non-secret original runtime settings:'
+            node -e 'const x=require(process.argv[1])[0];for(const key of ["PORT","HOSTNAME","DATA_DIR","NODE_ENV","OMNIROUTE_MEMORY_MB"]){const v=x.Config.Env.find(e=>e.startsWith(key+"="));console.log(v||key+"=(not set)");}' "$task_root/original-container.json"
+            task_debug=omniroute-polling-debug
+            trap 'docker rm -f "$task_debug" >/dev/null 2>&1 || true' EXIT
+            docker run -d --name "$task_debug" --memory=2g --cpus=0.5 "$task_image"
+            sleep 12
+            docker inspect "$task_debug" --format 'Status={{.State.Status}} OOM={{.State.OOMKilled}} Exit={{.State.ExitCode}}'
+            echo 'Sanitized startup log from empty-data candidate only:'
+            docker logs --tail 100 "$task_debug" 2>&1 | grep -vEi 'token|secret|password|credential|api.key' || true
+            echo 'Runtime native and SQLite availability:'
             for task_image in "$(cat "$task_root/original-image.txt")" "$(cat "$task_root/patched-image.txt")"; do
-              echo "Runtime native artifact comparison: $task_image"
+              echo "$task_image"
               docker run --rm --memory=512m --cpus=0.5 --entrypoint node "$task_image" -e '
-              const fs=require("fs"),c=require("crypto");
-              function walk(p){if(!fs.existsSync(p))return;for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=p+"/"+e.name;if(e.isDirectory())walk(f);else if(e.isFile()&&e.name.endsWith(".node"))console.log(f,c.createHash("sha256").update(fs.readFileSync(f)).digest("hex"));}}
-              walk("/app/src/mitm/tproxy/native");walk("/app/node_modules/better-sqlite3/build");walk("/app/node_modules/@omniroute");'
+              const fs=require("fs");console.log("node:sqlite exports",Object.keys(require("node:sqlite")));try{console.log("better-sqlite3",require.resolve("better-sqlite3"));}catch{console.log("better-sqlite3 absent");}
+              function walk(p){if(!fs.existsSync(p))return;for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=p+"/"+e.name;if(e.isDirectory()&&f!=="/app/data"&&!f.includes("/cache"))walk(f);else if(e.isFile()&&e.name.endsWith(".node"))console.log(f);}}
+              walk("/app");'
             done
-            echo 'Current service state:'
-            docker inspect omniroute --format 'Image={{.Image}} Status={{.State.Status}} Running={{.State.Running}}'
-            docker exec omniroute node -e 'fetch("http://127.0.0.1:20128/api/health/ping").then(r=>{console.log("Health HTTP",r.status);process.exit(r.status===200?0:1)}).catch(()=>process.exit(1))'
-            curl -sS -o /dev/null -w 'Omni HTTP %{http_code}\n' --max-time 20 https://omni.appshub.app/
-            curl -sS -o /dev/null -w 'CV HTTP %{http_code}\n' --max-time 20 https://cvbuilder.appshub.app/
