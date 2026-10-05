@@ -62,6 +62,19 @@ jobs:
             grep -Fx '<link rel="canonical" href="https://cvbuilder.appshub.app"/>' "$seo_html"
             grep -i 'resume builder' "$seo_html" | grep -v 'self.__next_f' | head -c 6000
             echo 'Production og:site_name:'
+            echo 'Container HTML:'
+            docker exec cv-builder cat /usr/share/nginx/html/index.html | sed 's/></>\n</g' | grep -Fx '<meta property="og:site_name" content="Resume Builder by Appshub"/>'
+            docker exec cv-builder cat /usr/share/nginx/html/404.html | sed 's/></>\n</g' | grep -Fx '<p>This address does not match a page on Resume Builder.</p>'
+            echo 'Public homepage cache headers:'
+            curl --silent --show-error --max-time 30 -I https://cvbuilder.appshub.app/
+            echo 'Fresh public homepage:'
+            curl --fail --silent --show-error --max-time 30 "https://cvbuilder.appshub.app/?deploy=$(git rev-parse --short HEAD)" | sed 's/></>\n</g' | grep -Fx '<meta property="og:site_name" content="Resume Builder by Appshub"/>'
+            # Give the public route a bounded interval to settle after replacement.
+            for attempt in 1 2 3 4 5 6; do
+              curl --fail --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ | sed 's/></>\n</g' > "$seo_html"
+              if grep -Fxq '<meta property="og:site_name" content="Resume Builder by Appshub"/>' "$seo_html"; then break; fi
+              sleep 10
+            done
             grep -Fx '<meta property="og:site_name" content="Resume Builder by Appshub"/>' "$seo_html"
             echo 'Production nonexistent route:'
             missing_html=$(mktemp)
