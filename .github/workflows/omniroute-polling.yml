@@ -1,0 +1,61 @@
+name: Build isolated OmniRoute polling patch
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/omniroute-polling.yml
+      - scripts/patch-omniroute-polling.mjs
+      - scripts/omniroute-visible-polling.mjs
+      - scripts/omniroute-polling.test.mjs
+permissions:
+  contents: read
+concurrency:
+  group: omniroute-polling-build
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test visibility, backoff, and cleanup
+        run: node --test scripts/omniroute-polling.test.mjs
+      - name: Build patched image without touching live OmniRoute
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          command_timeout: 60m
+          script: |
+            set -eu
+            task_sha='${{ github.sha }}'
+            task_root="$HOME/docker/omniroute-polling"
+            mkdir -p "$task_root"
+            chmod 700 "$task_root"
+            task_short=$(printf '%s' "$task_sha" | cut -c1-8)
+            task_build="omniroute-polling-build-$task_short"
+            task_image="omniroute:polling-$task_short"
+            task_source="$HOME/docker/cv-builder"
+            git -C "$task_source" fetch origin main
+            for file in patch-omniroute-polling.mjs omniroute-visible-polling.mjs; do
+              git -C "$task_source" show "$task_sha:scripts/$file" > "$task_root/$file"
+            done
+            docker inspect omniroute > "$task_root/original-container.json"
+            chmod 600 "$task_root/original-container.json"
+            task_original=$(docker inspect omniroute --format '{{.Image}}')
+            printf '%s\n' "$task_original" > "$task_root/original-image.txt"
+            docker run -d --name "$task_build" --cpus=1.5 --memory=8g --pids-limit=1024 --entrypoint sleep "$task_original" infinity
+            docker cp "$task_root/patch-omniroute-polling.mjs" "$task_build:/tmp/patch-omniroute-polling.mjs"
+            docker cp "$task_root/omniroute-visible-polling.mjs" "$task_build:/tmp/omniroute-visible-polling.mjs"
+            docker exec "$task_build" node /tmp/patch-omniroute-polling.mjs /app
+            docker exec "$task_build" node -e 'const fs=require("fs");console.log(fs.readFileSync("/app/dev/run-standalone.mjs","utf8").slice(0,8000))'
+            docker exec -e NEXT_TELEMETRY_DISABLED=1 -e NODE_OPTIONS=--max-old-space-size=4096 -e CIRCLE_NODE_TOTAL=2 -e OMNIROUTE_USE_TURBOPACK=0 "$task_build" npm run build
+            docker exec "$task_build" sh -lc 'test -f /app/.build/next/standalone/server.js && cp -a /app/.build/next/standalone/. /app/'
+            docker commit --change 'ENTRYPOINT ["/app/check-permissions.sh"]' --change 'CMD ["node","dev/run-standalone.mjs"]' "$task_build" "$task_image"
+            printf '%s\n' "$task_image" > "$task_root/patched-image.txt"
+            printf '%s\n' "$task_sha" > "$task_root/patch-commit.txt"
+            docker stop "$task_build"
+            echo "Patched image built; live OmniRoute was not replaced."
