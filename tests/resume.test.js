@@ -118,3 +118,25 @@ test("new font styles are optional for legacy resumes and validated when present
   d.settings.fontStyle = "invalid-style";
   assert.equal(validateBackup(d), false);
 });
+
+test("retired fonts migrate without losing saved resume content or settings", async () => {
+  const { FONTS, LEGACY_FONT_REPLACEMENTS } = await import("../src/data/resume.js");
+  assert.deepEqual(Object.keys(FONTS), ["Inter", "Merriweather"]);
+  for (const [oldFont, newFont] of Object.entries(LEGACY_FONT_REPLACEMENTS)) {
+    const original = emptyResume();
+    original.personalInfo.fullName = "Existing draft";
+    original.personalInfo.summary = "Keep my original text.";
+    original.settings = { ...original.settings, fontFamily: oldFont, fontStyle: "bold-italic", template: "executive" };
+    original.skills = [{ id: "saved-skill", category: "Development", items: ["JavaScript"] }];
+    const saved = storage();
+    saved.setItem(STORAGE_KEY, JSON.stringify(original));
+    const restored = loadResume(saved);
+    assert.deepEqual(restored, { ...original, settings: { ...original.settings, fontFamily: newFont } });
+    saveResume(saved, restored);
+    assert.deepEqual(loadResume(saved), restored);
+    assert.equal(original.settings.fontFamily, oldFont);
+  }
+  const invalid = emptyResume();
+  invalid.settings.fontFamily = "__proto__";
+  assert.throws(() => parseBackup(JSON.stringify(invalid)), { message: INVALID_BACKUP });
+});

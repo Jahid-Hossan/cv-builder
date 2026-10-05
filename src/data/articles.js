@@ -1782,19 +1782,19 @@ export const articles = [
         "heading": "Top sans-serif typefaces for modern resumes",
         "paragraphs": [
           "Sans-serif typefaces—characterized by clean letterforms without decorative finishing strokes—are widely regarded as the standard for modern, technology, and commercial resumes. They offer exceptional clarity on digital displays and smartphone viewports.",
-          "CV Builder integrates several premier, open-source sans-serif typefaces packaged locally via Fontsource. Inter is an exceptional contemporary workhorse specifically optimized for computer screens, offering crisp legibility at small sizes. Roboto delivers a friendly, geometric cadence popular in tech environments. Lato balances structured discipline with warm, rounded details. Source Sans 3 and Nunito provide additional refined options for varied layout moods."
+          "The builder offers two self-hosted font families: Inter and Merriweather. Inter is the sans-serif choice for a simple, consistent resume. Start with regular body text and bold headings, then inspect the preview at its actual reading size. Use the same family throughout your document to make spacing and hierarchy easier to judge."
         ],
         "subsections": [
           {
-            "heading": "Inter, Roboto, and Lato characteristics",
+            "heading": "Using Inter for body text",
             "paragraphs": [
-              "Inter excels in high-density technical resumes with its tall x-height. Roboto offers clean modern neutrality, while Lato introduces subtle warmth suitable for corporate communications."
+              "Inter provides a straightforward sans-serif option for body text and headings. Check long job titles, email addresses, and bullet points in your selected template before exporting. A font choice should make your experience easy to scan without forcing you to shrink important details."
             ]
           },
           {
-            "heading": "Source Sans 3 and Nunito applications",
+            "heading": "Keeping font choices consistent",
             "paragraphs": [
-              "Source Sans 3, designed by Adobe, provides exemplary clarity for data-dense corporate roles. Nunito features slightly rounded terminal curves, lending an approachable feel to educational and creative resumes."
+              "Use the font selector to compare Inter with Merriweather using your own resume content. Older saved drafts using retired sans-serif choices now open with Inter; drafts using Georgia open with Merriweather. Your written content is retained, but line wrapping can change, so check the preview and download a fresh PDF."
             ]
           }
         ]
@@ -1803,7 +1803,7 @@ export const articles = [
         "heading": "Top serif typefaces for traditional and executive roles",
         "paragraphs": [
           "Serif typefaces—distinguished by delicate horizontal and vertical decorative strokes at the ends of letters—carry a timeless sense of authority, tradition, and academic prestige. They remain the gold standard for executive, legal, academic, and publishing applications.",
-          "In CV Builder, Merriweather represents an outstanding modern serif option. Engineered specifically to be read comfortably on screens, it features thick, sturdy serifs that do not become faint or distorted when rendered digitally. Classic system serifs like Georgia and Garamond offer timeless elegance for legal, consulting, and senior leadership resumes."
+          "In CV Builder, Merriweather represents an outstanding modern serif option. Engineered specifically to be read comfortably on screens, it features thick, sturdy serifs that do not become faint or distorted when rendered digitally. Georgia and Garamond are other serif examples used in resume writing, but they are not selectable font families in this builder."
         ],
         "subsections": [
           {
@@ -1844,7 +1844,7 @@ export const articles = [
       {
         "heading": "Rendering and export considerations in CV Builder",
         "paragraphs": [
-          "A major advantage of CV Builder is that all supported fonts are bundled directly into the application via self-hosted Fontsource packages. This means your selected fonts load locally without depending on external Google Fonts CDN network requests, protecting your privacy and guaranteeing fast rendering.",
+          "A major advantage of CV Builder is that all supported fonts are bundled directly into the application via self-hosted Fontsource packages. This means your selected fonts load locally without depending on external Google Fonts CDN network requests, avoiding external font requests from the builder. Loading speed still depends on the device, connection, and other resources on the page.",
           "When you export your resume, CV Builder generates an image-based PDF using html2canvas and jsPDF. This image-based rendering guarantees that your chosen font weights, kerning, and line heights appear exactly as intended on any device. However, remember that text in image-based exports is rasterized and non-selectable, so verify any auto-populated fields when uploading to enterprise ATS portals."
         ],
         "subsections": [

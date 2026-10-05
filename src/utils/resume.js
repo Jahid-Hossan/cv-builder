@@ -3,6 +3,7 @@ import {
   ITEM_FIELDS,
   TEMPLATES,
   FONTS,
+  LEGACY_FONT_REPLACEMENTS,
   FONT_STYLES,
 } from "../data/resume.js";
 export const STORAGE_KEY = "resume-builder-data";
@@ -50,7 +51,8 @@ export function validateBackup(data) {
     !data.settings ||
     !TEMPLATES.some((t) => t.id === data.settings.template) ||
     !/^#[0-9a-f]{6}$/i.test(data.settings.primaryColor) ||
-    !Object.hasOwn(FONTS, data.settings.fontFamily) ||
+    !(Object.hasOwn(FONTS, data.settings.fontFamily) ||
+      Object.hasOwn(LEGACY_FONT_REPLACEMENTS, data.settings.fontFamily)) ||
     (data.settings.fontStyle !== undefined &&
       !Object.hasOwn(FONT_STYLES, data.settings.fontStyle))
   )
@@ -88,7 +90,12 @@ export function validateBackup(data) {
 export function parseBackup(text) {
   try {
     const data = JSON.parse(text);
-    if (validateBackup(data)) return data;
+    if (validateBackup(data)) {
+      const font = data.settings.fontFamily;
+      if (Object.hasOwn(LEGACY_FONT_REPLACEMENTS, font))
+        data.settings.fontFamily = LEGACY_FONT_REPLACEMENTS[font];
+      return data;
+    }
   } catch {}
   throw new Error(INVALID_BACKUP);
 }

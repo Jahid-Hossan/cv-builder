@@ -1,0 +1,24 @@
+{
+  "scope": "Local production export; external advertising disabled by existing origin gate",
+  "fontRequests": [
+    "http://127.0.0.1:3107/_next/static/media/inter-latin-700-normal.953b7aa5.woff2",
+    "http://127.0.0.1:3107/_next/static/media/inter-latin-400-normal.ef6d3f52.woff2",
+    "http://127.0.0.1:3107/_next/static/media/inter-latin-700-italic.235e1413.woff2",
+    "http://127.0.0.1:3107/_next/static/media/inter-latin-700-italic.235e1413.woff2",
+    "http://127.0.0.1:3107/_next/static/media/merriweather-latin-700-italic.4eaae9a7.woff2",
+    "http://127.0.0.1:3107/_next/static/media/merriweather-latin-700-italic.4eaae9a7.woff2",
+    "http://127.0.0.1:3107/_next/static/media/merriweather-latin-400-normal.3195b999.woff2",
+    "http://127.0.0.1:3107/_next/static/media/merriweather-latin-700-italic.4eaae9a7.woff2"
+  ],
+  "checks": [
+    "Legacy Lato draft restored as Inter; content retained; selector contains exactly two fonts",
+    "Inter bold italic loaded locally; PDF download 53028 bytes",
+    "Merriweather bold italic loaded locally; PDF download 54630 bytes",
+    "Preview, template/color controls and persistence passed; no page errors or external font requests"
+  ],
+  "localMobile": {
+    "performance": 87,
+    "lcpMs": 3554.9659999999994,
+    "totalBytes": 443674
+  }
+}

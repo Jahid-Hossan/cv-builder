@@ -124,5 +124,12 @@ jobs:
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<title>Free Resume Builder | Create a Professional CV Online</title>'
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<meta name="description" content="Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required."/>'
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<link rel="canonical" href="https://cvbuilder.appshub.app"/>'
+            echo 'Homepage HTML bytes:'
+            wc -c < "$seo_html"
+            echo 'Google Fonts/gstatic HTML matches (expected empty):'
+            if grep -iE 'fonts.googleapis|fonts.gstatic|gstatic' "$seo_html"; then
+              echo 'Unexpected external font reference in homepage HTML'
+              exit 1
+            fi
             echo 'Production ads.txt:'
             curl --fail --silent --show-error --max-time 30 https://cvbuilder.appshub.app/ads.txt

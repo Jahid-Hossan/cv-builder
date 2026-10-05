@@ -85,15 +85,18 @@ export const TEMPLATES = [
 ];
 export const FONTS = {
   Inter: "Inter, Arial, sans-serif",
-  Arial: "Arial, sans-serif",
-  Georgia: "Georgia, serif",
-  Helvetica: "Helvetica, Arial, sans-serif",
-  Lato: "Lato, Arial, sans-serif",
-  Roboto: "Roboto, Arial, sans-serif",
-  Montserrat: "Montserrat, Arial, sans-serif",
   Merriweather: "Merriweather, Georgia, serif",
-  "Source Sans 3": '"Source Sans 3", Arial, sans-serif',
-  Nunito: "Nunito, Arial, sans-serif",
+};
+// Preserve version-1 drafts when retiring font choices; resume content is untouched.
+export const LEGACY_FONT_REPLACEMENTS = {
+  Arial: "Inter",
+  Helvetica: "Inter",
+  Lato: "Inter",
+  Roboto: "Inter",
+  Montserrat: "Inter",
+  "Source Sans 3": "Inter",
+  Nunito: "Inter",
+  Georgia: "Merriweather",
 };
 export const FONT_STYLES = {
   normal: "Normal",
