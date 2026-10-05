@@ -18,17 +18,17 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            set -e
-            echo 'Runtime launch metadata (no secrets):'
-            docker inspect omniroute --format '{{json .Config.Entrypoint}} {{json .Config.Cmd}} {{json .Config.Healthcheck}}'
-            docker exec omniroute node -e '
-             const fs=require("fs");
-             const selections=[
-             ["/app/src/shared/components/RequestLoggerV2.tsx",[[1,120],[243,321],[701,755]]],
-             ["/app/src/shared/components/MaintenanceBanner.tsx",[[1,85]]],
-             ["/app/next.config.mjs",[[1,30]]]
-             ];
-             for(const [f,ranges] of selections){const lines=fs.readFileSync(f,"utf8").split("\n");console.log("FILE "+f);for(const [a,b] of ranges)for(let i=a-1;i<Math.min(lines.length,b);i++)console.log((i+1)+": "+lines[i]);}
-             for(const p of ["/app/scripts/build/build-next-isolated.mjs","/app/.build/next/standalone/server.js","/app/server.js","/app/node_modules/next/package.json","/app/node_modules/typescript/package.json","/app/package-lock.json","/app/open-sse/package.json"]){console.log(JSON.stringify({path:p,exists:fs.existsSync(p)}))}
+            set -eu
+            echo 'Current service and isolated build resource snapshot:'
+            docker stats --no-stream --format '{{.Name}} CPU={{.CPUPerc}} RAM={{.MemUsage}}' cv-builder omniroute omniroute-polling-build-bc084e0d
+            echo 'Isolated build process names and runtime:'
+            docker top omniroute-polling-build-bc084e0d -eo pid,etime,comm
+            echo 'Patched component syntax diagnostics:'
+            docker exec omniroute-polling-build-bc084e0d node -e '
+            const ts=require("typescript"),fs=require("fs");
+            const files=["/app/src/shared/components/ProviderTestSlideOver.tsx","/app/src/shared/components/MaintenanceBanner.tsx","/app/src/shared/components/RequestLoggerV2.tsx","/app/src/app/(dashboard)/dashboard/HomePageClient.tsx"];
+            for(const f of files){const result=ts.transpileModule(fs.readFileSync(f,"utf8"),{fileName:f,compilerOptions:{jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext},reportDiagnostics:true});console.log(JSON.stringify({file:f,syntaxErrors:(result.diagnostics||[]).filter(d=>d.category===ts.DiagnosticCategory.Error).length}));}
             '
+            echo 'Host disk remaining:'
+            df -h /
             
