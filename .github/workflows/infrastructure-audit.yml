@@ -19,27 +19,16 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -e
-            echo 'OmniRoute deployment identity (no env values):'
-            docker inspect omniroute --format '{{json .Config.Image}} {{json .Config.WorkingDir}} {{json .Config.User}}'
-            docker inspect omniroute --format '{{json (index .Config.Labels "com.docker.compose.project.working_dir")}} {{json (index .Config.Labels "com.docker.compose.project.config_files")}} {{json (index .Config.Labels "org.opencontainers.image.source")}}'
-            docker inspect omniroute --format '{{range .Mounts}}{{println .Type .Source .Destination}}{{end}}'
+            echo 'Runtime launch metadata (no secrets):'
+            docker inspect omniroute --format '{{json .Config.Entrypoint}} {{json .Config.Cmd}} {{json .Config.Healthcheck}}'
             docker exec omniroute node -e '
              const fs=require("fs");
-             const files=[
-             "/app/src/shared/components/ProviderTestSlideOver.tsx",
-             "/app/src/shared/components/MaintenanceBanner.tsx",
-             "/app/src/app/(dashboard)/dashboard/HomePageClient.tsx",
-             "/app/src/shared/components/RequestLoggerV2.tsx"
+             const selections=[
+             ["/app/src/shared/components/RequestLoggerV2.tsx",[[1,120],[243,321],[701,755]]],
+             ["/app/src/shared/components/MaintenanceBanner.tsx",[[1,85]]],
+             ["/app/next.config.mjs",[[1,30]]]
              ];
-             for(const f of files){const lines=fs.readFileSync(f,"utf8").split("\n");const selected=new Set();
-             for(let i=0;i<lines.length;i++){if(/setInterval|setTimeout|refreshInterval|refetchInterval|provider-metrics|usage\/call-logs|checkHealth|visibilitychange/.test(lines[i])){for(let j=Math.max(0,i-8);j<=Math.min(lines.length-1,i+16);j++)selected.add(j)}}
-             console.log("FILE "+f);for(const i of [...selected].sort((a,b)=>a-b))console.log((i+1)+": "+lines[i]);
-             }
-             for(const f of ["/app/package.json","/app/Dockerfile","/app/docker-entrypoint.sh"]){try{let s=fs.readFileSync(f,"utf8");if(f.endsWith("package.json")){let p=JSON.parse(s);console.log(JSON.stringify({file:f,name:p.name,version:p.version,scripts:p.scripts}))}else console.log("FILE "+f+"\n"+s.slice(0,16000))}catch{console.log("MISSING "+f)}}
+             for(const [f,ranges] of selections){const lines=fs.readFileSync(f,"utf8").split("\n");console.log("FILE "+f);for(const [a,b] of ranges)for(let i=a-1;i<Math.min(lines.length,b);i++)console.log((i+1)+": "+lines[i]);}
+             for(const p of ["/app/scripts/build/build-next-isolated.mjs","/app/.build/next/standalone/server.js","/app/server.js","/app/node_modules/next/package.json","/app/node_modules/typescript/package.json","/app/package-lock.json","/app/open-sse/package.json"]){console.log(JSON.stringify({path:p,exists:fs.existsSync(p)}))}
             '
-            echo 'Host OmniRoute project locations (filenames only):'
-            find /home /opt -maxdepth 5 -type f \( -name Dockerfile -o -name compose.yml -o -name docker-compose.yml \) 2>/dev/null | grep -i omni || true
-            echo 'Host capacity:'
-            df -h /
-            free -m
             
