@@ -10,7 +10,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Restore existing OmniRoute and verify health
+      - name: Inspect failed isolated build and live health
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -19,13 +19,13 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -eu
-            echo 'Restore existing Redis and OmniRoute containers; preserve all configuration:'
-            docker start omniroute-omniroute-redis-1 omniroute
-            for task_attempt in $(seq 1 30); do
-              if docker exec omniroute node -e 'fetch("http://127.0.0.1:20128/api/health/ping").then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))'; then break; fi
-              sleep 2
-            done
-            docker exec omniroute node -e 'fetch("http://127.0.0.1:20128/api/health/ping").then(r=>{console.log("Local health HTTP",r.status);process.exit(r.status===200?0:1)}).catch(()=>process.exit(1))'
-            docker inspect omniroute --format 'Status={{.State.Status}} Running={{.State.Running}} OOM={{.State.OOMKilled}}'
+            echo 'Original image immutable digest:'
+            docker image inspect "$(docker inspect omniroute --format '{{.Image}}')" --format '{{json .RepoDigests}}'
+            echo 'Kernel OOM evidence for failed build (only memory-kill messages):'
+            sudo -n journalctl -k --since '2026-10-05 18:27:00 UTC' --until '2026-10-05 18:36:00 UTC' --no-pager | grep -Ei 'oom-kill|out of memory|killed process' | tail -20 || true
+            echo 'Container state and current resources:'
+            docker inspect omniroute omniroute-polling-build-bc084e0d --format '{{.Name}} Status={{.State.Status}} OOM={{.State.OOMKilled}} Exit={{.State.ExitCode}}'
+            docker stats --no-stream --format '{{.Name}} CPU={{.CPUPerc}} RAM={{.MemUsage}}' cv-builder omniroute
+            free -m
             curl -sS -o /dev/null -w 'Omni HTTP %{http_code}\n' --max-time 20 https://omni.appshub.app/
             curl -sS -o /dev/null -w 'CV HTTP %{http_code}\n' --max-time 20 https://cvbuilder.appshub.app/
