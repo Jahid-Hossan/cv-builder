@@ -10,7 +10,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect failed isolated build and live health
+      - name: Compare runtime native artifacts and inspect rollout
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -19,13 +19,18 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -eu
-            echo 'Original image immutable digest:'
-            docker image inspect "$(docker inspect omniroute --format '{{.Image}}')" --format '{{json .RepoDigests}}'
-            echo 'Kernel OOM evidence for failed build (only memory-kill messages):'
-            sudo -n journalctl -k --since '2026-10-05 18:27:00 UTC' --until '2026-10-05 18:36:00 UTC' --no-pager | grep -Ei 'oom-kill|out of memory|killed process' | tail -20 || true
-            echo 'Container state and current resources:'
-            docker inspect omniroute omniroute-polling-build-bc084e0d --format '{{.Name}} Status={{.State.Status}} OOM={{.State.OOMKilled}} Exit={{.State.ExitCode}}'
-            docker stats --no-stream --format '{{.Name}} CPU={{.CPUPerc}} RAM={{.MemUsage}}' cv-builder omniroute
-            free -m
+            task_root="$HOME/docker/omniroute-polling"
+            echo 'Rollout marker, if present:'
+            if test -f "$task_root/deployed.json"; then cat "$task_root/deployed.json"; fi
+            for task_image in "$(cat "$task_root/original-image.txt")" "$(cat "$task_root/patched-image.txt")"; do
+              echo "Runtime native artifact comparison: $task_image"
+              docker run --rm --memory=512m --cpus=0.5 --entrypoint node "$task_image" -e '
+              const fs=require("fs"),c=require("crypto");
+              function walk(p){if(!fs.existsSync(p))return;for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=p+"/"+e.name;if(e.isDirectory())walk(f);else if(e.isFile()&&e.name.endsWith(".node"))console.log(f,c.createHash("sha256").update(fs.readFileSync(f)).digest("hex"));}}
+              walk("/app/src/mitm/tproxy/native");walk("/app/node_modules/better-sqlite3/build");walk("/app/node_modules/@omniroute");'
+            done
+            echo 'Current service state:'
+            docker inspect omniroute --format 'Image={{.Image}} Status={{.State.Status}} Running={{.State.Running}}'
+            docker exec omniroute node -e 'fetch("http://127.0.0.1:20128/api/health/ping").then(r=>{console.log("Health HTTP",r.status);process.exit(r.status===200?0:1)}).catch(()=>process.exit(1))'
             curl -sS -o /dev/null -w 'Omni HTTP %{http_code}\n' --max-time 20 https://omni.appshub.app/
             curl -sS -o /dev/null -w 'CV HTTP %{http_code}\n' --max-time 20 https://cvbuilder.appshub.app/
