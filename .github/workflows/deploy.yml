@@ -80,14 +80,14 @@ jobs:
           set -euo pipefail
           response=$(mktemp)
           trap 'rm -f "$response"' EXIT
-          # Requested zone-wide purge: includes other cached hosts in appshub.app.
+          # Purge only the public CV Builder host; preserve personal-app caches.
           curl --fail-with-body --silent --show-error --connect-timeout 10 --max-time 60 \
             --retry 2 --retry-delay 2 \
             --request POST \
             "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
             --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             --header "Content-Type: application/json" \
-            --data '{"purge_everything":true}' \
+            --data '{"hosts":["cvbuilder.appshub.app"]}' \
             --output "$response"
           jq '{success, errors, messages}' "$response"
           jq -e '.success == true' "$response" > /dev/null
@@ -106,6 +106,10 @@ jobs:
             seo_html=$(mktemp)
             missing_html=$(mktemp)
             trap 'rm -f "$seo_html" "$missing_html"' EXIT
+            echo 'CV Builder cache status immediately after purge:'
+            curl --silent --show-error --max-time 30 -I https://cvbuilder.appshub.app/ | grep -iE '^HTTP/|^cf-cache-status:|^age:' || true
+            echo 'Omni cache status (observational; DYNAMIC is valid for an API app):'
+            curl --silent --show-error --max-time 30 -I https://omni.appshub.app/ | grep -iE '^HTTP/|^cf-cache-status:|^age:' || true
             # Normal public URLs, without cache-busting query parameters.
             for attempt in 1 2 3 4 5; do
               home_status=$(curl --silent --show-error --max-time 30 -o "$seo_html" -w '%{http_code}' https://cvbuilder.appshub.app/)
