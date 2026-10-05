@@ -36,7 +36,7 @@ jobs:
             mkdir -p "$task_root"
             chmod 700 "$task_root"
             task_short=$(printf '%s' "$task_sha" | cut -c1-8)
-            task_build="omniroute-polling-build-$task_short"
+            task_build="omniroute-polling-build-bc084e0d"
             task_image="omniroute:polling-$task_short"
             task_source="$HOME/docker/cv-builder"
             git -C "$task_source" fetch --no-write-fetch-head origin "$task_sha"
@@ -49,14 +49,15 @@ jobs:
             printf '%s\n' "$task_original" > "$task_root/original-image.txt"
             docker stop omniroute-polling-build-b9ed00e5 >/dev/null 2>&1 || true
             trap 'docker stop "$task_build" >/dev/null 2>&1 || true' EXIT
-            docker run -d --name "$task_build" --cpus=1.5 --memory=8g --pids-limit=1024 --entrypoint sleep "$task_original" infinity
+            docker update --cpus=1.5 --memory=10g "$task_build"
+            docker start "$task_build"
             docker cp "$task_root/patch-omniroute-polling.mjs" "$task_build:/tmp/patch-omniroute-polling.mjs"
             docker cp "$task_root/omniroute-visible-polling.mjs" "$task_build:/tmp/omniroute-visible-polling.mjs"
-            docker exec "$task_build" node /tmp/patch-omniroute-polling.mjs /app
+            docker exec "$task_build" cmp /tmp/omniroute-visible-polling.mjs /app/src/shared/utils/visiblePolling.js
             docker exec "$task_build" node -e 'const fs=require("fs");console.log(fs.readFileSync("/app/dev/run-standalone.mjs","utf8").slice(0,8000))'
-            docker exec "$task_build" sh -lc 'cp -a /app/node_modules /tmp/omniroute-runtime-modules && npm install --package-lock-only --ignore-scripts --no-audit --no-fund --legacy-peer-deps && npm ci --include=dev --include=optional --ignore-scripts --no-audit --no-fund --legacy-peer-deps && node -e "const fs=require(\"fs\");fs.cpSync(\"/tmp/omniroute-runtime-modules\",\"/app/node_modules\",{recursive:true,force:false,errorOnExist:false,filter:(s,d)=>!fs.existsSync(d)||fs.lstatSync(d).isDirectory()})"'
-            docker exec -e NEXT_TELEMETRY_DISABLED=1 -e NODE_OPTIONS=--max-old-space-size=4096 -e CIRCLE_NODE_TOTAL=2 -e OMNIROUTE_USE_TURBOPACK=0 "$task_build" npm run build
-            docker exec "$task_build" sh -lc 'test -f /app/.build/next/standalone/server.js && cp -a /app/.build/next/standalone/. /app/'
+            docker exec "$task_build" node -e 'const a=require("/tmp/omniroute-runtime-modules/next/package.json").version,b=require("/app/node_modules/next/package.json").version;if(a!==b)throw Error("Next version changed");console.log("Preserved Next version:",b)'
+            docker exec -e NEXT_TELEMETRY_DISABLED=1 -e NODE_OPTIONS=--max-old-space-size=6144 -e CIRCLE_NODE_TOTAL=2 -e OMNIROUTE_USE_TURBOPACK=0 "$task_build" npm run build
+            docker exec "$task_build" sh -lc 'test -f /app/.build/next/standalone/server.js && mv /app/node_modules /tmp/omniroute-build-modules && cp -a /app/.build/next/standalone/. /app/'
             docker commit --change 'ENTRYPOINT ["/app/check-permissions.sh"]' --change 'CMD ["node","dev/run-standalone.mjs"]' "$task_build" "$task_image"
             printf '%s\n' "$task_image" > "$task_root/patched-image.txt"
             printf '%s\n' "$task_sha" > "$task_root/patch-commit.txt"
