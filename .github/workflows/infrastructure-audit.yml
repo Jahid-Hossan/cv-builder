@@ -33,3 +33,26 @@ jobs:
             crontab -l 2>/dev/null | awk '/provider-metrics|usage\/call-logs|health\/ping|omni/ {print $1,$2,$3,$4,$5,"[matching command withheld]"}' || true
             echo 'Current resource snapshot, not historical metrics:'
             docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'
+
+            echo 'OmniRoute endpoint code locations and timer literals (no environment or data files):'
+            timeout 60s docker exec omniroute node -e '
+              const fs=require("fs"),path=require("path");let scanned=0,hits=0;
+              function walk(p){if(scanned>12000||hits>45)return;let entries;try{entries=fs.readdirSync(p,{withFileTypes:true})}catch{return}
+                for(const e of entries){if(scanned>12000||hits>45)return;const f=path.join(p,e.name);
+                  if(e.isDirectory()){if(!["node_modules","data",".git","cache"].includes(e.name))walk(f)}
+                  else if(/\.(js|jsx|ts|tsx)$/.test(e.name)){scanned++;let s;try{if(fs.statSync(f).size>8000000)continue;s=fs.readFileSync(f,"utf8")}catch{continue}
+                    const re=/(provider-metrics|usage\/call-logs|health\/ping)/g;let m;let count=0;
+                    while((m=re.exec(s))&&count++<3){hits++;const nearby=s.slice(Math.max(0,m.index-1500),m.index+1500);
+                      const timers=nearby.match(/(?:setInterval|refetchInterval|refreshInterval|pollInterval)[^;{}]{0,140}/g)||[];
+                      console.log(JSON.stringify({file:f,line:s.slice(0,m.index).split("\n").length,endpoint:m[0],timerLiterals:timers.map(x=>x.replace(/https?:[^\s"]+/g,"[URL withheld]"))}));}
+                  }
+                }
+              }walk("/app");console.log(JSON.stringify({scanned,hits}));
+            ' || true
+            echo 'Origin proxy counts for monitored endpoints (queries and client details withheld):'
+            timeout 30s docker exec nginx-proxy-manager-nginx-proxy-manager-1 sh -c 'for f in /data/logs/proxy-host-*_access.log; do [ -f "$f" ] || continue; counts=$(tail -n 3000 "$f" | grep -oE "/api/(provider-metrics|usage/call-logs|health/ping)" | sort | uniq -c); [ -z "$counts" ] || { echo "$f"; echo "$counts"; }; done' || true
+            echo 'Fresh public cache headers:'
+            for host in cvbuilder.appshub.app omni.appshub.app; do
+              echo "$host"
+              curl -sSI --max-time 20 "https://$host/" | grep -iE '^HTTP/|^cf-cache-status:|^age:'
+            done
