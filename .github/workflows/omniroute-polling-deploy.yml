@@ -1,0 +1,40 @@
+name: Deploy validated OmniRoute polling patch
+on:
+  workflow_run:
+    workflows: ["Build isolated OmniRoute polling patch"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: omniroute-polling-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Smoke-test, back up data, and replace with rollback protection
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          command_timeout: 12m
+          script: |
+            set -eu
+            task_root="$HOME/docker/omniroute-polling"
+            task_sha='${{ github.sha }}'
+            task_expected='${{ github.event.workflow_run.head_sha }}'
+            test "$(cat "$task_root/patch-commit.txt")" = "$task_expected"
+            task_source="$HOME/docker/cv-builder"
+            git -C "$task_source" fetch --no-write-fetch-head origin "$task_sha"
+            git -C "$task_source" show "$task_sha:scripts/deploy-omniroute-polling.mjs" > "$task_root/deploy-omniroute-polling.mjs"
+            task_original=$(cat "$task_root/original-image.txt")
+            docker run --rm --user root --entrypoint node \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -v "$task_root:/task" \
+              "$task_original" /task/deploy-omniroute-polling.mjs
+            echo 'Public OmniRoute status after replacement:'
+            curl --silent --show-error --max-time 20 -I https://omni.appshub.app/ | grep -iE '^HTTP/|^cf-cache-status:'
