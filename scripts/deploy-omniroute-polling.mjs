@@ -41,7 +41,7 @@ const networks = live.NetworkSettings.Networks;
 try {
   const smoke = await api('POST', `/containers/create?name=${candidate}`, {
     Image: image, Entrypoint: live.Config.Entrypoint, Cmd: live.Config.Cmd,
-    Env: patchImage.Config.Env, WorkingDir: live.Config.WorkingDir, User: live.Config.User,
+    Env: [...(patchImage.Config.Env || []).filter(e => !/^(PORT|HOSTNAME|DATA_DIR|NODE_ENV|OMNIROUTE_MEMORY_MB)=/.test(e)), ...(live.Config.Env || []).filter(e => /^(PORT|HOSTNAME|DATA_DIR|NODE_ENV|OMNIROUTE_MEMORY_MB)=/.test(e))], WorkingDir: live.Config.WorkingDir, User: live.Config.User,
     HostConfig: { Memory: 2147483648, NanoCpus: 500000000, RestartPolicy: { Name: 'no' } }
   });
   smokeId = smoke.Id;
@@ -49,7 +49,7 @@ try {
   await exec(smokeId, ['node', '-e', 'const fs=require("fs");for(const f of ["ProviderTestSlideOver.tsx","MaintenanceBanner.tsx","RequestLoggerV2.tsx"]){if(!fs.readFileSync("/app/src/shared/components/"+f,"utf8").includes("startVisiblePolling"))process.exit(1)}if(!fs.readFileSync("/app/src/app/(dashboard)/dashboard/HomePageClient.tsx","utf8").includes("interval: 60000"))process.exit(1)']);
   console.log('Candidate starts and health endpoint returns 200; source patch assertions succeed.');
   await api('POST', `/containers/${smokeId}/stop?t=15`);
-  await exec('omniroute', ['node', '-e', `const fs=require("fs"),DB=require("better-sqlite3");const dir=process.env.DATA_DIR||"/app/data";fs.mkdirSync(dir+"/backups",{recursive:true});const db=new DB(dir+"/storage.sqlite",{readonly:true});db.backup(dir+"/backups/polling-${short}.sqlite").then(()=>db.close()).catch(()=>process.exit(1));`]);
+  await exec('omniroute', ['node', '-e', `const fs=require("fs"),DB=require("better-sqlite3");const dir=process.env.DATA_DIR||"/app/data";fs.mkdirSync(dir+"/backups",{recursive:true});const db=new DB(process.env.SQLITE_FILE||dir+"/storage.sqlite",{readonly:true});db.backup(dir+"/backups/polling-${short}.sqlite").then(()=>db.close()).catch(()=>process.exit(1));`]);
   console.log('SQLite online backup created in the existing data volume.');
   await api('POST', '/containers/omniroute/stop?t=30'); stopped = true;
   await api('POST', `/containers/omniroute/rename?name=${backup}`); renamed = true;

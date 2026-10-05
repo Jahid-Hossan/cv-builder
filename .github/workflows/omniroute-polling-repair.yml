@@ -1,0 +1,44 @@
+name: Repair and deploy validated OmniRoute polling patch
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/omniroute-polling-repair.yml
+      - scripts/repair-omniroute-runtime.mjs
+      - scripts/deploy-omniroute-polling.mjs
+permissions:
+  contents: read
+concurrency:
+  group: omniroute-polling-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test polling scheduler
+        run: node --test scripts/omniroute-polling.test.mjs
+      - name: Preserve original native runtime and deploy with rollback protection
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          command_timeout: 15m
+          script: |
+            set -eu
+            task_root="$HOME/docker/omniroute-polling"
+            task_source="$HOME/docker/cv-builder"
+            task_sha='${{ github.sha }}'
+            git -C "$task_source" fetch --no-write-fetch-head origin "$task_sha"
+            for task_file in repair-omniroute-runtime.mjs deploy-omniroute-polling.mjs; do
+              git -C "$task_source" show "$task_sha:scripts/$task_file" > "$task_root/$task_file"
+            done
+            node "$task_root/repair-omniroute-runtime.mjs" "$task_root"
+            task_original=$(cat "$task_root/original-image.txt")
+            docker run --rm --user root --entrypoint node -v /var/run/docker.sock:/var/run/docker.sock -v "$task_root:/task" "$task_original" /task/deploy-omniroute-polling.mjs
+            curl -sS -o /dev/null -w 'Omni HTTP %{http_code}\n' --max-time 20 https://omni.appshub.app/
+            curl -sS -o /dev/null -w 'CV HTTP %{http_code}\n' --max-time 20 https://cvbuilder.appshub.app/
