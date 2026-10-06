@@ -21,19 +21,36 @@ function api(method, route, body) {
 }
 async function exec(container, cmd) {
   const e = await api('POST', `/containers/${container}/exec`, { Cmd: cmd, AttachStdout: false, AttachStderr: false });
-  await api('POST', `/exec/${e.Id}/start`, { Detach: false, Tty: false });
-  const status = await api('GET', `/exec/${e.Id}/json`);
-  if (status.ExitCode !== 0) throw new Error(`Container check failed (${status.ExitCode})`);
+  await api('POST', `/exec/${e.Id}/start`, { Detach: true, Tty: false });
+  const deadline = Date.now() + 120000;
+  while (Date.now() < deadline) {
+    const status = await api('GET', `/exec/${e.Id}/json`);
+    if (!status.Running && status.ExitCode !== null) {
+      if (status.ExitCode === 0) return;
+      const error = new Error(`Container check failed (${status.ExitCode})`);
+      error.exitCode = status.ExitCode;
+      throw error;
+    }
+    await sleep(100);
+  }
+  throw new Error('Docker command did not finish within 120 seconds');
 }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function healthy(container) {
-  for (let attempt = 0; attempt < 30; attempt++) {
-    try { await exec(container, ['node', '-e', 'fetch("http://127.0.0.1:20128/api/health/ping").then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))']); return; } catch { await sleep(3000); }
+  const deadline = Date.now() + 90000;
+  let last;
+  while (Date.now() < deadline) {
+    try { await exec(container, ['node', '-e', 'fetch("http://127.0.0.1:20128/api/health/ping",{signal:AbortSignal.timeout(2500)}).then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))']); return; } catch (error) { last = error; await sleep(3000); }
   }
-  throw new Error('Health check did not succeed within 90 seconds');
+  throw new Error(`Health check did not succeed: ${last?.message}`);
 }
 const live = await api('GET', '/containers/omniroute/json');
 if (live.Image !== original.Image) throw new Error('Live image changed since build; refusing to replace it');
+await exec('omniroute', ['node', '-e', 'setTimeout(()=>process.exit(0),250)']);
+let negativeCheckRejected = false;
+try { await exec('omniroute', ['node', '-e', 'setTimeout(()=>process.exit(7),250)']); } catch (error) { if (error.exitCode !== 7) throw error; negativeCheckRejected = true; }
+if (!negativeCheckRejected) throw new Error('Docker command exit-code verification failed');
+console.log('Docker command completion checks: delayed success accepted; delayed exit 7 rejected.');
 const patchImage = await api('GET', `/images/${encodeURIComponent(image)}/json`);
 let smokeId, replacementId, renamed = false, stopped = false;
 const disconnected = [];
@@ -75,5 +92,5 @@ try {
   if (stopped) { await api('POST', `/containers/${live.Id}/start`); await healthy(live.Id); console.log('Original OmniRoute restored and health check succeeded.'); }
   throw error;
 } finally {
-  if (smokeId) { await api('POST', `/containers/${smokeId}/stop?t=10`).catch(()=>{}); await api('DELETE', `/containers/${smokeId}`).catch(()=>{}); }
+  if (smokeId) { await api('POST', `/containers/${smokeId}/stop?t=10`).catch(()=>{}); await api('DELETE', `/containers/${smokeId}?v=true`).catch(()=>{}); }
 }
