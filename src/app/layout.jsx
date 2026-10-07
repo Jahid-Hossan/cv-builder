@@ -5,6 +5,8 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import { siteConfig, pageMetadata, validAdsenseId } from "../config/site";
 import SiteFooter from "../components/SiteFooter";
 import OptionalAdvertising from "../components/OptionalAdvertising";
+import OptionalAnalytics from "../components/OptionalAnalytics";
+import { articles } from "../data/articles";
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
   ...pageMetadata(
@@ -49,6 +51,7 @@ export default function RootLayout({ children }) {
         </ErrorBoundary>
         <SiteFooter />
         <OptionalAdvertising />
+        <OptionalAnalytics articlePaths={articles.map(article => `/blog/${article.slug}`)} />
       </body>
     </html>
   );

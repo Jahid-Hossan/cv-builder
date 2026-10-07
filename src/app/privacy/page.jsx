@@ -10,7 +10,7 @@ export default function Privacy() {
     <main className="content-page">
       <h1>Privacy Policy</h1>
       <p>
-        Policy updated: <time dateTime="2026-10-04">4 October 2026</time>
+        Policy updated: <time dateTime="2026-10-07">7 October 2026</time>
       </p>
       <h2>Resume information</h2>
       <p>
@@ -53,9 +53,30 @@ export default function Privacy() {
         decision. Google may receive network information, and the CMP stores
         your choices. With advertising permitted, Google may use cookies and
         device identifiers. We do not pass resume fields or the local draft to
-        these APIs. There is no analytics runtime. Read{' '}
+        these APIs. Read{' '}
         <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
           Google's advertising privacy information
+        </a>.
+      </p>
+      <h2>Optional Google Analytics 4</h2>
+      <p>
+        Google Analytics 4 loads only after this site's Google consent platform
+        explicitly grants analytics consent. Denied, unknown or unconfigured
+        choices keep analytics disabled. We measure visits to public information
+        pages, without sending resume fields, local drafts, form values, URL
+        search parameters or referrers. Builder and Templates are excluded.
+        Google signals and advertising personalization are disabled.
+      </p>
+      <p>
+        Analytics may use cookies and pseudonymous device identifiers; this is
+        not a promise that third-party processing is completely anonymous.
+        Google receives normal network information when a permitted request is
+        made. Open “Privacy and cookie settings” to pause analytics immediately
+        and change your choice. A changed decision reloads the page to unload
+        existing scripts. Requests already sent cannot be recalled. You can
+        use the builder without analytics consent. Read{' '}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+          Google's privacy policy
         </a>.
       </p>
       <h2>Hosting and external links</h2>
