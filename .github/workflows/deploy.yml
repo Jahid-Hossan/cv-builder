@@ -130,7 +130,7 @@ jobs:
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<meta property="og:site_name" content="Resume Builder by Appshub"/>'
             sed 's/></>\n</g' "$missing_html" | grep -Fx '<p>This address does not match a page on Resume Builder.</p>'
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<title>Free Resume Builder — No Sign-Up, Instant PDF</title>'
-            sed 's/></>\n</g' "$seo_html" | grep -Fx '<meta name="description" content="Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required."/>'
+            sed 's/></>\n</g' "$seo_html" | grep -Fx '<meta name="description" content="Build a professional resume in your browser. 15 free templates, live preview, custom fonts, instant PDF download. No account needed."/>'
             sed 's/></>\n</g' "$seo_html" | grep -Fx '<link rel="canonical" href="https://cvbuilder.appshub.app"/>'
             echo 'Homepage HTML bytes:'
             wc -c < "$seo_html"
