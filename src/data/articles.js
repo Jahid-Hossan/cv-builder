@@ -122,7 +122,7 @@ export const articles = [
   },
   {
     "slug": "resume-format-guide",
-    "title": "2026 Resume Format Guide: Choose a Layout for Your Evidence",
+    "title": "Resume Format Guide 2026: Chronological vs Functional (With Examples)",
     "description": "Choose between chronological, combination and skills-focused resumes, then check readability and the required file format.",
     "publishedAt": "2026-10-03",
     "intro": "A resume format is a way to organize evidence, not a shortcut to an interview. In 2026, the sensible starting point is still the employer’s instructions, the relevance of your experience and a document a person can read easily. This guide explains practical layout choices without claiming there is a single format accepted by every employer or applicant tracking system.",
@@ -899,7 +899,7 @@ export const articles = [
   },
   {
     "slug": "resume-vs-cv-difference",
-    "title": "Resume vs CV: What's the Difference?",
+    "title": "Resume vs CV: Key Differences (With Examples for 2026)",
     "description": "Clarify the differences between a concise employment resume and an extensive academic or medical CV.",
     "publishedAt": "2026-10-03",
     "intro": "The terms 'resume' and 'CV' (Curriculum Vitae) are frequently used interchangeably in job postings and everyday career conversations. However, depending on geographic location, professional discipline, and the specific requirements of the employer, a resume and a CV represent two fundamentally different documents. Submitting a concise one-page commercial resume when a university selection committee expects an exhaustive ten-page academic curriculum vitae can eliminate your application immediately. Understanding these distinctions ensures you prepare the exact document expected by your target evaluators.",
@@ -1866,6 +1866,262 @@ export const articles = [
     "relatedPosts": [
       "resume-format-guide",
       "common-resume-mistakes",
+      "resume-checklist"
+    ]
+  },
+  {
+    "slug": "resume-keywords-guide",
+    "title": "How to Use Keywords in Your Resume (ATS-Friendly Guide)",
+    "description": "Learn how to match keywords from job descriptions to get past ATS systems and land more interviews.",
+    "publishedAt": "2026-10-07",
+    "intro": "Resume keywords are the words an employer uses to describe the work, tools, and qualifications a role needs. Matching that language can make relevant experience easier to find, both for a recruiter reading your application and for software searching its contents. The aim is to explain a real fit clearly. There is no universal keyword score that guarantees an interview, and a copied job description cannot replace evidence of your skills.",
+    "sections": [
+      {
+        "heading": "Extract useful terms from the job posting",
+        "paragraphs": [
+          "Save the posting before you begin editing. Read the responsibilities first, then the required qualifications, preferred qualifications, and application instructions. In a working note, separate concrete terms into groups: job functions, software or equipment, methods, credentials, and industry knowledge. Treat broad adjectives such as motivated or dynamic as lower priorities unless the employer connects them to a specific responsibility you can demonstrate.",
+          "For a hypothetical operations coordinator role, your note might include inventory reconciliation, purchase orders, Excel, supplier communication, and weekly reporting. These terms describe different things: an activity, a document, a tool, a working relationship, and a recurring output. Keeping those distinctions helps you write useful sentences rather than copying a disconnected list. Repeated responsibilities deserve attention, but repetition alone does not establish a mandatory qualification."
+        ],
+        "subsections": [
+          {
+            "heading": "Separate requirements from preferences",
+            "paragraphs": [
+              "Mark an explicitly required license or certification separately from a preferred software package. Check whether you actually satisfy the requirement before deciding how to phrase it. If a posting requests advanced spreadsheet skills and you have only used basic formulas, describe your current ability honestly. A missing qualification is information for your application decision, not an invitation to add an unsupported claim."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Connect each keyword to evidence",
+        "paragraphs": [
+          "Beside each relevant term, write down where you used it and what you did. Evidence can come from employment, a class project, volunteering, an apprenticeship, or a personal project. Label the setting accurately. An example mapping could read: inventory reconciliation; part-time store role; compared shelf counts with the stock register and flagged discrepancies. This gives you material for an experience bullet rather than merely a keyword.",
+          "Leave a term out when you cannot explain it confidently. If your experience is adjacent, use precise language about the part you performed. Preparing purchase-order information is different from approving purchases. Reviewing a dashboard is different from building it. Preserve those boundaries even when the advertised phrase is attractive. During an interview, you should be able to discuss the tools, decisions, and limitations behind every term."
+        ],
+        "subsections": [
+          {
+            "heading": "Keep official job titles accurate",
+            "paragraphs": [
+              "Do not replace your previous title with the title of the job you want. When an internal title is unclear, add a truthful functional explanation, such as Administrative Assistant (scheduling and records support). A professional summary can state the kind of role you are seeking without suggesting you have already held it. Dates, employers, and responsibilities should remain consistent across your application."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Place keywords where they explain your work",
+        "paragraphs": [
+          "Use a summary for a small number of qualifications central to the role. An illustrative sentence is: Operations assistant with experience in inventory reconciliation, supplier follow-up, and weekly Excel reporting. Use that wording only if it describes you. The summary should give a reader an orientation, while the experience section supplies supporting detail. Avoid turning the opening into a catalogue of every phrase from the advertisement.",
+          "The skills section can name tools and methods concisely. Experience bullets should show their application. Compare Used Excel with Updated an Excel inventory register, investigated count discrepancies, and prepared a weekly exception report. The second sentence explains the work without inventing a performance percentage. Education, certifications, and projects are appropriate homes for qualifications earned through study rather than paid employment."
+        ],
+        "subsections": [
+          {
+            "heading": "Use full terms and abbreviations naturally",
+            "paragraphs": [
+              "When a relevant term commonly has an abbreviation, consider including both once: customer relationship management (CRM), for example. Follow the employer's spelling when it accurately describes your experience. Do not multiply variations throughout every section. A tool's product name should be recognizable, and an unfamiliar acronym should have enough context that a person outside your previous workplace can understand it."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Replace keyword density targets with a relevance check",
+        "paragraphs": [
+          "There is no single keyword density percentage you can apply reliably to every hiring system. Employers use different software, configurations, and review processes. Count meaningful coverage instead: have you clearly named the relevant qualifications you possess, and does the resume explain where you used them? A term can appear in a skills list and a supporting bullet when both uses add information. Repeating it mechanically adds little.",
+          "Read the draft aloud. If a sentence sounds like a search query, rewrite it for a person. Inventory, inventory control, inventory management, inventory tracking does not explain an accomplishment. Maintained stock records and reconciled inventory counts explains an activity. If another bullet genuinely concerns inventory planning, the term may naturally appear again. Let the substance determine repetition, and remove phrases that crowd out stronger evidence."
+        ]
+      },
+      {
+        "heading": "Avoid shortcuts that weaken the application",
+        "paragraphs": [
+          "Do not hide keywords in white text, paste the complete posting, or claim certifications you do not hold. These choices make the document harder to defend and can create contradictions when a recruiter asks questions. Similarly, do not insert unrelated tools because a keyword checker recommends them. An external score is a drafting prompt at most; it cannot prove how the employer will assess your application.",
+          "Keyword wording also cannot fix unreadable file contents. Follow the employer's accepted file types and review any fields populated after upload. CV Builder currently exports an image-based PDF, so text extraction may be limited; it does not guarantee ATS parsing. If the application requires machine-readable text, use a suitable text-based document or the portal's text fields. Keep your qualifications consistent between those fields and the visual resume."
+        ]
+      },
+      {
+        "heading": "Review one application before sending it",
+        "paragraphs": [
+          "Return to your evidence note and check each required term against the draft. Confirm that your most relevant experience is easy to find, that abbreviations are clear, and that every claim is supportable. Review spelling, dates, and the employer's upload instructions. Keep a copy of the version you send so that interview preparation uses the same wording. Tailoring a second application should start from your accurate master record.",
+          "For the next step, use the related guides on tailoring a resume to a job description, listing skills, and writing achievement-based bullets. They help turn your keyword note into an organized document. Open the resume builder below to assemble your draft, then compare the templates for a layout that keeps the evidence readable. Before submitting, choose the file format the employer requests and check the uploaded result."
+        ]
+      }
+    ],
+    "relatedPosts": [
+      "tailor-resume-job-description",
+      "how-to-list-skills-on-resume",
+      "achievement-based-resume-bullets"
+    ]
+  },
+  {
+    "slug": "education-on-resume",
+    "title": "How to Write Education on a Resume (With Examples)",
+    "description": "Where to put education on a resume, what to include for students vs experienced professionals, and formatting best practices.",
+    "publishedAt": "2026-10-07",
+    "intro": "An education section tells an employer what you studied, which qualification you earned, and whether that learning is relevant to the job. It does not need to become a transcript of everything you have completed. The strongest version gives the reader the essential facts quickly, then adds selected detail when it helps explain your readiness. Placement and length depend on the evidence available elsewhere in your resume, rather than a rule that every applicant must follow.",
+    "sections": [
+      {
+        "heading": "Choose placement based on your strongest evidence",
+        "paragraphs": [
+          "If you are a student or recent graduate with little relevant employment, education may belong near the top, after your contact details and a brief introduction. A directly related degree, project, or placement can explain your preparation better than unrelated part-time work. You can still include that work later to demonstrate reliability, customer service, or other transferable skills. Put the information that supports this application first.",
+          "With substantial relevant experience, education usually fits after the experience section. A hiring manager can first see the work you have done, then confirm the underlying qualification. A career changer may choose a different order if a new qualification is central to the move. For example, an experienced administrator applying for junior accounting work might highlight recent accounting study before describing earlier office responsibilities."
+        ],
+        "subsections": [
+          {
+            "heading": "Keep required credentials easy to find",
+            "paragraphs": [
+              "If the posting explicitly requires a qualification, make its name clear even when education sits lower on the page. Do not bury it inside a long paragraph. You can mention a relevant earned credential in your summary and give the full education entry below. Keep professional licenses distinct from academic degrees, especially when the employer needs to verify an active license or registration."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Include the core facts in a consistent order",
+        "paragraphs": [
+          "For each entry, include the qualification, subject, institution, and completion date when appropriate for the application. Add the institution's location if it helps identify it. List qualifications in reverse chronological order unless a specific application requests another format. Use consistent punctuation and date styling. A short entry can be sufficient; there is no requirement to attach several bullets to every degree or diploma.",
+          "A fictional graduate entry might read: Bachelor of Science in Information Systems; Example University, Riyadh; June 2026. An experienced applicant could use: Diploma in Business Administration; Example College; 2018. These examples show structure rather than credentials you should copy. Use the qualification's official name, and avoid translating it into a different degree level unless an authorized evaluation supports that equivalence."
+        ],
+        "subsections": [
+          {
+            "heading": "Show incomplete and ongoing study honestly",
+            "paragraphs": [
+              "For ongoing study, write Expected June 2027 if that is your genuine expected completion date. For a paused program, wording such as Coursework toward a Bachelor of Arts in Economics, 2023–2024 makes the status clear. Do not list an unfinished degree as awarded. You may omit incomplete study when it adds little, but answer education questions on application forms accurately and consistently."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Decide whether GPA or grades add useful evidence",
+        "paragraphs": [
+          "Include GPA when the employer requests it, or when a recent academic result meaningfully strengthens your application. There is no universal cutoff that applies to every country, grading system, or employer. If you include a result, show the scale where necessary, such as GPA: 3.6/4.0. Check the official record rather than rounding casually or converting a grade into a scale you cannot substantiate.",
+          "For an experienced professional, current work evidence may make GPA unnecessary. Omitting an optional grade is different from giving an inaccurate one when asked. If you include a major GPA, label it as Major GPA rather than allowing it to appear to be your overall result. Academic honors can be more concise than a long list of grades, provided the name and award are accurate."
+        ],
+        "subsections": [
+          {
+            "heading": "Use the institution's terminology",
+            "paragraphs": [
+              "A percentage, classification, or honors designation may communicate your result more accurately than a GPA. Keep the official terminology and explain it briefly only when the reader needs context. If the application provides a dedicated grade field, follow its instructions. Where an equivalence is required, use the requested evaluation process rather than inventing a conversion to make the result look familiar."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Select coursework and projects for the target role",
+        "paragraphs": [
+          "Relevant coursework is most helpful when employment does not yet demonstrate the skills the job needs. Choose a few courses directly connected to the responsibilities. For a junior analyst application, database design and business statistics may be more useful than an exhaustive first-year course list. Course titles alone should not imply professional expertise. If you applied the learning in a project, explain that activity separately.",
+          "A fictional project description could read: Course project: designed a small inventory database, wrote SQL queries for stock reports, and documented the table relationships. This tells the reader what the student produced. Label group projects and identify your contribution. If the project needs several explanatory bullets, a separate Projects section may be clearer than expanding the education entry until it dominates the page."
+        ],
+        "subsections": [
+          {
+            "heading": "Distinguish study from practical work",
+            "paragraphs": [
+              "Completed coursework in financial reporting is a different claim from Prepared financial statements for clients. Both can be useful, but they describe different evidence. Similarly, a classroom simulation is not an internship. Name an actual placement as experience when appropriate, with its organization, dates, and duties. Clear labels help a recruiter understand how much support or supervision the activity involved."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Give certifications and training their proper status",
+        "paragraphs": [
+          "A degree, professional certification, license, and course-completion certificate are different credentials. Use the issuing organization's wording and include the issuer. For a certification in progress, say In progress or Exam scheduled only when accurate. An expired credential should not appear active. Where renewal status matters, include a relevant validity date or explain the status in the employer's requested field.",
+          "Short courses can support a career change, but they should not crowd out more substantial evidence. Select those that relate directly to the role and remove generic training that adds little. If you have several relevant certifications, a separate Certifications section may make them easier to scan. Keep identification numbers out unless the application specifically needs them, and avoid publishing unnecessary personal information in a resume."
+        ]
+      },
+      {
+        "heading": "Format the section and check the final document",
+        "paragraphs": [
+          "Use the plain heading Education and keep each entry visually consistent. Avoid turning the section into a dense table of grades, dates, and abbreviations. Compare the available templates for a layout that gives your qualification enough space without pushing stronger experience off the page. Check that long institution names and ongoing-study dates remain readable in the preview and in the exported document.",
+          "Remember that CV Builder's current download is an image-based PDF. A clear visual education section does not guarantee that an application system will extract it. Follow the employer's requested format and inspect any education fields populated after upload. Open the builder below to organize your own entries, and use the related student, no-experience, and format guides to decide how much academic detail this application needs."
+        ]
+      }
+    ],
+    "relatedPosts": [
+      "student-resume-guide",
+      "resume-with-no-experience",
+      "resume-format-guide"
+    ]
+  },
+  {
+    "slug": "cover-letter-vs-resume",
+    "title": "Cover Letter vs Resume: What to Send and When",
+    "description": "When to send a cover letter, when to skip it, and how to write one that complements your resume without repeating it.",
+    "publishedAt": "2026-10-07",
+    "intro": "A resume and a cover letter can support the same application while doing different jobs. The resume gives an organized record of relevant experience, education, and skills. The cover letter explains why selected parts of that record matter for this opportunity. You do not need to send both in every situation. Start with the employer's instructions, then decide whether a letter has a clear purpose and an appropriate place in the application.",
+    "sections": [
+      {
+        "heading": "Understand what each document should contribute",
+        "paragraphs": [
+          "A resume is designed for scanning. Headings, dates, and concise descriptions help a reader locate qualifications quickly. It should stand on its own even if the cover letter is never opened. An employer should be able to see where you worked, what you did, and which skills you can support without searching a second document. Keep required qualifications visible in the resume rather than saving them for the letter.",
+          "A cover letter is a focused explanation written for a particular role. It can connect your experience to the employer's stated needs, explain the direction of a career change, or provide relevant context that would interrupt a resume's structure. It should add reasoning and selected detail. Rewriting every resume bullet as a paragraph produces a longer document without giving the reader a useful new perspective."
+        ],
+        "subsections": [
+          {
+            "heading": "Use the same facts with a different purpose",
+            "paragraphs": [
+              "Imagine a fictional applicant whose resume says Maintained a shared scheduling register and followed up on missing appointment information. The letter might explain that this work developed a careful handover routine relevant to the advertised coordination role. It connects evidence to a requirement without inventing an outcome. Employer names, job titles, dates, and qualifications should agree across both documents."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Follow the application instructions before deciding",
+        "paragraphs": [
+          "Send a cover letter when the posting requires one, using the requested file type, length, and submission channel. If the instructions say not to include one, respect that direction. Some employers request answers to specific questions instead of a conventional letter. Complete those answers directly rather than attaching a generic letter that avoids the prompt. Check the instructions again immediately before submitting.",
+          "When a letter is optional, ask what it will add. A concrete explanation of a career move, a relevant project, or your interest in the actual work may justify writing one. If you cannot add anything beyond a generic statement of enthusiasm, improve the resume first. There is no reliable universal rule that every optional letter helps, or that every employer ignores them."
+        ],
+        "subsections": [
+          {
+            "heading": "Choose the appropriate channel",
+            "paragraphs": [
+              "Use a designated cover-letter upload or text field when available. For an email application, a concise message may serve the introductory purpose if the employer has not asked for a separate document. Do not combine files, upload a letter into a resume-only slot, or send extra messages through unrelated channels to force it into the process. Keep filenames clear and verify the attachments."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Build a letter around one or two relevant examples",
+        "paragraphs": [
+          "A practical structure is an opening that names the role and your main fit, a middle that explains selected evidence, and a closing that invites discussion. Use the recipient's name when you have verified it; Hiring Team is preferable to guessing. Keep the letter concise enough that its argument is easy to follow. Avoid opening with a long personal history unrelated to the responsibilities.",
+          "A fictional opening could read: I am applying for the Operations Coordinator role. My experience maintaining stock records and following up with suppliers aligns with your need for accurate inventory reporting. The next paragraph should explain an actual example of that work. Do not copy these claims unless they are yours. Replace broad phrases such as perfect candidate with evidence the reader can assess."
+        ],
+        "subsections": [
+          {
+            "heading": "Explain the example's relevance",
+            "paragraphs": [
+              "Describe the situation, your action, and the practical reason it matters for this role. For example, keeping an exception log might demonstrate careful follow-through when the posting emphasizes missing-order resolution. A result can be qualitative when you have no verified metric. Do not claim that your action caused a company's overall growth simply because both happened during the same period."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Add context without oversharing",
+        "paragraphs": [
+          "A career-change letter can show the connection between earlier work and the new direction. An administrative professional moving into customer support could explain experience resolving appointment questions, documenting recurring issues, and communicating next steps. Identify the relevant learning or preparation without suggesting you have already held the target role. The resume then supplies dates, employers, projects, and qualifications that support the explanation.",
+          "If you choose to explain a gap, keep it brief and focus on readiness for the role. You do not need to disclose private medical or family details to make a letter complete. A sentence about completing relevant training before returning to work may be enough when accurate. Answer any required application questions honestly, but do not turn an optional letter into a defence of every career decision."
+        ],
+        "subsections": [
+          {
+            "heading": "Research the opportunity carefully",
+            "paragraphs": [
+              "Refer to a responsibility or project mentioned in the posting rather than praising an organization in vague terms. Check any company-specific fact against a reliable source before using it. Do not invent a connection to its mission or claim to know its internal problems. If a referral is relevant, name the person only when you have their permission and describe the relationship accurately."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Avoid mistakes that make the documents disagree",
+        "paragraphs": [
+          "Common problems include addressing the wrong employer, naming an old vacancy, repeating the entire resume, and introducing qualifications absent from the supporting record. Review every reused letter for leftover names and details. Replace unsupported claims with specific examples. A confident tone does not require exaggeration, and a professional closing does not need to promise an outcome you cannot control.",
+          "Check the technical details as well as the wording. Follow the requested formats and inspect the files you intend to send. CV Builder's current resume export is an image-based PDF; a cover letter cannot make that file machine-readable or guarantee ATS extraction. If an application requires selectable text or a different format, prepare suitable documents and inspect the portal's populated fields before submitting."
+        ]
+      },
+      {
+        "heading": "Prepare a consistent application package",
+        "paragraphs": [
+          "Compare both documents side by side. The resume should establish your relevant record, and the letter should explain a small selection of it in relation to the opportunity. Check that contact information, qualifications, dates, and terminology agree. Confirm that the letter answers any requested question and that the closing is polite and direct. Save the submitted versions with the posting so you can prepare for a later conversation.",
+          "Start with the resume builder below to organize the evidence the letter will reference. Compare templates for a readable layout, then use the related guides on tailoring your resume, writing a summary, and checking an application before sending it. Once the resume is accurate, decide whether a cover letter adds a useful explanation and fits the employer's instructions. Review the complete package before you upload or email it."
+        ]
+      }
+    ],
+    "relatedPosts": [
+      "tailor-resume-job-description",
+      "how-to-write-resume-summary",
       "resume-checklist"
     ]
   }

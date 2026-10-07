@@ -1,6 +1,11 @@
 import Link from "../components/SiteLink";
 import StructuredData from "../components/StructuredData";
-import { siteConfig } from "../config/site";
+import { siteConfig, pageMetadata } from "../config/site";
+export const metadata = pageMetadata(
+  "Free Resume Builder — No Sign-Up, Instant PDF",
+  "Build a professional resume in your browser. 15 free templates, live preview, custom fonts, instant PDF download. No account needed.",
+  "/",
+);
 export default function Home() {
   return (
     <main className="home">
