@@ -1,4 +1,4 @@
-name: Inspect old LCP staging container
+name: Approved LCP staging cleanup
 on:
   push:
     branches: [ops/cleanup-lcp-20261007]
@@ -6,40 +6,122 @@ on:
 permissions:
   contents: read
 jobs:
-  inspect:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Read-only container and proxy dependency inspection
+      - name: Scope-limited cleanup with rollback gates
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          command_timeout: 2m
+          command_timeout: 5m
           script: |
-            set -eu
-            echo 'Running containers BEFORE:'
-            docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
-            echo 'Matching names, including the known LCP diagnostic:'
-            docker ps -a --format '{{.Names}}' | grep -Ei 'staging|diagnostic|perf-|cv-builder-lcp-20261006' || true
-            target=cv-builder-lcp-20261006
-            if docker inspect "$target" >/dev/null 2>&1; then
-              echo 'Diagnostic container identity, status and mounts (no environment):'
-              docker inspect "$target" --format 'Name={{.Name}} ID={{.Id}} Image={{.Config.Image}} Status={{.State.Status}} Started={{.State.StartedAt}} Ports={{json .HostConfig.PortBindings}} Mounts={{json .Mounts}}'
-              echo 'Diagnostic Nginx hostnames and upstreams:'
-              docker exec "$target" sh -c 'grep -E "server_name|listen|root|proxy_pass" /etc/nginx/conf.d/default.conf' || true
-              echo 'Recent access-line count, bounded to 100 log lines:'
-              docker logs --since 24h --tail 100 "$target" 2>&1 | awk '/"GET |"HEAD |"POST / {n++} END {print n+0}'
-            fi
+            bash -s <<'CLEANUP_SCRIPT'
+            set -Eeuo pipefail
             proxy=nginx-proxy-manager-nginx-proxy-manager-1
-            echo 'Proxy configuration files referencing the diagnostic container:'
-            docker exec "$proxy" sh -c 'grep -R -l -F "cv-builder-lcp-20261006" /data/nginx /etc/nginx/conf.d 2>/dev/null || true'
-            echo 'Loaded configuration lines referencing the old diagnostic:'
-            docker exec "$proxy" nginx -T 2>&1 | grep -E 'lcp-diagnostic-20261006.conf|cv-builder-lcp-(20261006|control|ads-off|cmp-off|adsense-off)' || true
-            echo 'Latest diagnostic access timestamp (no IP or URL):'
-            docker logs --since 24h --tail 100 "$target" 2>&1 | awk '/"GET |"HEAD |"POST / {latest=$4 " " $5} END {print latest}'
-            echo 'Read-only current Nginx configuration validity:'
-            docker exec "$proxy" nginx -t 2>&1
-            echo 'Running containers AFTER read-only inspection:'
+            target=cv-builder-lcp-20261006
+            conf=/data/nginx/proxy_host/lcp-diagnostic-20261006.conf
+            step=before
+            disabled=0
+            stopped=0
+            removed=0
+            rollback() {
+              local code=$?
+              trap - ERR
+              set +e
+              echo "STOP: failure during $step (exit $code)."
+              if [ "$stopped" = 1 ]; then
+                if [ "$removed" = 1 ]; then
+                  echo 'Rollback: restore only the diagnostic container so the original proxy has its upstream.'
+                  docker run -d --name "$target" --network proxy --restart unless-stopped --memory 64m --cpus 0.5 \
+                    -v "$stage_html:/usr/share/nginx/html:ro" -v "$stage_conf:/etc/nginx/conf.d/default.conf:ro" "$stage_image"
+                  if [ "$?" != 0 ]; then echo 'ROLLBACK FAILED: diagnostic container could not be restored; original proxy config not re-enabled.'; exit "$code"; fi
+                else
+                  docker start "$target"
+                  if [ "$?" != 0 ]; then echo 'ROLLBACK FAILED: diagnostic container could not be restarted; original proxy config not re-enabled.'; exit "$code"; fi
+                fi
+              fi
+              if [ "$disabled" = 1 ]; then
+                echo 'Rollback: restore the diagnostic config from its backup and reload Nginx.'
+                docker exec "$proxy" cp "$conf.backup" "$conf"
+                if [ "$?" != 0 ]; then echo 'ROLLBACK FAILED: config restore failed.'; exit "$code"; fi
+                docker exec "$proxy" nginx -t
+                if [ "$?" != 0 ]; then echo 'ROLLBACK FAILED: restored config validation failed; reload withheld.'; exit "$code"; fi
+                docker exec "$proxy" nginx -s reload
+                if [ "$?" != 0 ]; then echo 'ROLLBACK FAILED: reload failed.'; exit "$code"; fi
+                echo 'Rollback completed; backup and disabled config retained.'
+              fi
+              exit "$code"
+            }
+            trap rollback ERR
+            echo 'BEFORE: running containers'
             docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
+            echo 'BEFORE: diagnostic config contents'
+            docker exec "$proxy" cat "$conf"
+            test "$(docker inspect "$proxy" --format '{{.State.Running}}')" = true
+            test "$(docker inspect "$target" --format '{{.State.Running}}')" = true
+            test "$(docker inspect "$target" --format '{{.Config.Image}}')" = nginx:alpine
+            stage_image=$(docker inspect "$target" --format '{{.Image}}')
+            stage_html=$(docker inspect "$target" --format '{{range .Mounts}}{{if eq .Destination "/usr/share/nginx/html"}}{{.Source}}{{end}}{{end}}')
+            stage_conf=$(docker inspect "$target" --format '{{range .Mounts}}{{if eq .Destination "/etc/nginx/conf.d/default.conf"}}{{.Source}}{{end}}{{end}}')
+            test -n "$stage_html"
+            test -n "$stage_conf"
+            before_protected=$(docker ps --format '{{.ID}} {{.Names}}' | awk '$2 != "cv-builder-lcp-20261006"' | sort)
+            echo 'Known baseline: Langflow container presence'
+            docker ps -a --format '{{.Names}} {{.Status}}' | awk 'tolower($0) ~ /langflow/ {found=1; print} END {if(!found) print "No Langflow container exists on this VPS; it was also absent in the prior audit."}'
+            step=step1
+            docker exec "$proxy" test ! -e "$conf.backup"
+            docker exec "$proxy" test ! -e "$conf.disabled"
+            docker exec "$proxy" cp "$conf" "$conf.backup"
+            docker exec "$proxy" cmp "$conf" "$conf.backup"
+            docker exec "$proxy" sh -c 'ls -la /data/nginx/proxy_host/lcp-diagnostic-20261006.conf*'
+            echo 'STEP 1 PASS: backup verified byte for byte.'
+            step=step2
+            docker exec "$proxy" mv "$conf" "$conf.disabled"
+            disabled=1
+            docker exec "$proxy" test ! -e "$conf"
+            docker exec "$proxy" test -f "$conf.disabled"
+            echo 'STEP 2 PASS: only diagnostic config renamed.'
+            step=step3
+            docker exec "$proxy" nginx -t
+            echo 'STEP 3 PASS.'
+            step=step4
+            docker exec "$proxy" nginx -s reload
+            echo 'STEP 4 PASS: reload command exited successfully.'
+            step=step5
+            check_endpoint() {
+              local url=$1 allowed=$2 headers first code
+              if ! headers=$(curl --fail --silent --show-error --connect-timeout 10 --max-time 30 -I "$url"); then
+                echo "Endpoint request failed: $url"
+                return 1
+              fi
+              first=$(printf '%s\n' "$headers" | head -1 | tr -d '\r')
+              code=$(printf '%s\n' "$first" | awk '{print $2}')
+              echo "$url $first"
+              case ",$allowed," in *",$code,"*) ;; *) echo "Unexpected endpoint status: $code"; return 1;; esac
+            }
+            check_endpoint https://cvbuilder.appshub.app/ 200
+            check_endpoint https://omni.appshub.app/ 200,307
+            check_endpoint https://appshub.app/ 200
+            echo 'STEP 5 PASS: all three production endpoints passed.'
+            step=step6
+            docker stop "$target"
+            stopped=1
+            docker rm "$target"
+            removed=1
+            echo 'STEP 6 PASS: diagnostic container stopped and removed.'
+            step=step7
+            docker ps --format 'table {{.Names}}\t{{.Status}}'
+            if docker inspect "$target" >/dev/null 2>&1; then echo 'Unexpected: diagnostic container still exists.'; false; fi
+            after_protected=$(docker ps --format '{{.ID}} {{.Names}}' | sort)
+            test "$before_protected" = "$after_protected"
+            echo 'Protected running container IDs and names unchanged.'
+            check_endpoint https://cvbuilder.appshub.app/ 200
+            docker exec "$proxy" test -f "$conf.backup"
+            docker exec "$proxy" test -f "$conf.disabled"
+            echo 'STEP 7 PASS: diagnostic gone, protected containers unchanged, homepage HTTP 200.'
+            echo 'ROLLBACK: not needed.'
+            trap - ERR
+            CLEANUP_SCRIPT
