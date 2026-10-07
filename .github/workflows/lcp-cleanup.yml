@@ -1,0 +1,41 @@
+name: Inspect old LCP staging container
+on:
+  push:
+    branches: [ops/cleanup-lcp-20261007]
+    paths: [.github/workflows/lcp-cleanup.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read-only container and proxy dependency inspection
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          command_timeout: 2m
+          script: |
+            set -eu
+            echo 'Running containers BEFORE:'
+            docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
+            echo 'Matching names, including the known LCP diagnostic:'
+            docker ps -a --format '{{.Names}}' | grep -Ei 'staging|diagnostic|perf-|cv-builder-lcp-20261006' || true
+            target=cv-builder-lcp-20261006
+            if docker inspect "$target" >/dev/null 2>&1; then
+              echo 'Diagnostic container identity, status and mounts (no environment):'
+              docker inspect "$target" --format 'Name={{.Name}} ID={{.Id}} Image={{.Config.Image}} Status={{.State.Status}} Started={{.State.StartedAt}} Ports={{json .HostConfig.PortBindings}} Mounts={{json .Mounts}}'
+              echo 'Diagnostic Nginx hostnames and upstreams:'
+              docker exec "$target" sh -c 'grep -E "server_name|listen|root|proxy_pass" /etc/nginx/conf.d/default.conf' || true
+              echo 'Recent access-line count, bounded to 100 log lines:'
+              docker logs --since 24h --tail 100 "$target" 2>&1 | awk '/"GET |"HEAD |"POST / {n++} END {print n+0}'
+            fi
+            proxy=nginx-proxy-manager-nginx-proxy-manager-1
+            echo 'Proxy configuration files referencing the diagnostic container:'
+            docker exec "$proxy" sh -c 'grep -R -l -F "cv-builder-lcp-20261006" /data/nginx /etc/nginx/conf.d 2>/dev/null || true'
+            echo 'Read-only current Nginx configuration validity:'
+            docker exec "$proxy" nginx -t 2>&1
+            echo 'Running containers AFTER read-only inspection:'
+            docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
