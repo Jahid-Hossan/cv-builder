@@ -35,6 +35,10 @@ jobs:
             proxy=nginx-proxy-manager-nginx-proxy-manager-1
             echo 'Proxy configuration files referencing the diagnostic container:'
             docker exec "$proxy" sh -c 'grep -R -l -F "cv-builder-lcp-20261006" /data/nginx /etc/nginx/conf.d 2>/dev/null || true'
+            echo 'Loaded configuration lines referencing the old diagnostic:'
+            docker exec "$proxy" nginx -T 2>&1 | grep -E 'lcp-diagnostic-20261006.conf|cv-builder-lcp-(20261006|control|ads-off|cmp-off|adsense-off)' || true
+            echo 'Latest diagnostic access timestamp (no IP or URL):'
+            docker logs --since 24h --tail 100 "$target" 2>&1 | awk '/"GET |"HEAD |"POST / {latest=$4 " " $5} END {print latest}'
             echo 'Read-only current Nginx configuration validity:'
             docker exec "$proxy" nginx -t 2>&1
             echo 'Running containers AFTER read-only inspection:'
