@@ -3,7 +3,7 @@ import StructuredData from "../components/StructuredData";
 import { siteConfig, pageMetadata } from "../config/site";
 export const metadata = pageMetadata(
   "Free Resume Builder — No Sign-Up, Instant PDF",
-  "Build a professional resume in your browser. 15 free templates, live preview, custom fonts, instant PDF download. No account needed.",
+  "Build a professional resume in your browser. Free resume maker with 15 templates, live preview, custom fonts, and instant PDF. No account needed.",
   "/",
 );
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "WebApplication",
           name: "Resume Builder by Appshub",
-          alternateName: ["CV Builder", "Appshub CV Builder"],
+          alternateName: ["CV Builder", "Appshub CV Builder", "Resume Maker"],
           url: siteConfig.url,
           description: siteConfig.description,
           applicationCategory: "BusinessApplication",
@@ -120,6 +120,7 @@ export default function Home() {
       <section className="home-resources" aria-labelledby="resources-title">
         <h2 id="resources-title">Before you apply</h2>
         <p>
+          Use a free resume maker that runs entirely in your browser.{" "}
           Choose a format that fits your evidence, write accurate experience
           descriptions and review your downloaded PDF.
         </p>

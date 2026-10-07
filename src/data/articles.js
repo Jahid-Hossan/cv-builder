@@ -2124,5 +2124,77 @@ export const articles = [
       "how-to-write-resume-summary",
       "resume-checklist"
     ]
+  },
+  {
+    "slug": "resume-maker-vs-resume-builder",
+    "title": "Resume Maker vs Resume Builder: What's the Difference?",
+    "description": "Understand the two labels, compare practical features, and choose a tool by its editing workflow, privacy controls, and export format.",
+    "publishedAt": "2026-10-07",
+    "intro": "A resume maker and a resume builder describe the same broad goal: helping you turn career information into an application document. The label alone does not tell you whether a tool writes content, organizes sections, offers templates, or charges for a download. Compare the actual workflow and the file you receive. A useful starting question is not which name sounds better, but whether the tool lets you present accurate evidence in the format your employer requests.",
+    "sections": [
+      {
+        "heading": "Start with the task you need to complete",
+        "paragraphs": [
+          "Think about the document you need before comparing product names. You might already have strong experience descriptions and want help arranging them. Alternatively, you might need prompts to identify relevant projects, responsibilities, and skills. Those are different needs. A template gallery can solve a layout problem without solving a writing problem, while writing suggestions can improve wording without providing a suitable export.",
+          "For example, a student applying for a placement may need space for education and a substantial course project. An experienced coordinator may need clear dates and several recent roles. Both can use the same kind of editing tool, but they should organize their evidence differently. Choose features that support the information you actually have, rather than filling every available section simply because the interface offers it."
+        ]
+      },
+      {
+        "heading": "Compare editing controls rather than marketing labels",
+        "paragraphs": [
+          "Check whether you can edit every important field, reorder sections, and review changes before downloading. A guided form may help you keep dates consistent; a flexible layout may help you give projects more prominence. Neither approach guarantees a better application. The useful question is whether the controls make it easier to explain your experience accurately and keep the final document readable.",
+          "Try one realistic entry before committing time to a tool. Enter a role title, organization, date range, and two descriptions. Check how a longer title wraps and whether the dates remain easy to identify. Then add an education entry or project. This small trial reveals more about the workflow than a polished preview filled with short sample text."
+        ],
+        "subsections": [
+          {
+            "heading": "Keep ownership of the wording",
+            "paragraphs": [
+              "If a tool suggests a description, treat it as a draft to verify. A sentence such as Improved reporting efficiency needs evidence and context. Replace unsupported claims with the action you can explain, such as Prepared a weekly tracking sheet and followed up on missing entries. Never add a metric or qualification simply to make the output sound more impressive."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Check what free includes",
+        "paragraphs": [
+          "A free editing screen does not by itself establish that the download, selected template, or later revisions are included. Read the tool's own current terms before entering a full application. Check whether it requires an account, whether a download has a watermark, and whether an advertised trial becomes a subscription. Those details matter more than whether the product calls itself a maker or a builder.",
+          "CV Builder provides 15 templates, a live preview, font and color controls, and a PDF download without an account. You can inspect those features in the editor before preparing your final version. Keep your own copy of the underlying wording so that you are not relying on any single interface as your only career record."
+        ]
+      },
+      {
+        "heading": "Understand where your draft is stored",
+        "paragraphs": [
+          "Before entering personal details, find out whether the editor stores drafts locally, uploads them to an account, or passes content to another service. These arrangements have different consequences for recovery and access. Local storage can keep an editable draft in one browser, while account storage may allow access across devices. Do not assume either behavior from the product name or a privacy slogan.",
+          "CV Builder edits the document in your browser and stores its draft in LocalStorage for this site. Returning with the same browser and site address can restore that draft. Clearing browser data removes it, and a downloaded PDF is not an editable backup. On a shared device, consider who can access the browser profile and keep unnecessary sensitive identifiers out of the document."
+        ]
+      },
+      {
+        "heading": "Inspect the export format before applying",
+        "paragraphs": [
+          "The file format is a practical distinction that product names do not explain. A document can look clear on screen yet fail to meet a portal's upload requirements. Check whether an employer asks for a Word document, selectable-text PDF, image, or separate form responses. Review those instructions before spending time refining colors or spacing.",
+          "CV Builder currently downloads image-based PDFs. They preserve the visual arrangement, but their text is not selectable. Choosing a simple template does not change that export mechanism or guarantee ATS parsing. If the application requires selectable text or another file type, prepare a suitable document in an appropriate editor. Where a portal extracts information, check the populated fields before submitting."
+        ],
+        "subsections": [
+          {
+            "heading": "Run a small export check",
+            "paragraphs": [
+              "Download a short test document and open it outside the editing screen. Inspect line wrapping, contact details, page breaks, and the final page. Try selecting text if that capability is required. A successful download shows that a file exists; it does not establish that every employer's system will interpret its contents correctly."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Use the tool as part of a review workflow",
+        "paragraphs": [
+          "Start with accurate notes about education, roles, projects, and skills. Select the evidence relevant to the vacancy, organize it in a readable template, and review the exported file. Keep dates and qualifications consistent with your records. Save the submitted version alongside the job posting so that you can revisit the exact wording before an interview.",
+          "The two labels are less useful than these checks: control over your content, clear costs, understandable storage, and a suitable export. Use the resume builder below to try a draft, compare the available templates, and read the related guides on formats, tailoring, and final review. Let the employer's instructions and your own evidence determine the document you send."
+        ]
+      }
+    ],
+    "relatedPosts": [
+      "resume-format-guide",
+      "tailor-resume-job-description",
+      "resume-checklist"
+    ]
   }
 ];
