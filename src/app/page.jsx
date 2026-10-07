@@ -107,6 +107,16 @@ export default function Home() {
           <p>Download your PDF and take your next step.</p>
         </div>
       </section>
+      <section className="home-resources" aria-labelledby="popular-guides-title">
+        <h2 id="popular-guides-title">Popular guides</h2>
+        <ul>
+          <li><Link href="/blog/achievement-based-resume-bullets">Write achievement-based resume bullets</Link></li>
+          <li><Link href="/blog/how-to-list-skills-on-resume">List your skills on a resume</Link></li>
+          <li><Link href="/blog/resume-with-no-experience">Build a resume with no experience</Link></li>
+          <li><Link href="/blog/student-resume-guide">Prepare a student resume</Link></li>
+          <li><Link href="/blog/tailor-resume-job-description">Tailor your resume to a job description</Link></li>
+        </ul>
+      </section>
       <section className="home-resources" aria-labelledby="resources-title">
         <h2 id="resources-title">Before you apply</h2>
         <p>

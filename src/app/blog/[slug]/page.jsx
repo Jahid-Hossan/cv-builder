@@ -4,6 +4,48 @@ import { articles } from "../../../data/articles";
 import { siteConfig, pageMetadata, formatDate } from "../../../config/site";
 import StructuredData from "../../../components/StructuredData";
 export const dynamicParams = false;
+const contextualLinks = {
+  "ats-resume-guide": [
+    ["employment dates", "work-experience-on-resume"],
+    ["skills list", "how-to-list-skills-on-resume"],
+    ["target vacancy description", "tailor-resume-job-description"],
+  ],
+  "resume-format-guide": [
+    ["first job", "resume-with-no-experience"],
+    ["a student applying for a placement", "student-resume-guide"],
+    ["Pick a font", "best-fonts-for-resume"],
+  ],
+  "resume-vs-cv-difference": [
+    ["one or two pages", "how-long-should-a-resume-be"],
+    ["Core Skills", "how-to-list-skills-on-resume"],
+    ["Regardless of your discipline", "resume-formats-by-industry"],
+  ],
+  "resume-checklist": [
+    ["A skills section", "how-to-list-skills-on-resume"],
+    ["Tailoring", "tailor-resume-job-description"],
+    ["recent role", "work-experience-on-resume"],
+  ],
+  "common-resume-mistakes": [
+    ["achievement-oriented bullets", "achievement-based-resume-bullets"],
+    ["readable typography", "best-fonts-for-resume"],
+    ["squeeze years of experience onto a single page", "how-long-should-a-resume-be"],
+    ["target job posting", "tailor-resume-job-description"],
+  ],
+};
+function linkArticleText(text, slug) {
+  let parts = [text];
+  for (const [label, target] of contextualLinks[slug] || []) {
+    parts = parts.flatMap(part => {
+      if (typeof part !== "string") return [part];
+      const index = part.indexOf(label);
+      if (index === -1) return [part];
+      return [part.slice(0, index),
+        <Link key={`${target}-${label}`} href={`/blog/${target}`}>{label}</Link>,
+        part.slice(index + label.length)];
+    });
+  }
+  return parts;
+}
 export function generateStaticParams() {
   return articles.map(({ slug }) => ({ slug }));
 }
@@ -40,7 +82,7 @@ export default async function Article({ params }) {
             {formatDate(post.publishedAt)}
           </time>
         </p>
-        <p className="article-intro">{post.intro}</p>
+        <p className="article-intro">{linkArticleText(post.intro, slug)}</p>
         {post.sections.map((section, index) => (
           <section
             key={section.heading}
@@ -48,13 +90,13 @@ export default async function Article({ params }) {
           >
             <h2 id={`article-section-${index}`}>{section.heading}</h2>
             {section.paragraphs?.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
+              <p key={i}>{linkArticleText(paragraph, slug)}</p>
             ))}
             {section.subsections?.map((sub, subIdx) => (
               <div key={subIdx} className="article-subsection">
                 <h3 id={`article-sub-${index}-${subIdx}`}>{sub.heading}</h3>
                 {sub.paragraphs?.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <p key={i}>{linkArticleText(paragraph, slug)}</p>
                 ))}
               </div>
             ))}
