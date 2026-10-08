@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import { siteConfig } from '../config/site';
-import { analyticsPage, initializeAnalytics, sendAnalyticsPage, watchAnalyticsConsent } from '../utils/analytics';
+import { analyticsCountryRegion, analyticsPage, detectAnalyticsCountry, initializeAnalytics, sendAnalyticsPage, watchAnalyticsConsent } from '../utils/analytics';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 const validId = /^G-[A-Z0-9]+$/.test(GA_ID);
@@ -20,7 +20,19 @@ export default function OptionalAnalytics({ articlePaths }) {
 
   useEffect(() => {
     if (!validId || window.location.origin !== siteConfig.url) return;
-    return watchAnalyticsConsent(window, GA_ID, setConsented);
+    let active = true;
+    let stop;
+    window[`ga-disable-${GA_ID}`] = true;
+    detectAnalyticsCountry(window).then(country => {
+      if (!active) return;
+      console.info('[AnalyticsLoader] country:', country, 'region:', analyticsCountryRegion(country));
+      stop = watchAnalyticsConsent(window, GA_ID, setConsented, country);
+    });
+    return () => {
+      active = false;
+      stop?.();
+      window[`ga-disable-${GA_ID}`] = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -38,5 +50,6 @@ export default function OptionalAnalytics({ articlePaths }) {
   if (!validId || !consented || !page) return null;
   return <Script id="cv-builder-ga4" strategy="afterInteractive"
     src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-    onReady={() => setLoaded(true)} />;
+    onReady={() => setLoaded(true)}
+    onError={() => console.warn('[AnalyticsLoader] GA4 script failed to load')} />;
 }
