@@ -1,7 +1,13 @@
-// Only the CMP's explicit analytics grant authorizes GA. Advertising consent,
-// legitimate interest, NOT_APPLICABLE and NOT_CONFIGURED are not substitutes.
+// Within the regulated region, only an explicit analytics grant authorizes GA.
 export function analyticsConsentGranted(status) {
   return status?.analyticsStoragePurposeConsentStatus === 1;
+}
+
+export function analyticsAllowed(tc, success, status) {
+  if (!success || tc?.cmpStatus !== 'loaded' ||
+      !['tcloaded', 'useractioncomplete'].includes(tc.eventStatus)) return false;
+  if (tc.gdprApplies === false) return true;
+  return tc.gdprApplies === true && analyticsConsentGranted(status);
 }
 
 export function watchAnalyticsConsent(win, measurementId, onChange) {
@@ -10,6 +16,8 @@ export function watchAnalyticsConsent(win, measurementId, onChange) {
   let listenerId;
   let reviewing = false;
   let previouslyGranted = false;
+  let regionData;
+  let regionReady = false;
   const disableKey = `ga-disable-${measurementId}`;
   const update = allowed => {
     if (!active) return;
@@ -23,7 +31,12 @@ export function watchAnalyticsConsent(win, measurementId, onChange) {
   const readConsent = () => {
     if (!active || reviewing) return;
     try {
-      update(analyticsConsentGranted(fc.getGoogleConsentModeValues?.()));
+      // Non-EU visitors do not require consent-mode values to be configured.
+      if (analyticsAllowed(regionData, regionReady, undefined)) {
+        update(true);
+      } else {
+        update(analyticsAllowed(regionData, regionReady, fc.getGoogleConsentModeValues?.()));
+      }
     } catch {
       update(false);
     }
@@ -39,6 +52,8 @@ export function watchAnalyticsConsent(win, measurementId, onChange) {
     win.__tcfapi('addEventListener', 2, (tc, success) => {
       if (!active) return;
       if (tc?.listenerId !== undefined) listenerId = tc.listenerId;
+      regionData = tc;
+      regionReady = success === true;
       if (!success || tc?.cmpStatus !== 'loaded') {
         review();
         return;
@@ -47,15 +62,16 @@ export function watchAnalyticsConsent(win, measurementId, onChange) {
         review();
         return;
       }
-      if (tc.eventStatus === 'useractioncomplete') {
+      if (['tcloaded', 'useractioncomplete'].includes(tc.eventStatus)) {
         // Unload existing analytics listeners on any changed decision. Do not
         // briefly re-enable from stale consent-mode values during CMP updates.
-        if (previouslyGranted) {
+        if (tc.eventStatus === 'useractioncomplete' && previouslyGranted) {
           review();
           win.location.reload();
           return;
         }
         reviewing = false;
+        readConsent();
         fc.callbackQueue.push({ CONSENT_MODE_DATA_READY: readConsent });
       }
     });

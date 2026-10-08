@@ -10,7 +10,7 @@ export default function Privacy() {
     <main className="content-page">
       <h1>Privacy Policy</h1>
       <p>
-        Policy updated: <time dateTime="2026-10-07">7 October 2026</time>
+        Policy updated: <time dateTime="2026-10-08">8 October 2026</time>
       </p>
       <h2>Resume information</h2>
       <p>
@@ -60,9 +60,12 @@ export default function Privacy() {
       </p>
       <h2>Optional Google Analytics 4</h2>
       <p>
-        Google Analytics 4 loads only after this site's Google consent platform
-        explicitly grants analytics consent. Denied, unknown or unconfigured
-        choices keep analytics disabled. We measure visits to public information
+        For visitors in the EEA, UK and Switzerland, Google Analytics 4 loads
+        only after this site's Google consent platform explicitly grants analytics
+        consent. Denied, unknown or unconfigured choices keep analytics disabled
+        in this region. Outside this region, analytics loads once the CMP confirms
+        that regional consent requirements do not apply. An unknown region keeps
+        analytics disabled. We measure visits to public information
         pages, without sending resume fields, local drafts, form values, URL
         search parameters or referrers. Builder and Templates are excluded.
         Google signals and advertising personalization are disabled.
