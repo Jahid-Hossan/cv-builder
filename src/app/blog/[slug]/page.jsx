@@ -16,9 +16,11 @@ const contextualLinks = {
     ["Pick a font", "best-fonts-for-resume"],
   ],
   "resume-vs-cv-difference": [
-    ["one or two pages", "how-long-should-a-resume-be"],
-    ["Core Skills", "how-to-list-skills-on-resume"],
-    ["Regardless of your discipline", "resume-formats-by-industry"],
+    ["how long a resume should be", "how-long-should-a-resume-be"],
+    ["resume format guide", "resume-format-guide"],
+    ["how to list skills", "how-to-list-skills-on-resume"],
+    ["resume checklist", "resume-checklist"],
+    ["resume formats by industry", "resume-formats-by-industry"],
   ],
   "resume-checklist": [
     ["A skills section", "how-to-list-skills-on-resume"],
@@ -69,6 +71,7 @@ export default async function Article({ params }) {
   const post = articles.find((p) => p.slug === slug);
   if (!post) notFound();
   const url = `${siteConfig.url}/blog/${post.slug}`;
+  const faqs = post.sections.find(section => section.faq)?.subsections;
   return (
     <main className="content-page article-page">
       <nav aria-label="Breadcrumb">
@@ -81,6 +84,9 @@ export default async function Article({ params }) {
           <time dateTime={post.publishedAt}>
             {formatDate(post.publishedAt)}
           </time>
+          {post.slug === "resume-vs-cv-difference" && post.updatedAt && (
+            <> · Updated <time dateTime={post.updatedAt}>{formatDate(post.updatedAt)}</time></>
+          )}
         </p>
         <p className="article-intro">{linkArticleText(post.intro, slug)}</p>
         {post.sections.map((section, index) => (
@@ -92,6 +98,22 @@ export default async function Article({ params }) {
             {section.paragraphs?.map((paragraph, i) => (
               <p key={i}>{linkArticleText(paragraph, slug)}</p>
             ))}
+            {section.table && (
+              <table>
+                <caption>{section.table.caption}</caption>
+                <thead>
+                  <tr>{section.table.columns.map(column => <th key={column} scope="col">{column}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {section.table.rows.map(([feature, ...values]) => (
+                    <tr key={feature}>
+                      <th scope="row">{feature}</th>
+                      {values.map((value, i) => <td key={i}>{value}</td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
             {section.subsections?.map((sub, subIdx) => (
               <div key={subIdx} className="article-subsection">
                 <h3 id={`article-sub-${index}-${subIdx}`}>{sub.heading}</h3>
@@ -100,6 +122,11 @@ export default async function Article({ params }) {
                 ))}
               </div>
             ))}
+            {section.links && (
+              <ul>{section.links.map(link => (
+                <li key={link.url}><a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+              ))}</ul>
+            )}
           </section>
         ))}
         <p>
@@ -132,6 +159,17 @@ export default async function Article({ params }) {
           url,
         }}
       />
+      {faqs?.length > 0 && (
+        <StructuredData data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map(faq => ({
+            "@type": "Question",
+            name: faq.heading,
+            acceptedAnswer: { "@type": "Answer", text: faq.paragraphs.join(" ") },
+          })),
+        }} />
+      )}
       <StructuredData
         data={{
           "@context": "https://schema.org",

@@ -899,31 +899,69 @@ export const articles = [
   },
   {
     "slug": "resume-vs-cv-difference",
-    "title": "Resume vs CV: Key Differences (With Examples for 2026)",
-    "description": "Clarify the differences between a concise employment resume and an extensive academic or medical CV.",
+    "title": "Resume vs CV: What's the Difference? (With Examples)",
+    "description": "Resume vs CV: compare length, purpose and regional meanings, with examples. Learn which document to send for US, UK and academic jobs.",
     "publishedAt": "2026-10-03",
-    "intro": "The terms 'resume' and 'CV' (Curriculum Vitae) are frequently used interchangeably in job postings and everyday career conversations. However, depending on geographic location, professional discipline, and the specific requirements of the employer, a resume and a CV represent two fundamentally different documents. Submitting a concise one-page commercial resume when a university selection committee expects an exhaustive ten-page academic curriculum vitae can eliminate your application immediately. Understanding these distinctions ensures you prepare the exact document expected by your target evaluators.",
+    "intro": "A resume is usually a one- or two-page summary of your relevant experience for employment, especially for nonacademic jobs in the United States and Canada. An academic CV (curriculum vitae) is a more detailed record used for academic, research, scientific and some medical applications. The important exception is geography: in the UK and many other countries, employers use “CV” to mean a short employment document similar to a resume. To decide what to send, check the role, location and application instructions rather than relying on the document name alone.",
     "sections": [
+      {
+        "heading": "Resume vs CV: comparison at a glance",
+        "paragraphs": [
+          "This table compares a typical employment resume with an academic CV. A short employment CV used in the UK or elsewhere belongs on the resume side of this comparison. Neither document has a universal page limit: the employer's instructions take priority."
+        ],
+        "table": {
+          "caption": "Employment resume versus academic CV",
+          "columns": [
+            "Feature",
+            "Resume",
+            "Academic CV"
+          ],
+          "rows": [
+            [
+              "Typical length",
+              "One or two pages; follow the stated limit",
+              "Often two or more pages; length depends on career stage"
+            ],
+            [
+              "Used for",
+              "Most nonacademic employment applications",
+              "Academic, research, scientific and some medical applications"
+            ],
+            [
+              "Geography and terminology",
+              "Usually called a resume in the US and Canada",
+              "Academic meaning internationally; “CV” also means a short employment document in many countries"
+            ],
+            [
+              "Customization",
+              "Select relevant experience for each role",
+              "Keep a detailed record, but prioritize sections for the application"
+            ],
+            [
+              "Main evidence",
+              "Relevant skills, work experience and achievements",
+              "Education, research, teaching, publications and professional contributions"
+            ]
+          ]
+        }
+      },
       {
         "heading": "Core differences in scope and purpose",
         "paragraphs": [
-          "The fundamental difference between a resume and a CV lies in scope, length, and objective. A resume is a highly curated, concise summary of skills, experience, and qualifications tailored specifically to a single target position. Its purpose is brevity: highlighting relevant competencies in one or two pages to capture quick commercial interest and secure an initial interview.",
-          "In contrast, a traditional Curriculum Vitae—Latin for 'course of life'—is a comprehensive, cumulative record of an individual's entire professional and scholarly trajectory. A CV is not restricted by length. It grows continuously over time to encompass every publication, research project, conference presentation, teaching post, grant award, and academic credential earned throughout an entire lifetime.",
-          "Because commercial employers review dozens of applicants for every open position, they value resumes that deliver immediate, scannable relevance. An academic hiring committee, however, evaluates scholarship depth and peer recognition, requiring the exhaustive detail that only a full-length CV can provide."
+          "The difference between a CV and resume is mainly what the reader needs to evaluate. An employment resume answers: can this person do this job? It selects the most relevant experience, skills and qualifications. An academic CV gives reviewers a fuller record of scholarly work, teaching, research and professional service. More detail is useful when those activities are part of the selection criteria.",
+          "Length follows purpose. One or two pages may be enough for a focused employment application, while a researcher with several publications and appointments may need a longer CV. Read our guide to how long a resume should be before trimming important evidence or adding pages simply to look experienced."
         ],
         "subsections": [
           {
-            "heading": "The targeted commercial resume",
+            "heading": "Example: applying for a business role",
             "paragraphs": [
-              "Commercial resumes prioritize immediate operational relevance. Unrelated positions or older historical milestones are summarized or omitted entirely to focus the reader's attention on qualifications that solve the employer's immediate challenges.",
-              "A candidate with ten years of commercial experience should present only the projects and responsibilities that directly support the role at hand, keeping total length within one to two pages."
+              "A laboratory researcher moving into project coordination could emphasize scheduling, collaboration, documentation and delivery on a resume. They might summarize their research topic in one line, then explain the work that matches the vacancy. They would not need to include a complete publication list unless the employer asks for it."
             ]
           },
           {
-            "heading": "The comprehensive academic curriculum vitae",
+            "heading": "Example: applying for a research appointment",
             "paragraphs": [
-              "Academic and medical CVs prioritize exhaustive historical documentation. Peer reviewers and tenure committees require a full audit trail of scholarly contributions, co-authorships, and institutional service.",
-              "Every paper delivered at a conference, every grant awarded by a funding agency, and every institutional committee assignment is cataloged sequentially to provide complete transparency."
+              "For a university research appointment, that same applicant might use a CV with education, research experience, methods, publications and conference presentations. The examples here describe document choices, not real candidates or guaranteed outcomes. Include only activities you actually completed, and label work in progress accurately."
             ]
           }
         ]
@@ -931,20 +969,20 @@ export const articles = [
       {
         "heading": "Geographical terminology and international norms",
         "paragraphs": [
-          "Geographic context heavily influences terminology. In the United States and Canada, the distinction is rigid: a 'resume' is used for commercial private-sector jobs, while a 'CV' is reserved exclusively for academic, scientific, medical, and research appointments.",
-          "However, in the United Kingdom, Ireland, New Zealand, and across many parts of Europe, the term 'CV' is universally used to describe what North Americans call a resume. In those regions, when a corporate employer asks for a 'CV', they expect a standard two-page employment document, not an exhaustive academic dissertation. Always interpret the term based on the employer's geographic location."
+          "In the US and Canada, “resume” commonly describes a concise employment document, while “CV” often means an academic record. That distinction is useful, but it is not an absolute rule. A research organization or an international employer may ask for a CV even when the role is outside a university.",
+          "In the UK, a request for a CV commonly means a concise employment overview. Terminology also varies across Europe, Asia and other regions; do not assume every country follows one convention. Oxford's careers guidance, for example, recommends a maximum of two pages for a general CV, with an exception for academic CVs."
         ],
         "subsections": [
           {
-            "heading": "North American vs UK and European conventions",
+            "heading": "What the job advertisement tells you",
             "paragraphs": [
-              "When applying to British or European organizations, do not be confused by requests for a 'CV'. Prepare a crisp, two-page professional overview highlighting employment history and core competencies."
+              "“Submit a two-page CV showing relevant employment” calls for a short, targeted document. “Provide a full academic CV and publication list” calls for scholarly detail. Check required sections, page limits, language and accepted file formats. If the request remains ambiguous, ask the recruiter what information they expect."
             ]
           },
           {
-            "heading": "Interpreting employer instructions correctly",
+            "heading": "Keep local conventions separate from labels",
             "paragraphs": [
-              "If an international job advertisement specifies page limits—such as 'Please attach a CV of no more than two pages'—the employer is clearly requesting a concise commercial resume, regardless of the label used."
+              "The word CV does not automatically mean you should add a photograph, date of birth, nationality or marital status. Use the employer's instructions and relevant local guidance to decide what belongs in the document. Avoid adding sensitive personal information simply because an online example includes it."
             ]
           }
         ]
@@ -952,20 +990,41 @@ export const articles = [
       {
         "heading": "Section requirements for CVs and resumes",
         "paragraphs": [
-          "The anatomical structure of the documents reflects their differing objectives. A commercial resume typically includes: Contact Header, Summary (optional), Core Skills, Professional Experience, Education, and Certifications.",
-          "An academic or medical CV expands significantly beyond these basics. Standard CV sections include: Education (with dissertation titles and committee chairs), Research Appointments, Teaching Experience, Peer-Reviewed Publications, Conference Presentations, Funded Grants and Fellowships, Professional Memberships, and Academic References."
+          "A useful employment resume normally includes your name and contact details, work experience, education and relevant skills. A short summary, certifications or selected projects can help when they support the application. Choose a clear section order using our resume format guide rather than adding every possible heading.",
+          "An academic CV may also include research appointments, teaching, publications, presentations, grants, awards and professional service. Requirements differ by institution and discipline. A medical application might emphasize clinical training, licensure and clinical appointments; a teaching position may need more detail about courses and supervision."
         ],
         "subsections": [
           {
-            "heading": "Publications, grants, and teaching appointments",
+            "heading": "Resume example: concise section order",
             "paragraphs": [
-              "Academic CVs format publications using recognized bibliographic citation formats such as APA, MLA, or Chicago style, distinguishing peer-reviewed journal articles from book chapters and non-refereed proceedings."
+              "For an experienced applicant, a practical order is Contact Details, Professional Summary, Core Skills, Work Experience and Education. A student might place Education and Relevant Projects earlier. Our guide to how to list skills explains how to support a skills section with evidence instead of a long list of unsupported claims."
             ]
           },
           {
-            "heading": "Employment history and commercial outcomes",
+            "heading": "CV example: a fuller academic record",
             "paragraphs": [
-              "Commercial resumes relegate academic minutiae to a simple degree listing, allocating the vast majority of visual space to recent corporate achievements, revenue improvements, and technical deployments."
+              "An academic CV might use Education, Research Experience, Teaching Experience, Publications, Presentations, Awards and Professional Service. Separate published work from submitted or unfinished work. Use a consistent citation format appropriate to your field. Include references only when the application or disciplinary convention calls for them."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "How to turn a CV into a targeted resume",
+        "paragraphs": [
+          "Start with the vacancy rather than shortening each CV section equally. Identify the responsibilities and qualifications the employer requests. Then select relevant experience from your master record, explain unfamiliar academic terms in plain language and remove detail that does not help the reader assess your fit.",
+          "For example, a long list of conference presentations might become a brief statement about communicating technical findings to different audiences, supported by a relevant presentation example. Keep the evidence truthful. Do not turn a research contribution into a commercial result you cannot support, and do not invent numerical achievements."
+        ],
+        "subsections": [
+          {
+            "heading": "Retain the master record",
+            "paragraphs": [
+              "Save a complete master CV separately, then make a copy for each application. This preserves older appointments, publication details and dates while letting you build a focused resume. Check the tailored version against your master record so that names, dates and qualifications remain consistent."
+            ]
+          },
+          {
+            "heading": "Review the final application",
+            "paragraphs": [
+              "Read the document alongside the job advertisement and use our resume checklist to review contact details, dates, spelling and file requirements. The goal is a document that answers the employer's questions. Choosing the right label alone will not make an application relevant."
             ]
           }
         ]
@@ -973,42 +1032,60 @@ export const articles = [
       {
         "heading": "File generation and presentation standards",
         "paragraphs": [
-          "Whether you are assembling a one-page technical resume or a multi-page curriculum vitae, visual clarity and document formatting remain essential. In CV Builder, documents are exported as image-based PDFs generated via html2canvas and jsPDF.",
-          "This image-based export mechanism ensures that complex typography, section rules, and visual template designs remain perfectly stable when distributed. However, applicants submitting multi-page academic CVs must remember that image-based PDFs do not allow interactive text selection or hyperlink clicking in standard PDF reader software. When academic portals require selectable citation text, consider maintaining dedicated word processor documents."
-        ],
-        "subsections": [
-          {
-            "heading": "Handling multi-page image-based documents",
-            "paragraphs": [
-              "When generating a multi-page CV in CV Builder, review the page seams carefully to confirm that academic citations or role descriptions are not split awkwardly across canvas page boundaries."
-            ]
-          },
-          {
-            "heading": "When plain text submission is required",
-            "paragraphs": [
-              "Certain institutional research portals require plain unstyled text files (.txt) for grant review archives. Always verify the upload specifications on the institution's portal prior to submission."
-            ]
-          }
+          "Whether you send a resume or CV, use readable headings and consistent formatting. Follow any upload instructions specifying PDF, DOCX or plain text. A document can look correct on screen while still being unsuitable for a portal that needs selectable text or text extraction.",
+          "CV Builder currently exports image-based PDFs. Review the downloaded file and any page boundaries before sending it. If the application requires selectable publication text, accessible text content or a particular editable format, prepare an appropriate version in a word processor. Do not assume every PDF has the same technical properties."
         ]
       },
       {
         "heading": "Choosing the right template and workflow",
         "paragraphs": [
-          "CV Builder provides 15 versatile design templates suitable for commercial resumes as well as concise clinical and academic CVs. For scholarly applications, templates like Academic, Serif, and Editorial offer dignified typography and clean section delineation.",
-          "For commercial private-sector applications, templates like Modern, Executive, or Tech provide sharp, scannable structures that emphasize immediate career achievements. Regardless of your discipline, always maintain your master source content safely stored in a local plain-text document to ensure long-term data preservation."
-        ],
+          "Choose a layout that makes relevant evidence easy to find. The same person can need a short employment resume for one vacancy and a longer academic CV for another. Our guide to resume formats by industry can help you decide what evidence to emphasize without treating a template name as an application requirement.",
+          "Keep a separate copy of your source material, follow the requested document length and review the final download. A template organizes your information; it does not replace checking the vacancy instructions. If you need a full publication list or specialist sections, make sure the tool you use can represent them clearly."
+        ]
+      },
+      {
+        "heading": "Frequently asked questions about CVs and resumes",
+        "faq": true,
         "subsections": [
           {
-            "heading": "Configuring sections in CV Builder",
+            "heading": "Is a CV the same as a resume?",
             "paragraphs": [
-              "Take advantage of the section ordering tools in CV Builder to position your most persuasive evidence at the top of the first page, whether that evidence is a prestigious fellowship or an executive track record."
+              "Sometimes. In the UK and many other countries, CV commonly means a short employment document similar to a resume. In North American academic contexts, a CV usually means a more detailed record of education, research, teaching and publications. Check the context and requested contents rather than assuming the words always describe different documents."
             ]
           },
           {
-            "heading": "Maintaining separate master records",
+            "heading": "When should I use a CV instead of a resume?",
             "paragraphs": [
-              "Keep a comprehensive 'master CV' on your hard drive that logs every single career milestone. You can then selectively extract relevant entries into CV Builder to craft tailored, role-specific resumes."
+              "Use an academic CV when the application requests a detailed scholarly record, such as for many university appointments, research positions or academic funding applications. Use a concise employment document for most nonacademic jobs. If an employer asks for a two-page CV focused on relevant experience, send that targeted document rather than a full academic history."
             ]
+          },
+          {
+            "heading": "How long should a CV be?",
+            "paragraphs": [
+              "A general employment CV is often one or two pages. An academic CV may be longer because it records publications, teaching and other relevant contributions. There is no universal minimum or maximum for every CV. Follow the application's page limit, include the requested information and avoid padding a short career history."
+            ]
+          },
+          {
+            "heading": "Can I use a CV for a US job application?",
+            "paragraphs": [
+              "Yes, when the employer requests one or the role calls for an academic or research record. For most nonacademic US jobs, a targeted resume is the more usual choice. If you have a short employment document labelled CV, adapt its contents and filename to the employer's request; the relevance and format matter more than the label."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Sources and further reading",
+        "paragraphs": [
+          "These university careers resources provide additional guidance on choosing the appropriate document and preparing a clear application."
+        ],
+        "links": [
+          {
+            "label": "Harvard: resumes and cover letters for PhD students",
+            "url": "https://careerservices.fas.harvard.edu/resources/resumes-cover-letters-for-phd-students/"
+          },
+          {
+            "label": "University of Oxford: CV guidance",
+            "url": "https://www.ox.ac.uk/careers/careers-guidance/job-search-and-applications/writing-applications/cvs"
           }
         ]
       }
@@ -1016,8 +1093,10 @@ export const articles = [
     "relatedPosts": [
       "resume-format-guide",
       "how-long-should-a-resume-be",
+      "resume-checklist",
       "student-resume-guide"
-    ]
+    ],
+    "updatedAt": "2026-10-09"
   },
   {
     "slug": "how-to-write-resume-summary",
