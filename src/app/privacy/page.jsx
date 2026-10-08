@@ -58,17 +58,28 @@ export default function Privacy() {
           Google's advertising privacy information
         </a>.
       </p>
-      <h2>Optional Google Analytics 4</h2>
+      <h2>Analytics</h2>
       <p>
-        For visitors in the EEA, UK and Switzerland, Google Analytics 4 loads
-        only after this site's Google consent platform explicitly grants analytics
-        consent. Denied, unknown or unconfigured choices keep analytics disabled
-        in this region. Outside this region, analytics loads once the CMP confirms
-        that regional consent requirements do not apply. An unknown region keeps
-        analytics disabled. We measure visits to public information
-        pages, without sending resume fields, local drafts, form values, URL
-        search parameters or referrers. Builder and Templates are excluded.
-        Google signals and advertising personalization are disabled.
+        We use Google Analytics 4 (GA4) to understand how visitors use CV Builder.
+        GA4 loads based on your region:
+      </p>
+      <ul>
+        <li>Outside EU/EEA/UK/Switzerland: GA4 loads on page load after the country check.</li>
+        <li>In EU/EEA/UK/Switzerland: GA4 loads only after analytics consent.</li>
+      </ul>
+      <p>
+        We determine your region via Cloudflare's <code>/cdn-cgi/trace</code>
+        {' '}endpoint, which returns your country code based on your IP. We do not
+        store your IP; only the resulting country code and its cache timestamp
+        are cached in your browser's session storage for 30 minutes. An unknown
+        country or a failed country lookup keeps analytics disabled.
+      </p>
+      <p>
+        GA4 does not receive any resume data. We measure page views and basic
+        visit events on public information pages, without sending resume fields,
+        local drafts, form values, URL search parameters or referrers. Builder
+        and Templates are excluded. Google signals and advertising
+        personalization are disabled.
       </p>
       <p>
         Analytics may use cookies and pseudonymous device identifiers; this is
@@ -77,7 +88,7 @@ export default function Privacy() {
         made. Open “Privacy and cookie settings” to pause analytics immediately
         and change your choice. A changed decision reloads the page to unload
         existing scripts. Requests already sent cannot be recalled. You can
-        use the builder without analytics consent. Read{' '}
+        use the builder without analytics consent. For more information, read{' '}
         <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
           Google's privacy policy
         </a>.
