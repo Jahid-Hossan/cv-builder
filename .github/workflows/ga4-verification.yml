@@ -42,3 +42,5 @@ jobs:
               esac
             done < "$ga_check_dir/scripts"
             test "$ga_found" = 1
+
+# Verify again after the GA4 regional gate deployment.
