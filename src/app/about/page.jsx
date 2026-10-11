@@ -14,6 +14,8 @@ export default function About() {
         Our free, privacy-first resume builder helps students, career changers
         and experienced professionals create a professional resume or CV, with
         control over their document and no account required.
+        {" "}It is also a free resume maker for turning your own experience into
+        a document you can review and download.
       </p>
       <h2>What you can make</h2>
       <p>
