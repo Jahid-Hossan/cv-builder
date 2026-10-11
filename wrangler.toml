@@ -1,0 +1,8 @@
+name = "cv-builder"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "out"
+
+[assets]
+directory = "./out"
+not_found_handling = "single-page-application"
+html_handling = "auto-trailing-slash"
