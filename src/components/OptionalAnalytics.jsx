@@ -11,6 +11,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 const validId = /^G-[A-Z0-9]+$/.test(GA_ID);
 // The editor and templates never load analytics or send interaction events.
 const publicPaths = ['/', '/about', '/blog', '/contact', '/privacy', '/terms'];
+const allowedOrigins = [siteConfig.url, ...(siteConfig.testOrigins || [])];
 
 export default function OptionalAnalytics({ articlePaths }) {
   console.log('[OptionalAnalytics] COMPONENT RENDERED');
@@ -24,7 +25,8 @@ export default function OptionalAnalytics({ articlePaths }) {
   useEffect(() => {
     console.log('[OptionalAnalytics] useEffect FIRED');
     console.log('[OptionalAnalytics] gate:', { validId, measurementId: GA_ID, origin: window.location.origin, expectedOrigin: siteConfig.url });
-    if (!validId || window.location.origin !== siteConfig.url) {
+    const originMatches = allowedOrigins.includes(window.location.origin);
+    if (!validId || !originMatches) {
       console.log('[OptionalAnalytics] STOP: invalid measurement ID or origin mismatch');
       return;
     }
@@ -50,8 +52,9 @@ export default function OptionalAnalytics({ articlePaths }) {
   useEffect(() => {
     console.log('[OptionalAnalytics] page effect FIRED');
     if (!validId) { console.log('[OptionalAnalytics] STOP: invalid measurement ID'); return; }
-    const allowed = consented && Boolean(page) && window.location.origin === siteConfig.url;
-    console.log('[OptionalAnalytics] page gate:', { consented, hasPage: Boolean(page), originMatches: window.location.origin === siteConfig.url, loaded, allowed });
+    const originMatches = allowedOrigins.includes(window.location.origin);
+    const allowed = consented && Boolean(page) && originMatches;
+    console.log('[OptionalAnalytics] page gate:', { consented, hasPage: Boolean(page), originMatches, loaded, allowed });
     window[`ga-disable-${GA_ID}`] = !allowed;
     if (!allowed) { console.log('[OptionalAnalytics] STOP: page gate denied'); lastPage.current = null; return; }
     if (!loaded) { console.log('[OptionalAnalytics] WAIT: GA4 script not ready'); return; }
@@ -61,6 +64,16 @@ export default function OptionalAnalytics({ articlePaths }) {
     }
     if (configured.current && lastPage.current !== page.page_path && sendAnalyticsPage(window, GA_ID, page)) {
       console.log('[OptionalAnalytics] page view SENT');
+      console.log('[OptionalAnalytics] runtime:', JSON.stringify({
+        gtag: typeof window.gtag, dataLayer: typeof window.dataLayer,
+        dataLayerIsArray: Array.isArray(window.dataLayer),
+      }));
+      setTimeout(() => {
+        const requests = window.performance.getEntriesByType('resource')
+          .filter(entry => /https:\/\/([a-z0-9-]+\.)?(google-analytics\.com|googletagmanager\.com)\//.test(entry.name))
+          .map(entry => { const url = new URL(entry.name); return { host: url.host, path: url.pathname, status: entry.responseStatus }; });
+        console.log('[OptionalAnalytics] network:', JSON.stringify(requests));
+      }, 3000);
       lastPage.current = page.page_path;
     }
   }, [consented, loaded, pathname]);

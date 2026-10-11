@@ -1,6 +1,8 @@
 export const siteConfig = {
   name: "Resume Builder by Appshub",
   url: "https://cvbuilder.appshub.app",
+  // Temporary Workers test origin; remove after production cutover.
+  testOrigins: ["https://cv-builder.jahidhossen02.workers.dev"],
   description:
     "Build a professional resume or CV in your browser. 15 free templates, live preview, custom fonts, and instant PDF download. No sign-up required.",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
