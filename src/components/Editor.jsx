@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useResume } from "../context/ResumeContext";
 import { ITEM_FIELDS, newItem } from "../data/resume";
 import { isUrl } from "../utils/resume";
+import ExperienceDescription from "./ExperienceDescription";
 import SectionOrder from "./SectionOrder";
 const labels = {
   fullName: "Full Name",
@@ -210,7 +211,9 @@ function Item({ section, item, index }) {
     setData((d) => ({
       ...d,
       [section]: d[section].map((x) =>
-        x.id === item.id ? { ...x, [field]: value } : x,
+        x.id === item.id ? { ...x, [field]: value,
+          ...(section === 'experience' && field === 'description' ? { descriptionFormat: 'html' } : {}),
+        } : x,
       ),
     }));
   }
@@ -262,7 +265,10 @@ function Item({ section, item, index }) {
               className={`field ${["description", "items", "current"].includes(field) ? "full" : ""}`}
             >
               <label htmlFor={id}>{labels[field]}</label>
-              {field === "description" ? (
+              {section === "experience" && field === "description" ? (
+                <ExperienceDescription id={id} item={item}
+                  onChange={(value) => update(field, value)} />
+              ) : field === "description" ? (
                 <textarea
                   id={id}
                   rows={4}
