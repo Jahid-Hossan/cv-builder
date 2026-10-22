@@ -1,6 +1,7 @@
 "use client";
 import { forwardRef, memo } from "react";
 import { FONTS } from "../data/resume";
+import { experienceHtml } from '../utils/richText';
 import { isUrl } from "../utils/resume";
 export function SafeLink({ value }) {
   return isUrl(value) ? (
@@ -47,7 +48,7 @@ function Section({ name, data }) {
               <p className="entry-meta">
                 {[item.company, item.location].filter(Boolean).join(" · ")}
               </p>
-              <p>{item.description}</p>
+              <div className="rich-description" dangerouslySetInnerHTML={{ __html: experienceHtml(item) }} />
             </>
           )}
           {name === "education" && (

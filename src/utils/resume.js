@@ -1,3 +1,4 @@
+import { experienceHtml, descriptionLength, DESCRIPTION_LIMIT } from './richText.js';
 import {
   SECTION_ORDER,
   ITEM_FIELDS,
@@ -83,7 +84,9 @@ export function validateBackup(data) {
           ) &&
           (!item.description ||
             section !== "experience" ||
-            item.description.length <= 2000),
+            (item.descriptionFormat === 'html'
+              ? item.description.length <= 64000 && descriptionLength(item.description) <= DESCRIPTION_LIMIT
+              : item.description.length <= DESCRIPTION_LIMIT)),
       ),
   );
 }
@@ -94,6 +97,9 @@ export function parseBackup(text) {
       const font = data.settings.fontFamily;
       if (Object.hasOwn(LEGACY_FONT_REPLACEMENTS, font))
         data.settings.fontFamily = LEGACY_FONT_REPLACEMENTS[font];
+      data.experience = data.experience.map(item => ({
+        ...item, description: experienceHtml(item), descriptionFormat: 'html',
+      }));
       return data;
     }
   } catch {}
