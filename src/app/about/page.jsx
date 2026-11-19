@@ -33,8 +33,8 @@ export default function About() {
       </p>
       <h2>Know the export format</h2>
       <p>
-        PDFs are image-based. They preserve the visual layout, but do not
-        contain selectable text. A visually simple template does not guarantee
+        PDFs contain selectable text and preserve the visual layout of
+        your chosen template. A visually simple template does not guarantee
         that an employer’s applicant tracking system can read the PDF. Follow
         the employer’s upload instructions.
       </p>

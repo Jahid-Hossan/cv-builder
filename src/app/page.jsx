@@ -126,8 +126,8 @@ export default function Home() {
         </p>
         <Link href="/blog">Read the resume guides →</Link>
         <p className="help">
-          PDFs are image-based. Follow your employer’s file requirements; ATS
-          parsing is not guaranteed.
+          PDFs contain selectable text. Follow your employer’s file
+          requirements; ATS parsing is not guaranteed.
         </p>
       </section>
     </main>

@@ -29,8 +29,8 @@ export default function Terms() {
       <h2>Review your PDF</h2>
       <p>
         Check the exported PDF before applying, including page breaks, text,
-        dates, links and readability. Exports are image-based and may not be
-        suitable where selectable text or a different file format is required.
+        dates, links and readability. Exports contain selectable text, but
+        some employers may require a different file format.
       </p>
       <h2>Availability and storage</h2>
       <p>
