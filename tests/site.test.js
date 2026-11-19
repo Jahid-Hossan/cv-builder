@@ -61,6 +61,6 @@ test("published resources have substantial distinct content, fixed dates and val
       post.relatedPosts.every((id) => articles.some((p) => p.slug === id)),
     );
     if (post.slug !== "achievement-based-resume-bullets")
-      assert.ok(body.includes("image-based"));
+      assert.ok(body.includes("selectable text"));
   }
 });

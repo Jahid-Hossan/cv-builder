@@ -206,13 +206,13 @@ export const articles = [
         "heading": "Distinguish visual simplicity from machine readability",
         "paragraphs": [
           "A simple layout with familiar headings can make a document easier for a person to scan. It does not guarantee successful parsing by an applicant tracking system. Different systems, upload workflows and file types behave differently. Review any fields the portal extracts and correct mistakes before completing the application.",
-          "CV Builder currently creates image-based PDFs with html2canvas and jsPDF. Text is not selectable in those exports. Even the ATS Professional template is a visual style, not a promise of machine-readable output. If the employer requires selectable text or a Word file, prepare an appropriate document in another editor. Do not submit a raster PDF under the assumption that choosing a simple template solves that limitation."
+          "CV Builder exports PDFs with selectable text. Even the ATS Professional template is a visual style, not a promise of machine-readable output: ATS parsing is not guaranteed. If the employer requires a Word file, prepare an appropriate document in another editor. Do not assume that choosing a simple template solves that limitation."
         ],
         "subsections": [
           {
-            "heading": "Evaluating rasterized PDF exports",
+            "heading": "Evaluating PDF exports",
             "paragraphs": [
-              "Image-based exports offer guaranteed visual fidelity across operating systems, but because text cannot be highlighted with a cursor, they must not be submitted to parsing engines that mandate OCR or selectable text."
+              "CV Builder's exports preserve the visual layout across operating systems and contain selectable text, but they must not be assumed to satisfy every parsing engine: always review the fields a portal extracts and correct mistakes before completing the application."
             ]
           }
         ]
@@ -242,7 +242,7 @@ export const articles = [
           {
             "heading": "Avoiding orphaned headings",
             "paragraphs": [
-              "When an image-based document captures content spanning two pages, inspect the seam carefully to ensure a section heading does not sit isolated at the bottom of page one."
+              "When a document spans two pages, inspect the page break carefully to ensure a section heading does not sit isolated at the bottom of page one."
             ]
           }
         ]
@@ -369,14 +369,14 @@ export const articles = [
       {
         "heading": "Check the PDF’s suitability for the upload",
         "paragraphs": [
-          "CV Builder’s PDFs are image-based. They preserve appearance but do not provide selectable text or tagged document accessibility. Choosing ATS Professional does not change that export mechanism. If the application requires a text-based PDF or another file type, use a suitable document editor instead of assuming the raster file will be parsed correctly.",
+          "CV Builder’s PDFs contain selectable text and preserve appearance, but they do not provide tagged document accessibility. Choosing ATS Professional does not change that export mechanism. If the application requires another file type, use a suitable document editor instead of assuming the file will be parsed correctly.",
           "When a portal extracts information from your upload, review the populated fields before submission. Check dates, names, qualifications and missing text. Extraction behavior varies; a successful file upload does not prove the information was read correctly. Correct errors in the portal if it allows you to do so."
         ],
         "subsections": [
           {
-            "heading": "Understanding raster output limitations",
+            "heading": "Understanding PDF output limitations",
             "paragraphs": [
-              "Because CV Builder renders an image-based canvas snapshot, optical character recognition in some legacy enterprise applicant portals may experience parsing errors unless manual edits are applied."
+              "Because applicant portals parse PDFs differently, some legacy enterprise portals may still experience parsing errors; review the fields a portal extracts and apply manual edits where needed."
             ]
           }
         ]
@@ -468,16 +468,16 @@ export const articles = [
         ]
       },
       {
-        "heading": "Text formatting and image-based export limitations",
+        "heading": "Text formatting and PDF export limitations",
         "paragraphs": [
-          "Understanding the underlying file architecture is crucial when submitting digital applications. Many web-based design tools generate PDFs that are essentially full-page visual renderings. In CV Builder, document exports are generated as image-based PDFs using html2canvas and jsPDF. These image-based files preserve exact typography, margins, and visual layout flawlessly across all operating systems and printers, but they do not contain raw selectable text layers.",
-          "If an employer's hiring portal requires machine-readable text for automated database extraction, an image-based PDF may fail to populate the portal's form fields. When applying through high-volume corporate portals that explicitly parse uploaded resumes, candidates should either verify that the portal allows manual profile editing after upload or maintain a companion text-based file for those specific systems."
+          "Understanding the underlying file architecture is crucial when submitting digital applications. Many web-based design tools generate PDFs that are essentially full-page visual renderings. In CV Builder, document exports are generated as PDFs with selectable text. These files preserve exact typography, margins, and visual layout across all operating systems and printers, and their text can be selected and copied.",
+          "If an employer's hiring portal requires machine-readable text for automated database extraction, a PDF without selectable text may fail to populate the portal's form fields. When applying through high-volume corporate portals that explicitly parse uploaded resumes, candidates should either verify that the portal allows manual profile editing after upload or maintain a companion text-based file for those specific systems."
         ],
         "subsections": [
           {
-            "heading": "Understanding CV Builder's image-based PDF output",
+            "heading": "Understanding CV Builder's PDF output",
             "paragraphs": [
-              "The image-based PDF output in CV Builder guarantees that your chosen font weights, colors, and spatial arrangements look identical regardless of whether a hiring manager opens the file on Windows, macOS, or Linux. However, applicants must recognize that visual fidelity comes with the trade-off of rasterized non-selectable text."
+              "The PDF output in CV Builder keeps your chosen font weights, colors, and spatial arrangements looking identical regardless of whether a hiring manager opens the file on Windows, macOS, or Linux, and its text is selectable. ATS parsing is still not guaranteed, so review any fields a portal extracts."
             ]
           },
           {
@@ -634,14 +634,14 @@ export const articles = [
       {
         "heading": "File compatibility and export considerations",
         "paragraphs": [
-          "Regardless of your industry sector, the exported document must render cleanly for the recipient. CV Builder produces image-based PDF files that preserve your exact typographic selections, border alignments, and template structure. These image-based exports ensure that the aesthetic framing you carefully crafted looks identical whether viewed on a desktop workstation or a mobile device.",
-          "However, candidates applying through large-scale enterprise portals must remember that image-based PDFs do not allow text selection. When submitting to corporate applicant portals that rely on automatic CV parsing, be prepared to review and confirm the extracted data in the portal's web interface, or maintain a secondary selectable document for systems that explicitly mandate text extraction."
+          "Regardless of your industry sector, the exported document must render cleanly for the recipient. CV Builder produces PDF files with selectable text that preserve your exact typographic selections, border alignments, and template structure. These exports ensure that the aesthetic framing you carefully crafted looks identical whether viewed on a desktop workstation or a mobile device.",
+          "However, candidates applying through large-scale enterprise portals must remember that ATS parsing is not guaranteed. When submitting to corporate applicant portals that rely on automatic CV parsing, be prepared to review and confirm the extracted data in the portal's web interface, or maintain a secondary document for systems that explicitly mandate text extraction."
         ],
         "subsections": [
           {
-            "heading": "Assessing image-based PDF suitability",
+            "heading": "Assessing PDF suitability",
             "paragraphs": [
-              "For direct email applications, portfolio submissions, and human-reviewed hiring loops, an image-based PDF provides unmatched layout stability, ensuring your resume never suffers from missing font fallbacks or broken CSS rules."
+              "For direct email applications, portfolio submissions, and human-reviewed hiring loops, a PDF with selectable text provides unmatched layout stability, ensuring your resume never suffers from missing font fallbacks or broken CSS rules."
             ]
           },
           {
@@ -733,11 +733,11 @@ export const articles = [
         "heading": "File format and submission errors",
         "paragraphs": [
           "Preparing an outstanding resume in an editor is only half the battle; ensuring the exported file opens cleanly on the hiring manager's computer is equally critical. Always inspect the generated PDF file on your local desktop before attaching it to an email or uploading it to an online portal.",
-          "In CV Builder, documents are exported as image-based PDFs using html2canvas. This image-based architecture guarantees that your selected visual layout, fonts, and template styling remain completely locked in place without risk of layout shifting. However, applicants must keep in mind that text inside image-based files cannot be selected with a cursor. When applying to systems that require automated text extraction, ensure you review the auto-filled portal fields carefully."
+          "In CV Builder, documents are exported as PDFs with selectable text. This preserves your selected visual layout, fonts, and template styling without risk of layout shifting. When applying to systems that require automated text extraction, ensure you review the auto-filled portal fields carefully, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
-            "heading": "Reviewing image-based PDF exports",
+            "heading": "Reviewing PDF exports",
             "paragraphs": [
               "Open the exported file in your default desktop PDF viewer at 100% zoom. Check every line for unexpected word wrapping, inspect section spacing, and ensure multi-page breaks fall cleanly between entries rather than mid-sentence."
             ]
@@ -852,7 +852,7 @@ export const articles = [
         "heading": "Layout density and visual pacing",
         "paragraphs": [
           "Visual pacing refers to the rhythm between typography, line spacing, and margins on the printed page. A well-paced resume allows the eye to glide effortlessly from section headings to individual bullet points without feeling cramped.",
-          "In CV Builder, resumes are exported as image-based PDFs using html2canvas and jsPDF. This image-based rendering guarantees that your exact spatial padding and font dimensions are captured faithfully. When generating multi-page documents, review the page break lines carefully in the preview pane to ensure entries do not split awkwardly across page seams."
+          "In CV Builder, resumes are exported as PDFs with selectable text. This preserves your exact spatial padding and font dimensions faithfully. When generating multi-page documents, review the page break lines carefully in the preview pane to ensure entries do not split awkwardly across page seams."
         ],
         "subsections": [
           {
@@ -862,9 +862,9 @@ export const articles = [
             ]
           },
           {
-            "heading": "Checking page breaks in image-based exports",
+            "heading": "Checking page breaks in PDF exports",
             "paragraphs": [
-              "Because CV Builder captures an image-based snapshot of the rendered paper canvas, inspect the generated PDF to confirm that section headings remain grouped together with their corresponding descriptive paragraphs."
+              "Because CV Builder paginates the rendered resume across pages, inspect the generated PDF to confirm that section headings remain grouped together with their corresponding descriptive paragraphs."
             ]
           }
         ]
@@ -1033,7 +1033,7 @@ export const articles = [
         "heading": "File generation and presentation standards",
         "paragraphs": [
           "Whether you send a resume or CV, use readable headings and consistent formatting. Follow any upload instructions specifying PDF, DOCX or plain text. A document can look correct on screen while still being unsuitable for a portal that needs selectable text or text extraction.",
-          "CV Builder currently exports image-based PDFs. Review the downloaded file and any page boundaries before sending it. If the application requires selectable publication text, accessible text content or a particular editable format, prepare an appropriate version in a word processor. Do not assume every PDF has the same technical properties."
+          "CV Builder exports PDFs with selectable text. Review the downloaded file and any page boundaries before sending it. If the application requires accessible text content or a particular editable format, prepare an appropriate version in a word processor. Do not assume every PDF has the same technical properties."
         ]
       },
       {
@@ -1195,11 +1195,11 @@ export const articles = [
         "heading": "Formatting and placement in your layout",
         "paragraphs": [
           "A summary should occupy no more than four to five lines of vertical space on the rendered page. If a summary becomes a sprawling paragraph, it ceases to be a summary and begins to compete with the work experience section.",
-          "In CV Builder, the summary section renders cleanly across all 15 template designs. Resumes generated in the builder export as image-based PDFs via html2canvas and jsPDF. This image-based rendering ensures that your summary typography, italic accents, and spacing remain visually immaculate across all viewing platforms. However, remember that text in image-based exports cannot be highlighted with a mouse cursor, so confirm that online application portals capture your text correctly."
+          "In CV Builder, the summary section renders cleanly across all 15 template designs. Resumes generated in the builder export as PDFs with selectable text. This ensures that your summary typography, italic accents, and spacing remain visually immaculate across all viewing platforms. Confirm that online application portals capture your text correctly, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
-            "heading": "Visual prominence in image-based exports",
+            "heading": "Visual prominence in PDF exports",
             "paragraphs": [
               "Ensure the summary block is visually distinct from the work history below it through subtle lead-in styling or slightly larger introductory line height, enhancing visual pacing."
             ]
@@ -1315,12 +1315,12 @@ export const articles = [
       {
         "heading": "Export review and layout verification",
         "paragraphs": [
-          "Once you have written and refined your experience entries, review the exported document with extreme care. In CV Builder, resumes export as image-based PDFs utilizing html2canvas and jsPDF.",
-          "These image-based files preserve the exact font styling, line breaks, and bullet indentations you configured in the editor. However, because text is rasterized into high-resolution canvas graphics, candidates must inspect the PDF at full zoom to verify that bullet points wrap naturally across lines without creating awkward orphan words on single lines. Furthermore, remember that image-based PDFs do not support selectable text, so check your application portal entries when submitting."
+          "Once you have written and refined your experience entries, review the exported document with extreme care. In CV Builder, resumes export as PDFs with selectable text.",
+          "These files preserve the exact font styling, line breaks, and bullet indentations you configured in the editor. Candidates must inspect the PDF at full zoom to verify that bullet points wrap naturally across lines without creating awkward orphan words on single lines. Furthermore, check your application portal entries when submitting, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
-            "heading": "Checking bullet line wrapping in image-based exports",
+            "heading": "Checking bullet line wrapping in PDF exports",
             "paragraphs": [
               "Avoid bullets that spill onto a second line by just one or two words. Tighten phrasing slightly so each bullet cleanly occupies either one full line or two balanced lines."
             ]
@@ -1436,8 +1436,8 @@ export const articles = [
       {
         "heading": "Layout and export considerations",
         "paragraphs": [
-          "In CV Builder, skills can be formatted as clean text blocks, delimited lists, or structured tag grids depending on which of the 15 template designs you choose. When exporting your completed resume, CV Builder generates an image-based PDF using html2canvas and jsPDF.",
-          "These image-based PDFs ensure that your exact visual styling, tag borders, and column alignments are preserved flawlessly across all client devices. However, because text in image-based exports is rasterized rather than stored as raw selectable characters, candidates applying through high-volume corporate portals should always review the auto-extracted fields in the portal's submission interface."
+          "In CV Builder, skills can be formatted as clean text blocks, delimited lists, or structured tag grids depending on which of the 15 template designs you choose. When exporting your completed resume, CV Builder generates a PDF with selectable text.",
+          "These PDFs ensure that your exact visual styling, tag borders, and column alignments are preserved flawlessly across all client devices. Candidates applying through high-volume corporate portals should always review the auto-extracted fields in the portal's submission interface, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
@@ -1447,7 +1447,7 @@ export const articles = [
             ]
           },
           {
-            "heading": "Reviewing readability in image-based PDFs",
+            "heading": "Reviewing readability in PDFs",
             "paragraphs": [
               "Inspect the exported PDF file at 100% zoom to verify that skill tag margins and spacing look crisp and legible without accidental line breaks or text clipping."
             ]
@@ -1559,7 +1559,7 @@ export const articles = [
         "heading": "Formatting your first resume in CV Builder",
         "paragraphs": [
           "Selecting a clean, professional template ensures your entry-level resume looks substantial and polished rather than empty. In CV Builder, templates like Modern, Clean, and Academic are particularly well-suited for candidates leading with education and project sections.",
-          "When you export your resume, CV Builder generates an image-based PDF using html2canvas and jsPDF. This image-based architecture ensures that your layout, fonts, and project links retain exact visual fidelity when delivered to recruiters. Remember that text inside image-based files is rasterized, so review any auto-filled form fields carefully when submitting via online application portals."
+          "When you export your resume, CV Builder generates a PDF with selectable text. This ensures that your layout, fonts, and project links retain exact visual fidelity when delivered to recruiters. Review any auto-filled form fields carefully when submitting via online application portals, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
@@ -1569,7 +1569,7 @@ export const articles = [
             ]
           },
           {
-            "heading": "Inspecting image-based exports before uploading",
+            "heading": "Inspecting PDF exports before uploading",
             "paragraphs": [
               "Review your generated PDF at full size on your desktop. Ensure that margins remain balanced and that the entire document fills one complete page without awkward bottom gaps."
             ]
@@ -1682,7 +1682,7 @@ export const articles = [
         "heading": "Final checks and export verification",
         "paragraphs": [
           "A student resume must strictly adhere to a single-page limit. Diluting your content across two pages when entering the workforce looks unfocused and betrays an inability to synthesize information.",
-          "In CV Builder, assembling your student resume is straightforward. When you download your PDF, CV Builder creates an image-based file using html2canvas and jsPDF. This image-based export guarantees that your layout, fonts, and spacing remain perfectly intact across any device or operating system. Because text in image-based exports cannot be highlighted with a cursor, ensure you review any auto-extracted fields in online campus recruiting portals."
+          "In CV Builder, assembling your student resume is straightforward. When you download your PDF, CV Builder creates a file with selectable text. This export guarantees that your layout, fonts, and spacing remain perfectly intact across any device or operating system. Ensure you review any auto-extracted fields in online campus recruiting portals, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
@@ -1692,7 +1692,7 @@ export const articles = [
             ]
           },
           {
-            "heading": "Evaluating image-based PDF presentation",
+            "heading": "Evaluating PDF presentation",
             "paragraphs": [
               "Open the exported PDF on your laptop and phone to verify that your contact links and text remain crisp and legible in both digital viewports and print previews."
             ]
@@ -1803,7 +1803,7 @@ export const articles = [
         "heading": "Verification and export quality checks",
         "paragraphs": [
           "After completing your tailoring pass, conduct a final side-by-side audit against the original job specification. Confirm that every tailored claim is supported by genuine past experience you can discuss comfortably in an interview.",
-          "In CV Builder, tailoring is fast and intuitive. When you download your tailored resume, the builder exports an image-based PDF using html2canvas and jsPDF. This image-based file locks in your tailored typography and section alignments across all platforms. Because text in image-based exports is rasterized rather than selectable, remember to check any auto-filled profile fields when uploading to online corporate job portals."
+          "In CV Builder, tailoring is fast and intuitive. When you download your tailored resume, the builder exports a PDF with selectable text. This file locks in your tailored typography and section alignments across all platforms. Remember to check any auto-filled profile fields when uploading to online corporate job portals, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
@@ -1813,7 +1813,7 @@ export const articles = [
             ]
           },
           {
-            "heading": "Reviewing layout balance in image-based exports",
+            "heading": "Reviewing layout balance in PDF exports",
             "paragraphs": [
               "Open the exported PDF at 100% zoom. Verify that edits to bullet points have not caused unintended line wrapping or disrupted page margins before submitting."
             ]
@@ -1924,7 +1924,7 @@ export const articles = [
         "heading": "Rendering and export considerations in CV Builder",
         "paragraphs": [
           "A major advantage of CV Builder is that all supported fonts are bundled directly into the application via self-hosted Fontsource packages. This means your selected fonts load locally without depending on external Google Fonts CDN network requests, avoiding external font requests from the builder. Loading speed still depends on the device, connection, and other resources on the page.",
-          "When you export your resume, CV Builder generates an image-based PDF using html2canvas and jsPDF. This image-based rendering guarantees that your chosen font weights, kerning, and line heights appear exactly as intended on any device. However, remember that text in image-based exports is rasterized and non-selectable, so verify any auto-populated fields when uploading to enterprise ATS portals."
+          "When you export your resume, CV Builder generates a PDF with selectable text. This guarantees that your chosen font weights, kerning, and line heights appear exactly as intended on any device. Verify any auto-populated fields when uploading to enterprise ATS portals, as ATS parsing is not guaranteed."
         ],
         "subsections": [
           {
@@ -1934,7 +1934,7 @@ export const articles = [
             ]
           },
           {
-            "heading": "Inspecting rasterized typography in image-based PDFs",
+            "heading": "Inspecting typography in PDFs",
             "paragraphs": [
               "Open your downloaded PDF at full 100% zoom to verify that font smoothing and contrast remain sharp and legible before submitting your application."
             ]
@@ -2011,7 +2011,7 @@ export const articles = [
         "heading": "Avoid shortcuts that weaken the application",
         "paragraphs": [
           "Do not hide keywords in white text, paste the complete posting, or claim certifications you do not hold. These choices make the document harder to defend and can create contradictions when a recruiter asks questions. Similarly, do not insert unrelated tools because a keyword checker recommends them. An external score is a drafting prompt at most; it cannot prove how the employer will assess your application.",
-          "Keyword wording also cannot fix unreadable file contents. Follow the employer's accepted file types and review any fields populated after upload. CV Builder currently exports an image-based PDF, so text extraction may be limited; it does not guarantee ATS parsing. If the application requires machine-readable text, use a suitable text-based document or the portal's text fields. Keep your qualifications consistent between those fields and the visual resume."
+          "Keyword wording also cannot fix unreadable file contents. Follow the employer's accepted file types and review any fields populated after upload. CV Builder exports PDFs with selectable text, but it does not guarantee ATS parsing. If the application requires machine-readable text, use a suitable text-based document or the portal's text fields. Keep your qualifications consistent between those fields and the visual resume."
         ]
       },
       {
@@ -2106,7 +2106,7 @@ export const articles = [
         "heading": "Format the section and check the final document",
         "paragraphs": [
           "Use the plain heading Education and keep each entry visually consistent. Avoid turning the section into a dense table of grades, dates, and abbreviations. Compare the available templates for a layout that gives your qualification enough space without pushing stronger experience off the page. Check that long institution names and ongoing-study dates remain readable in the preview and in the exported document.",
-          "Remember that CV Builder's current download is an image-based PDF. A clear visual education section does not guarantee that an application system will extract it. Follow the employer's requested format and inspect any education fields populated after upload. Open the builder below to organize your own entries, and use the related student, no-experience, and format guides to decide how much academic detail this application needs."
+          "Remember that CV Builder's current download is a PDF with selectable text. A clear visual education section does not guarantee that an application system will extract it. Follow the employer's requested format and inspect any education fields populated after upload. Open the builder below to organize your own entries, and use the related student, no-experience, and format guides to decide how much academic detail this application needs."
         ]
       }
     ],
@@ -2187,7 +2187,7 @@ export const articles = [
         "heading": "Avoid mistakes that make the documents disagree",
         "paragraphs": [
           "Common problems include addressing the wrong employer, naming an old vacancy, repeating the entire resume, and introducing qualifications absent from the supporting record. Review every reused letter for leftover names and details. Replace unsupported claims with specific examples. A confident tone does not require exaggeration, and a professional closing does not need to promise an outcome you cannot control.",
-          "Check the technical details as well as the wording. Follow the requested formats and inspect the files you intend to send. CV Builder's current resume export is an image-based PDF; a cover letter cannot make that file machine-readable or guarantee ATS extraction. If an application requires selectable text or a different format, prepare suitable documents and inspect the portal's populated fields before submitting."
+          "Check the technical details as well as the wording. Follow the requested formats and inspect the files you intend to send. CV Builder's current resume export is a PDF with selectable text; a cover letter cannot guarantee ATS extraction. If an application requires a different format, prepare suitable documents and inspect the portal's populated fields before submitting."
         ]
       },
       {
@@ -2251,7 +2251,7 @@ export const articles = [
         "heading": "Inspect the export format before applying",
         "paragraphs": [
           "The file format is a practical distinction that product names do not explain. A document can look clear on screen yet fail to meet a portal's upload requirements. Check whether an employer asks for a Word document, selectable-text PDF, image, or separate form responses. Review those instructions before spending time refining colors or spacing.",
-          "CV Builder currently downloads image-based PDFs. They preserve the visual arrangement, but their text is not selectable. Choosing a simple template does not change that export mechanism or guarantee ATS parsing. If the application requires selectable text or another file type, prepare a suitable document in an appropriate editor. Where a portal extracts information, check the populated fields before submitting."
+          "CV Builder currently downloads PDFs with selectable text. They preserve the visual arrangement. Choosing a simple template does not change that export mechanism or guarantee ATS parsing. If the application requires another file type, prepare a suitable document in an appropriate editor. Where a portal extracts information, check the populated fields before submitting."
         ],
         "subsections": [
           {
